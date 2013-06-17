@@ -1,0 +1,72 @@
+From c59b84ca3bda8e4244d47901b6966f28dd675434 Mon Sep 17 00:00:00 2001
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+Date: Thu, 23 May 2013 15:12:23 +0300
+Subject: [PATCH] added yocto-standard to bastille
+
+In order to make Bastille functional and avoid errors
+regarding distros, if not any given distro is identified,
+yocto-standard distro is added to the distro variable
+in Bastille.
+
+Fixed also some warnings regarding defined statements
+in API.pm.
+
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ Bastille/API.pm |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/Bastille/API.pm b/Bastille/API.pm
+index 40f8c72..ebbe9f7 100644
+--- a/Bastille/API.pm
++++ b/Bastille/API.pm
+@@ -445,8 +445,8 @@ sub GetDistro() {
+ 		$release=`/usr/bin/uname -sr`;
+ 	    }
+ 	    else {
+-	 	print STDERR "$err Could not determine operating system version!\n";
+-		$distro="unknown";
++        #print STDERR "$err Could not determine operating system version!\n";
++		$distro="3.8.11-yocto-standard";
+             }
+ 
+ 	    # Figure out what kind of system we're on.
+@@ -537,7 +537,7 @@ sub getSupportedOSHash () {
+ 			      "DB2.2", "DB3.0",
+ 			      "RH6.0","RH6.1","RH6.2","RH7.0",
+ 			      "RH7.1","RH7.2","RH7.3","RH8.0",
+-			      "RH9",
++			      "RH9","3.8.11-yocto-standard",
+                               "RHEL5",
+ 			      "RHEL4AS","RHEL4ES","RHEL4WS",
+ 			      "RHEL3AS","RHEL3ES","RHEL3WS",
+@@ -1284,7 +1284,7 @@ sub B_write_sums {
+ 
+     my $sumFile = &getGlobal('BFILE',"sum.csv");
+ 
+-    if ( defined %GLOBAL_SUM ) {
++    if ( %GLOBAL_SUM ) {
+ 
+ 	open( SUM, "> $sumFile") or &B_log("ERROR","Unable to open $sumFile for write.\n$!\n");
+ 
+@@ -1318,7 +1318,7 @@ sub B_check_sum($) {
+     my $file = $_[0];
+     my $cksum = &getGlobal('BIN',"cksum");
+ 
+-    if (not(defined(%GLOBAL_SUM))) {
++    if (not(%GLOBAL_SUM)) {
+         &B_read_sums;
+     }
+ 
+@@ -1375,7 +1375,7 @@ sub listModifiedFiles {
+ sub B_isFileinSumDB($) {
+     my $file = $_[0];
+ 
+-    if (not(defined(%GLOBAL_SUM))) {
++    if (not(%GLOBAL_SUM)) {
+         &B_log("DEBUG","Reading in DB from B_isFileinSumDB");
+         &B_read_sums;
+     }
+-- 
+1.7.9.5
+

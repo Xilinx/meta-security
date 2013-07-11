@@ -176,11 +176,6 @@ help for each package.
         checksecurity is a simple package which will scan your system for several simple security holes.
         It uses a simple collection of plugins, all of which are shell scripts which are configured by environmental variables.
 
-        !! IMPORTANT !!
-
-        When including this package in the image, please consider adding the following line to the end of the conf/local.conf file:
-
-        CORE_IMAGE_EXTRA_INSTALL = "coreutils"
 
                 usage : To start checksecurity simply write in the terminal :
 

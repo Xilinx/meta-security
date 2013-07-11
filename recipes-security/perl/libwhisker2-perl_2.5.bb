@@ -18,7 +18,7 @@ S = "${WORKDIR}/libwhisker2-2.5"
 inherit cpan-base perlnative
 
 do_install() {
-    install -d 755 ${D}${PERLLIBDIRS}/vendor_perl/${PERLVERSION}
-    install -d 755 ${D}${datadir}/perl/${PERLVERSION}
-    oe_runmake install DESTDIR=${D} INSTALLDIR=${PERLLIBDIRS}/vendor_perl/${PERLVERSION} MANDIR=${datadir}/perl/${PERLVERSION}
+	install -d 755 ${D}${PERLLIBDIRS}/vendor_perl/${PERLVERSION}
+	install -d 755 ${D}${datadir}/perl/${PERLVERSION}
+	oe_runmake install DESTDIR=${D} INSTALLDIR=${PERLLIBDIRS}/vendor_perl/${PERLVERSION} MANDIR=${datadir}/perl/${PERLVERSION}
 }

@@ -11,7 +11,7 @@ SRC_URI = "http://ftp.de.debian.org/debian/pool/main/c/checksecurity/checksecuri
 SRC_URI[md5sum] = "ad6cfe0cd66ebdd16dd5d4ee5fa8fa17"
 SRC_URI[sha256sum] = "a2bc2355358d6daf3cb72485d564e82cb541e8516f23b50522c816853ecd13c2"
 
-do_compile() {    
+do_compile() {
 }
 
 do_install() {

@@ -22,8 +22,14 @@ do_compile() {
 }
 
 do_install() {
-    install -d ${D}${exec_prefix}/local/${PN}
-    cp -r ${S}/* ${D}${exec_prefix}/local/${PN}
+    install -d ${D}${bindir}/buck
+    cp -r ${S}/* ${D}${bindir}/buck
+    cp -r ${S}/buck-security ${D}${bindir}
+    sed -i 's:use lib "checks":use lib "${bindir}/buck/checks":g' ${D}${bindir}/buck-security
+    sed -i 's:use lib "checks/lib":use lib "${bindir}/buck/checks/lib":g' ${D}${bindir}/buck-security
+    sed -i 's:use lib "lib":use lib "${bindir}/buck/lib":g' ${D}${bindir}/buck-security
+    sed -i 's:conf/buck-security.conf:${bindir}/buck/conf/buck-security.conf:g' ${D}${bindir}/buck-security
+
 }
 
-FILES_${PN} = "${exec_prefix}/*"
+FILES_${PN} = "${bindir}/*"

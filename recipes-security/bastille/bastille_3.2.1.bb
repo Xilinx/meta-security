@@ -18,29 +18,14 @@ SRC_URI = "http://sourceforge.net/projects/bastille-linux/files/bastille-linux/3
            file://fix_version_parse.patch \
            file://yocto-standard-patch.patch \
            file://Curses-and-IOLoader-changes.patch \
-          "
+           "
 
 SRC_URI[md5sum] = "df803f7e38085aa5da79f85d0539f91b"
 SRC_URI[sha256sum] = "0ea25191b1dc1c8f91e1b6f8cb5436a3aa1e57418809ef902293448efed5021a"
 
 S = "${WORKDIR}/Bastille"
 
-#CONFFILES_${PN} += "${sysconfdir}/init.d/skeleton"
-#
-#do_compile () {
-#	${CC} ${WORKDIR}/skeleton_test.c -o ${WORKDIR}/skeleton-test
-#}
-#
 do_install () {
-#	install -d ${D}${sysconfdir}/init.d
-#	cat ${WORKDIR}/skeleton | \
-#	  sed -e 's,/etc,${sysconfdir},g' \
-#	      -e 's,/usr/sbin,${sbindir},g' \
-#	      -e 's,/var,${localstatedir},g' \
-#	      -e 's,/usr/bin,${bindir},g' \
-#	      -e 's,/usr,${prefix},g' > ${D}${sysconfdir}/init.d/skeleton
-#	chmod a+x ${D}${sysconfdir}/init.d/skeleton
-
 	install -d ${D}${sbindir}
 	install -d ${D}${libdir}/perl/site_perl/Curses
 	ln -sf perl ${D}/${libdir}/perl5
@@ -55,106 +40,100 @@ do_install () {
 	install -d ${D}${localstatedir}/lock/subsys/bastille
 	install -d ${D}${localstatedir}/log/Bastille
 	install -d ${D}${sysconfdir}/Bastille
-	 
-	install -m 0755 AutomatedBastille			${D}${sbindir}
-	install -m 0755 BastilleBackEnd			 	${D}${sbindir}
-	install -m 0755 InteractiveBastille			${D}${sbindir}
-	# Questions.txt has been replaced by Modules.txt and Questions/
-	#install -m 0644 Questions.txt				${D}${datadir}/Bastille
-	install -m 0644 Modules.txt				${D}${datadir}/Bastille
+	install -m 0755 AutomatedBastillei    ${D}${sbindir}
+	install -m 0755 BastilleBackEnd    ${D}${sbindir}
+	install -m 0755 InteractiveBastille    ${D}${sbindir}
+	install -m 0644 Modules.txt    ${D}${datadir}/Bastille
 	# New Weights file(s).
-	install -m 0644 Weights.txt				${D}${datadir}/Bastille
+	install -m 0644 Weights.txt    ${D}${datadir}/Bastille
 	# Castle graphic
-	install -m 0644 bastille.jpg				${D}${datadir}/Bastille/
+	install -m 0644 bastille.jpg    ${D}${datadir}/Bastille/
 	# Javascript file
-	install -m 0644 wz_tooltip.js				${D}${datadir}/Bastille/
-	install -m 0644 Credits					${D}${datadir}/Bastille
-	install -m 0644 FKL/configs/fkl_config_redhat.cfg	${D}${datadir}/Bastille/FKL/configs/
+	install -m 0644 wz_tooltip.js    ${D}${datadir}/Bastille/
+	install -m 0644 Credits    ${D}${datadir}/Bastille
+	install -m 0644 FKL/configs/fkl_config_redhat.cfg    ${D}${datadir}/Bastille/FKL/configs/
+	install -m 0755 RevertBastille    ${D}${sbindir}
+	install -m 0755 bin/bastille    ${D}${sbindir}
+	install -m 0644 bastille-firewall    ${D}${datadir}/Bastille
+	install -m 0644 bastille-firewall-reset    ${D}${datadir}/Bastille
+	install -m 0644 bastille-firewall-schedule    ${D}${datadir}/Bastille
+	install -m 0644 bastille-tmpdir-defense.sh    ${D}${datadir}/Bastille
+	install -m 0644 bastille-tmpdir.csh    ${D}${datadir}/Bastille
+	install -m 0644 bastille-tmpdir.sh    ${D}${datadir}/Bastille
+	install -m 0644 bastille-firewall.cfg    ${D}${datadir}/Bastille
+	install -m 0644 bastille-ipchains    ${D}${datadir}/Bastille
+	install -m 0644 bastille-netfilter    ${D}${datadir}/Bastille
+	install -m 0644 bastille-firewall-early.sh    ${D}${datadir}/Bastille
+	install -m 0644 bastille-firewall-pre-audit.sh    ${D}${datadir}/Bastille
+	install -m 0644 complete.xbm    ${D}${datadir}/Bastille
+	install -m 0644 incomplete.xbm    ${D}${datadir}/Bastille
+	install -m 0644 disabled.xpm    ${D}${datadir}/Bastille
+	install -m 0644 ifup-local    ${D}${datadir}/Bastille
+	install -m 0644 hosts.allow    ${D}${datadir}/Bastille
 
-	install -m 0755 RevertBastille				${D}${sbindir}
-	install -m 0755 bin/bastille				${D}${sbindir}
-	install -m 0644 bastille-firewall			${D}${datadir}/Bastille
-	install -m 0644 bastille-firewall-reset			${D}${datadir}/Bastille
-	install -m 0644 bastille-firewall-schedule		${D}${datadir}/Bastille
-	install -m 0644 bastille-tmpdir-defense.sh		${D}${datadir}/Bastille
-	install -m 0644 bastille-tmpdir.csh			${D}${datadir}/Bastille
-	install -m 0644 bastille-tmpdir.sh			${D}${datadir}/Bastille
-	install -m 0644 bastille-firewall.cfg			${D}${datadir}/Bastille
-	install -m 0644 bastille-ipchains			${D}${datadir}/Bastille
-	install -m 0644 bastille-netfilter			${D}${datadir}/Bastille
-	install -m 0644 bastille-firewall-early.sh		${D}${datadir}/Bastille
-	install -m 0644 bastille-firewall-pre-audit.sh		${D}${datadir}/Bastille
-	install -m 0644 complete.xbm				${D}${datadir}/Bastille
-	install -m 0644 incomplete.xbm				${D}${datadir}/Bastille
-	install -m 0644 disabled.xpm				${D}${datadir}/Bastille
-	install -m 0644 ifup-local				${D}${datadir}/Bastille
-	install -m 0644 hosts.allow				${D}${datadir}/Bastille
+	install -m 0644 Bastille/AccountSecurity.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/Apache.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/API.pm    ${D}${libdir}/Bastille
+	install -m 0644 ${WORKDIR}/AccountPermission.pm    ${D}${libdir}/Bastille/API
+	install -m 0644 ${WORKDIR}/FileContent.pm    ${D}${libdir}/Bastille/API
+	install -m 0644 ${WORKDIR}/HPSpecific.pm    ${D}${libdir}/Bastille/API
+	install -m 0644 ${WORKDIR}/ServiceAdmin.pm    ${D}${libdir}/Bastille/API
+	install -m 0644 ${WORKDIR}/Miscellaneous.pm    ${D}${libdir}/Bastille/API
+	install -m 0644 Bastille/BootSecurity.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/ConfigureMiscPAM.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/DisableUserTools.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/DNS.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/FilePermissions.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/FTP.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/Firewall.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/OSX_API.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/LogAPI.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/HP_UX.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/IOLoader.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/Patches.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/Logging.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/MiscellaneousDaemons.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/PatchDownload.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/Printing.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/PSAD.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/RemoteAccess.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/SecureInetd.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/Sendmail.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/TestDriver.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/TMPDIR.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_AccountSecurity.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_Apache.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_DNS.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_FTP.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_HP_UX.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_MiscellaneousDaemons.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_Patches.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_SecureInetd.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_Sendmail.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_BootSecurity.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_DisableUserTools.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_FilePermissions.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_Logging.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/test_Printing.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille/IPFilter.pm    ${D}${libdir}/Bastille
+	install -m 0644 Bastille_Curses.pm    ${D}${libdir}/perl5/site_perl
+	install -m 0644 Bastille_Tk.pm    ${D}${libdir}/perl5/site_perl
+	install -m 0644 Curses/Widgets.pm    ${D}${libdir}/perl5/site_perl/Curses
 
-	install -m 0644 Bastille/AccountSecurity.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/Apache.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/API.pm				${D}${libdir}/Bastille
-	install -m 0644 ${WORKDIR}/AccountPermission.pm	${D}${libdir}/Bastille/API
-	install -m 0644 ${WORKDIR}/FileContent.pm		${D}${libdir}/Bastille/API
-	install -m 0644 ${WORKDIR}/HPSpecific.pm		${D}${libdir}/Bastille/API
-	install -m 0644 ${WORKDIR}/ServiceAdmin.pm		${D}${libdir}/Bastille/API
-	install -m 0644 ${WORKDIR}/Miscellaneous.pm		${D}${libdir}/Bastille/API
-	install -m 0644 Bastille/BootSecurity.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/ConfigureMiscPAM.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/DisableUserTools.pm		${D}${libdir}/Bastille
-    install -m 0644 Bastille/DNS.pm				${D}${libdir}/Bastille
-	install -m 0644 Bastille/FilePermissions.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/FTP.pm				${D}${libdir}/Bastille
-	install -m 0644 Bastille/Firewall.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/OSX_API.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/LogAPI.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/HP_UX.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/IOLoader.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/Patches.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/Logging.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/MiscellaneousDaemons.pm	${D}${libdir}/Bastille
-	install -m 0644 Bastille/PatchDownload.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/Printing.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/PSAD.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/RemoteAccess.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/SecureInetd.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/Sendmail.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/TestDriver.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/TMPDIR.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_AccountSecurity.pm	${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_Apache.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_DNS.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_FTP.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_HP_UX.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_MiscellaneousDaemons.pm	${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_Patches.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_SecureInetd.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_Sendmail.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_BootSecurity.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_DisableUserTools.pm	${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_FilePermissions.pm	${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_Logging.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/test_Printing.pm		${D}${libdir}/Bastille
-	install -m 0644 Bastille/IPFilter.pm			${D}${libdir}/Bastille
-	install -m 0644 Bastille_Curses.pm	${D}${libdir}/perl5/site_perl
-	install -m 0644 Bastille_Tk.pm		${D}${libdir}/perl5/site_perl
-	install -m 0644 Curses/Widgets.pm	${D}${libdir}/perl5/site_perl/Curses
-	
-	
-	
-	install -m 0644 OSMap/LINUX.bastille	${D}${datadir}/Bastille/OSMap
-	install -m 0644 OSMap/LINUX.system	${D}${datadir}/Bastille/OSMap
-	install -m 0644 OSMap/LINUX.service	${D}${datadir}/Bastille/OSMap
-	install -m 0644 OSMap/HP-UX.bastille	${D}${datadir}/Bastille/OSMap
-	install -m 0644 OSMap/HP-UX.system	${D}${datadir}/Bastille/OSMap
-	install -m 0644 OSMap/HP-UX.service	${D}${datadir}/Bastille/OSMap
-	install -m 0644 OSMap/OSX.bastille	${D}${datadir}/Bastille/OSMap
-	install -m 0644 OSMap/OSX.system	${D}${datadir}/Bastille/OSMap
-    install -m 0644 ${WORKDIR}/config ${D}${sysconfdir}/Bastille/config 
-	
+	install -m 0644 OSMap/LINUX.bastille    ${D}${datadir}/Bastille/OSMap
+	install -m 0644 OSMap/LINUX.system    ${D}${datadir}/Bastille/OSMap
+	install -m 0644 OSMap/LINUX.service    ${D}${datadir}/Bastille/OSMap
+	install -m 0644 OSMap/HP-UX.bastille    ${D}${datadir}/Bastille/OSMap
+	install -m 0644 OSMap/HP-UX.system    ${D}${datadir}/Bastille/OSMap
+	install -m 0644 OSMap/HP-UX.service    ${D}${datadir}/Bastille/OSMap
+	install -m 0644 OSMap/OSX.bastille    ${D}${datadir}/Bastille/OSMap
+	install -m 0644 OSMap/OSX.system    ${D}${datadir}/Bastille/OSMap
+	install -m 0644 ${WORKDIR}/config ${D}${sysconfdir}/Bastille/config
+
 	for file in `cat Modules.txt` ; do
-	   install -m 0644 Questions/$file.txt ${D}${datadir}/Bastille/Questions
+		install -m 0644 Questions/$file.txt ${D}${datadir}/Bastille/Questions
 	done
-	
+
 	ln -s ${D}${sbindir}/RevertBastille ${D}${sbindir}/UndoBastille
 }
 

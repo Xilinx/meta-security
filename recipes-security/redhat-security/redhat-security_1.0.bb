@@ -22,18 +22,18 @@ SRC_URI = "file://find-chroot-py.sh \
 S = "${WORKDIR}"
 
 do_install() {
-	     install    -d  ${D}${bindir}
-	     install    -m  0755    ${WORKDIR}/find-chroot-py.sh    ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/find-chroot.sh   ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/find-elf4tmp.sh  ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/find-execstack.sh    ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/find-hidden-exec.sh  ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/find-nodrop-groups.sh    ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/find-sh4errors.sh    ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/find-sh4tmp.sh   ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/lib-bin-check.sh ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/rpm-chksec.sh    ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/rpm-drop-groups.sh   ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/selinux-check-devices.sh ${D}${bindir}
-         install    -m  0755    ${WORKDIR}/selinux-ls-unconfined.sh ${D}${bindir}
+	install -d ${D}${bindir}
+	install -m 0755 ${WORKDIR}/find-chroot-py.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/find-chroot.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/find-elf4tmp.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/find-execstack.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/find-hidden-exec.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/find-nodrop-groups.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/find-sh4errors.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/find-sh4tmp.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/lib-bin-check.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/rpm-chksec.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/rpm-drop-groups.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/selinux-check-devices.sh    ${D}${bindir}
+	install -m 0755 ${WORKDIR}/selinux-ls-unconfined.sh    ${D}${bindir}
 }

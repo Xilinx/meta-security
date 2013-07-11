@@ -40,7 +40,7 @@ do_install () {
 	install -d ${D}${localstatedir}/lock/subsys/bastille
 	install -d ${D}${localstatedir}/log/Bastille
 	install -d ${D}${sysconfdir}/Bastille
-	install -m 0755 AutomatedBastillei    ${D}${sbindir}
+	install -m 0755 AutomatedBastille  ${D}${sbindir}
 	install -m 0755 BastilleBackEnd    ${D}${sbindir}
 	install -m 0755 InteractiveBastille    ${D}${sbindir}
 	install -m 0644 Modules.txt    ${D}${datadir}/Bastille

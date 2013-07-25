@@ -19,7 +19,7 @@ if [ $# -ge 2 ] ; then
 	echo "Usage: find_elf4tmp [directory]" 1>&2
 	exit 1
 fi
-if [ ! -x /usr/bin/eu-strings ] ; then
+if [ ! -x /usr/bin/strings ] ; then
 	echo "Skipping due to missing /usr/bin/eu-strings utility"
 	exit 1
 fi
@@ -49,7 +49,7 @@ do
 		# Get just the elf executables
 		testf=`echo $f | /usr/bin/file -n -f - 2>/dev/null | grep ELF`
 		if [ x"$testf" != "x" ] ; then
-			test_res=`/usr/bin/eu-strings $f | /bin/grep '/tmp/' | /bin/egrep -v 'XX|/tmp/$|[ .,:]/tmp/'`
+			test_res=`/usr/bin/strings $f | /bin/grep '/tmp/' | /bin/egrep -v 'XX|/tmp/$|[ .,:]/tmp/'`
 			if [ x"$test_res" = "x" ] ; then
 				continue
 			fi
@@ -64,13 +64,13 @@ do
 			FOUND=1
 
 			# Get the package
-			RPM=`/bin/rpm -qf --queryformat "%{NAME}-%{VERSION}" $f 2>/dev/null | /bin/grep -v 'not owned' | /bin/sort | /usr/bin/uniq`
+			RPM=`/bin/rpm -qf --queryformat "%{NAME}-%{VERSION}" $f 2>/dev/null | /bin/grep -v 'not owned' | /usr/bin/sort | /usr/bin/uniq`
 			if [ x"$RPM" = "x" ] ; then
 				RPM="<unowned>"
 			fi
 
 			# For each tmp string, output the line
-			echo $test_res | /usr/bin/tr '\b' '\n' | /bin/awk 'NF >= 1 { printf "%-46s\t%-30s\t%s\n", f, r, $1 }' r=$RPM f=$f
+			echo $test_res | /usr/bin/tr '\b' '\n' | /usr/bin/awk 'NF >= 1 { printf "%-46s\t%-30s\t%s\n", f, r, $1 }' r=$RPM f=$f
 		fi
 	done
 done

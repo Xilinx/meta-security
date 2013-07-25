@@ -73,6 +73,10 @@ help for each package.
                           In this mode it will only give a summary result for the package. To find which files don't comply,
                           re-run using just the package name.
 
+		!!! WARNING !!! - in order to use this script you need to add to your conf/local.conf file the following lines:
+						IMAGE_ROOTFS_EXTRA_SPACE = ""  - specifying the extra space of the image
+						IMAGE_FEATURES += "package management" - for the correct output of rpm -qa
+
         - find-nodrop-groups.sh : This will scan a whole file system to see if a program makes calls to change UID
                                   and GID without also calling setgroups or initgroups.
 

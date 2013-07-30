@@ -3,10 +3,11 @@ DESCRIPTION = "Bastille Linux is a Hardening and Reporting/Auditing Program whic
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
 # Bash is needed for set +o privileged (check busybox), might also need ncurses
+DEPENDS = "virtual/kernel"
 RDEPENDS_${PN} = "perl bash tcl perl-module-getopt-long perl-module-text-wrap lib-perl perl-module-file-path perl-module-mime-base64 perl-module-file-find perl-module-errno perl-module-file-glob perl-module-tie-hash-namedcapture perl-module-file-copy perl-module-english perl-module-exporter perl-module-cwd curses-perl coreutils"
 FILES_${PN} += "/run/lock/subsys/bastille"
 
-inherit allarch
+inherit allarch module-base
 
 SRC_URI = "http://sourceforge.net/projects/bastille-linux/files/bastille-linux/3.2.1/Bastille-3.2.1.tar.bz2 \
            file://AccountPermission.pm \
@@ -17,7 +18,7 @@ SRC_URI = "http://sourceforge.net/projects/bastille-linux/files/bastille-linux/3
            file://config \
            file://fix_version_parse.patch \
            file://yocto-standard-patch.patch \
-           file://Curses-and-IOLoader-changes.patch \
+           file://0001-Curses-and-IOLoader-changes.patch \
            "
 
 SRC_URI[md5sum] = "df803f7e38085aa5da79f85d0539f91b"
@@ -128,13 +129,14 @@ do_install () {
 	install -m 0644 OSMap/HP-UX.service    ${D}${datadir}/Bastille/OSMap
 	install -m 0644 OSMap/OSX.bastille    ${D}${datadir}/Bastille/OSMap
 	install -m 0644 OSMap/OSX.system    ${D}${datadir}/Bastille/OSMap
-	install -m 0644 ${WORKDIR}/config ${D}${sysconfdir}/Bastille/config
+	install -m 0777 ${WORKDIR}/config ${D}${sysconfdir}/Bastille/config
 
 	for file in `cat Modules.txt` ; do
 		install -m 0644 Questions/$file.txt ${D}${datadir}/Bastille/Questions
 	done
 
 	ln -s ${D}${sbindir}/RevertBastille ${D}${sbindir}/UndoBastille
+	sed -i 's/3.8.11-yocto-standard/${KERNEL_VERSION}/g' ${D}${libdir}/Bastille/API.pm
 }
 
 FILES_${PN} += "${datadir}/Bastille ${libdir}/Bastille ${libdir}/perl* ${sysconfdir}/*"

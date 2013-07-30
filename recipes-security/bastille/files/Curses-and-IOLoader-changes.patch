@@ -1,22 +1,22 @@
-From 456daee3ce57d3a46bf9ccf0a85ec4880ca5b262 Mon Sep 17 00:00:00 2001
+From afa9a32db7f9423b45e0cff898a868de05ad3dee Mon Sep 17 00:00:00 2001
 From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-Date: Tue, 4 Jun 2013 14:56:21 +0300
+Date: Tue, 30 Jul 2013 12:05:39 +0300
 Subject: [PATCH] Curses and IOLoader changes
 
 The linux distribution couldn't be identified when
 running Bastille, and the question pruning method
 couldn't get a match on the questions relevant to
-the repo, so it eliminated all quetions.
+the repo, so it eliminated all questions.
 
 After answering the questions the checkAndSaveConfig routine
-was called which was missing. Replaced it with Run_Bastille_
-with_Config which exists.
+was called which was missing. Replaced it with outputConfig
+which exists.
 
 Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 ---
  Bastille/IOLoader.pm |    2 +-
- Bastille_Curses.pm   |    4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ Bastille_Curses.pm   |    3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/Bastille/IOLoader.pm b/Bastille/IOLoader.pm
 index abb94d7..995d2c2 100644
@@ -32,17 +32,16 @@ index abb94d7..995d2c2 100644
    &B_log("DEBUG","Load Questions, first question: $first_question");
    &validate_questions();
 diff --git a/Bastille_Curses.pm b/Bastille_Curses.pm
-index 2e1eef4..edbbe45 100644
+index 2e1eef4..a2dfb34 100644
 --- a/Bastille_Curses.pm
 +++ b/Bastille_Curses.pm
-@@ -84,7 +84,9 @@ sub do_Bastille {
+@@ -84,7 +84,8 @@ sub do_Bastille {
      }
  
      # Output answers to the script and display
 -    &checkAndSaveConfig(&getGlobal('BFILE', "config"));
-+    #&checkAndSaveConfig(&getGlobal('BFILE', "config"));
 +
-+    &Run_Bastille_with_Config;
++    &outputConfig
  
      # Run Bastille
  

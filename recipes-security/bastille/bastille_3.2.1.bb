@@ -18,7 +18,7 @@ SRC_URI = "http://sourceforge.net/projects/bastille-linux/files/bastille-linux/3
            file://config \
            file://fix_version_parse.patch \
            file://yocto-standard-patch.patch \
-           file://0001-Curses-and-IOLoader-changes.patch \
+           file://Curses-and-IOLoader-changes.patch \
            "
 
 SRC_URI[md5sum] = "df803f7e38085aa5da79f85d0539f91b"

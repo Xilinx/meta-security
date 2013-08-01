@@ -154,7 +154,14 @@ help for each package.
         Buck-Security is a security scanner for Debian and Ubuntu Linux. It runs a couple of important checks and helps you to harden your Linux
         system. This enables you to quickly overview the security status of your Linux system.
 
-                usage : switch to directory /usr/local/buck-security.
+                usage :	!!! before starting to use this tool please run the following command: !!!
+
+						export GPG_TTY=`tty`
+
+						This command is needed for the usage of the comand --make-checksum, which creates
+						a checksum for the files in the system.
+
+						switch to directory /usr/local/buck-security.
                         before running the script, you should check the activated checks in conf/buck-security.conf file.
                         after altering the changes, save the file and simply run :
 

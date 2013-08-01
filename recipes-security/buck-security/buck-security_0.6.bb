@@ -4,9 +4,10 @@ system. This enables you to quickly overview the security status of your Linux s
 SECTION = "security"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-RDEPENDS_${PN} = "perl perl-module-term-ansicolor perl-module-posix perl-module-getopt-long perl-module-time-localtime perl-module-data-dumper perl-module-lib"
+RDEPENDS_${PN} = "perl perl-module-term-ansicolor perl-module-posix perl-module-getopt-long perl-module-time-localtime perl-module-data-dumper perl-module-lib net-tools coreutils gnupg pinentry"
 
-SRC_URI = "http://sourceforge.net/projects/buck-security/files/buck-security/buck-security_0.6/${PN}_${PV}.tar.gz"
+SRC_URI = "http://sourceforge.net/projects/buck-security/files/buck-security/buck-security_0.6/${PN}_${PV}.tar.gz \
+           file://functionality.patch"
 
 SRC_URI[md5sum] = "edbd40742853fc91ffeae5b2d9ea7bab"
 SRC_URI[sha256sum] = "5d5dcc58b09c3a4bd87f60f86bb62cd2b0bfd7106a474951f8f520af0042a5b7"

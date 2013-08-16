@@ -1,6 +1,5 @@
-DESCRIPTION = "This package contains the URI.pm module with friends. \
-The module implements the URI class. URI objects can be used to access \
-and manipulate the various components that make up these strings."
+DESCRIPTION = "lib-curses provides an interface between Perl programs and \
+the curses library."
 
 SECTION = "libs"
 LICENSE = "Artistic-1.0 | GPL-1.0+"

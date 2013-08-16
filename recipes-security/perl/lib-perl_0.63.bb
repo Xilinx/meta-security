@@ -1,6 +1,7 @@
-DESCRIPTION = "This package contains the URI.pm module with friends. \
-The module implements the URI class. URI objects can be used to access \
-and manipulate the various components that make up these strings."
+DESCRIPTION = "This is a small simple module which simplifies the \
+manipulation of @INC at compile time. It is typically used to add extra \
+directories to Perl's search path so that later "use" or "require" statements \
+will find modules which are not located in the default search path."
 
 SECTION = "libs"
 LICENSE = "Artistic-1.0 | GPL-1.0+"

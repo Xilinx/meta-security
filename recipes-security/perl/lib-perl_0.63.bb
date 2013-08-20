@@ -1,6 +1,6 @@
 DESCRIPTION = "This is a small simple module which simplifies the \
 manipulation of @INC at compile time. It is typically used to add extra \
-directories to Perl's search path so that later "use" or "require" statements \
+directories to Perl's search path so that later 'use' or 'require' statements \
 will find modules which are not located in the default search path."
 
 SECTION = "libs"

@@ -24,6 +24,11 @@ SRC_URI = "http://sourceforge.net/projects/bastille-linux/files/bastille-linux/3
            file://remove_questions_text_file_references.patch \
            file://simplify_B_place.patch \
            file://find_existing_config.patch \
+           file://upgrade_options_processing.patch \
+           file://accept_os_flag_in_backend.patch \
+           file://allow_os_with_assess.patch \
+           file://edit_usage_message.patch \
+           file://organize_distro_discovery.patch \
            "
 
 SRC_URI[md5sum] = "df803f7e38085aa5da79f85d0539f91b"

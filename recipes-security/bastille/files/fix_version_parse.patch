@@ -1,3 +1,9 @@
+Upstream Status: Inappropriate [No upstream maintenance]
+
+Signed-off-by: Anne Mulhern <mulhern@yoctoproject.org>
+
+---
+
 Index: Bastille/bin/bastille
 ===================================================================
 --- Bastille.orig/bin/bastille

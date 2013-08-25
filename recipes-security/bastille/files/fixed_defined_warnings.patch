@@ -11,36 +11,32 @@ in Bastille.
 Fixed also some warnings regarding defined statements
 in API.pm.
 
+Upstream Status: Inappropriate [No upstream maintenance]
+
 Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+
+Signed-off-by: Anne Mulhern <mulhern@yoctoproject.org>
+
 ---
  Bastille/API.pm |   12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Bastille/API.pm b/Bastille/API.pm
-index 40f8c72..ebbe9f7 100644
---- a/Bastille/API.pm
-+++ b/Bastille/API.pm
-@@ -445,8 +445,8 @@ sub GetDistro() {
+Index: Bastille/Bastille/API.pm
+===================================================================
+--- Bastille.orig/Bastille/API.pm	2008-09-14 19:56:53.000000000 -0400
++++ Bastille/Bastille/API.pm	2013-08-21 08:55:26.715950001 -0400
+@@ -445,8 +445,8 @@
  		$release=`/usr/bin/uname -sr`;
  	    }
  	    else {
 -	 	print STDERR "$err Could not determine operating system version!\n";
 -		$distro="unknown";
-+        #print STDERR "$err Could not determine operating system version!\n";
-+		$distro="3.8.11-yocto-standard";
++                print STDERR "$err Could not determine operating system version!\n";
++		$distro="unknown"
              }
  
  	    # Figure out what kind of system we're on.
-@@ -537,7 +537,7 @@ sub getSupportedOSHash () {
- 			      "DB2.2", "DB3.0",
- 			      "RH6.0","RH6.1","RH6.2","RH7.0",
- 			      "RH7.1","RH7.2","RH7.3","RH8.0",
--			      "RH9",
-+			      "RH9","3.8.11-yocto-standard",
-                               "RHEL5",
- 			      "RHEL4AS","RHEL4ES","RHEL4WS",
- 			      "RHEL3AS","RHEL3ES","RHEL3WS",
-@@ -1284,7 +1284,7 @@ sub B_write_sums {
+@@ -1284,7 +1284,7 @@
  
      my $sumFile = &getGlobal('BFILE',"sum.csv");
  
@@ -49,7 +45,7 @@ index 40f8c72..ebbe9f7 100644
  
  	open( SUM, "> $sumFile") or &B_log("ERROR","Unable to open $sumFile for write.\n$!\n");
  
-@@ -1318,7 +1318,7 @@ sub B_check_sum($) {
+@@ -1318,7 +1318,7 @@
      my $file = $_[0];
      my $cksum = &getGlobal('BIN',"cksum");
  
@@ -58,7 +54,7 @@ index 40f8c72..ebbe9f7 100644
          &B_read_sums;
      }
  
-@@ -1375,7 +1375,7 @@ sub listModifiedFiles {
+@@ -1375,7 +1375,7 @@
  sub B_isFileinSumDB($) {
      my $file = $_[0];
  
@@ -67,6 +63,3 @@ index 40f8c72..ebbe9f7 100644
          &B_log("DEBUG","Reading in DB from B_isFileinSumDB");
          &B_read_sums;
      }
--- 
-1.7.9.5
-

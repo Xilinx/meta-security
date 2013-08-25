@@ -17,8 +17,8 @@ SRC_URI = "http://sourceforge.net/projects/bastille-linux/files/bastille-linux/3
            file://ServiceAdmin.pm \
            file://config \
            file://fix_version_parse.patch \
-           file://yocto-standard-patch.patch \
-           file://Curses-and-IOLoader-changes.patch \
+           file://fixed_defined_warnings.patch \
+           file://call_output_config.patch \
            "
 
 SRC_URI[md5sum] = "df803f7e38085aa5da79f85d0539f91b"
@@ -136,7 +136,6 @@ do_install () {
 	done
 
 	ln -s ${D}${sbindir}/RevertBastille ${D}${sbindir}/UndoBastille
-	sed -i 's/3.8.11-yocto-standard/${KERNEL_VERSION}/g' ${D}${libdir}/Bastille/API.pm
 }
 
 FILES_${PN} += "${datadir}/Bastille ${libdir}/Bastille ${libdir}/perl* ${sysconfdir}/*"

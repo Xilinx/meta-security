@@ -139,6 +139,9 @@ do_install () {
 	install -m 0644 OSMap/HP-UX.service    ${D}${datadir}/Bastille/OSMap
 	install -m 0644 OSMap/OSX.bastille    ${D}${datadir}/Bastille/OSMap
 	install -m 0644 OSMap/OSX.system    ${D}${datadir}/Bastille/OSMap
+
+	${THISDIR}/files/set_required_questions.py ${WORKDIR}/config Questions
+
 	install -m 0777 ${WORKDIR}/config ${D}${sysconfdir}/Bastille/config
 
 	for file in `cat Modules.txt` ; do

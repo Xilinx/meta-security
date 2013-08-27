@@ -43,22 +43,34 @@ help for each package.
         like rcp and rlogin, and helps create "chroot jails" that help limit the
         vulnerability of common Internet services like Web services and DNS.
 
-        usage : Bastille can be used via meta-security layer only in command line mode.
-                To start Bastille simply write in a terminal :
+        usage : The functionality of Bastille which is available is
+                restricted to a purely informational one. The command:
+                bastille -c --os Yocto
+                will cause a series of menus containing security questions
+                about the system to be displayed to the user. For each
+                question, a default response, specified in the configuration
+                file which is installed with Bastille, will be selected.
+                The user may select an alternate response. When the user
+                has completed the sequence of menus Bastille saves the
+                responses to the configuration file.
 
-                bastille -c
+                The command:
+                bastille -l lists the configuration files that Bastille
+                is able to locate.
 
-                If this is the first usage of Bastille on the system, the user will be
-                guided through a list of questions which need to be answered. In the end,
-                a config file will be created and run. After these steps, you will have a
-                hardened system.
+                The other functionality which Bastille is intended to provide
+                is actually unavailable. This is not due to errors in poky
+                installation or configuration of the application. The Bastille
+                distribution is no longer supported. Significant modifications
+                would be required to make it possible to make use of the
+                functionality which is currently unavailable.
 
-                If you only want to run the config file, without stepping through the
-                list of questions, simply write in a terminal :
 
-                bastille -b
+        Additional information about Bastille can be found in the package
+        README file and other documentation.
 
-        More information can be found in the package readme and manual.
+        Alternatives to Bastille include buck-security and checksecurity,
+        described elsewhere in this file.
 
 
         == redhat-security ==

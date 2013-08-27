@@ -1,3 +1,5 @@
+#The functionality of Bastille that is actually available is restricted. Please
+#consult the README file for the meta-security layer for additional information.
 SUMMARY = "Linux hardening tool"
 DESCRIPTION = "Bastille Linux is a Hardening and Reporting/Auditing Program which enhances the security of a Linux box, by configuring daemons, system settings and firewalling."
 LICENSE = "GPLv2"
@@ -29,6 +31,7 @@ SRC_URI = "http://sourceforge.net/projects/bastille-linux/files/bastille-linux/3
            file://allow_os_with_assess.patch \
            file://edit_usage_message.patch \
            file://organize_distro_discovery.patch \
+           file://do_not_apply_config.patch \
            "
 
 SRC_URI[md5sum] = "df803f7e38085aa5da79f85d0539f91b"

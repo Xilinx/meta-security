@@ -2,7 +2,7 @@
 
 #Signed-off-by: Anne Mulhern <mulhern@yoctoproject.org>
 
-import argparse, os, shutil, sys, tempfile
+import argparse, os, shutil, sys, tempfile, traceback
 from os import path
 
 
@@ -76,12 +76,20 @@ def add_requires(the_ident, distro, lines):
 
 
 def xform_file(qfile, distro, qlabel):
+  """
+  Transform a Questions file.
+  @param name qfile The designated questions file.
+  @param name distro The distribution to add to the required distributions.
+  @param name qlabel The question label for which the distro is to be added.
+  """
   questions_in = open(qfile)
   questions_out = tempfile.NamedTemporaryFile(delete=False)
   for l in add_requires(qlabel, distro, questions_in):
     questions_out.write(l)
   questions_out.close()
   questions_in.close()
+  shutil.copystat(qfile, questions_out.name)
+  os.remove(qfile)
   shutil.move(questions_out.name, qfile)
 
 
@@ -94,6 +102,9 @@ def handle_args(parser):
   parser.add_argument('--distro', '-d',
                       help = "The distribution, the default is Yocto.",
                       default = "Yocto")
+  parser.add_argument('--debug', '-b',
+                      help = "Print debug information.",
+                      action = 'store_true')
   return parser.parse_args()
 
 
@@ -116,7 +127,10 @@ def main():
   try:
     check_args(opts)
   except ValueError as e:
-    sys.exit("Fatal error: %s" % e)
+    if opts.debug:
+      traceback.print_exc()
+    else:
+      sys.exit("Fatal error:\n%s" % e)
 
 
   try:
@@ -127,9 +141,15 @@ def main():
     config_in.close()
 
   except IOError as e:
-    sys.exit("Fatal error reading config file: %s" % e)
+    if opts.debug:
+      traceback.print_exc()
+    else:
+      sys.exit("Fatal error reading or writing file:\n%s" % e)
   except ValueError as e:
-    sys.exit("Fatal error: %s" % e)
+    if opts.debug:
+      traceback.print_exc()
+    else:
+      sys.exit("Fatal error:\n%s" % e)
 
 
 

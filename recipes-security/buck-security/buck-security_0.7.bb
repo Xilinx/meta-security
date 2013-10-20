@@ -32,12 +32,10 @@ RDEPENDS_${PN}_class-native = "coreutils \
                                perl-module-time-localtime \
                               "
 
-SRC_URI = "http://sourceforge.net/projects/buck-security/files/buck-security/buck-security_0.6/${BPN}_${PV}.tar.gz \
-           file://take_root_dir.patch \
-          "
+SRC_URI = "http://sourceforge.net/projects/buck-security/files/buck-security/buck-security_${PV}/${BPN}_${PV}.tar.gz"
 
-SRC_URI[md5sum] = "edbd40742853fc91ffeae5b2d9ea7bab"
-SRC_URI[sha256sum] = "5d5dcc58b09c3a4bd87f60f86bb62cd2b0bfd7106a474951f8f520af0042a5b7"
+SRC_URI[md5sum] = "611a3e9bb7ed8a8270aa15216c321c53"
+SRC_URI[sha256sum] = "c533c6631ec3554dd8d39d2d1c3ed44badbbf50810ebb75469c74639fa294b01"
 
 S = "${WORKDIR}/${BPN}_${PV}"
 

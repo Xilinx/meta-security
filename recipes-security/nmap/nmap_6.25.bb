@@ -11,7 +11,7 @@ SRC_URI = "http://nmap.org/dist/${PN}-${PV}.tar.bz2 \
 SRC_URI[md5sum] = "fcc80f94ff3adcb11eedf91092ea6f5e"
 SRC_URI[sha256sum] = "3349cc6d36b86b95ca2b8075d16615a3a598cef494920d6652f9a8bf9f7660b5"
 
-inherit autotools
+inherit autotools-brokensep
 
 DEPENDS = "libpcap"
 

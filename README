@@ -233,6 +233,18 @@ help for each package.
 
         More detailed usage can be found in the man pages and README file of the package.
 
+Maintenance
+-----------
+
+Send pull requests, patches, comments or questions to yocto@yoctoproject.org
+
+When sending single patches, please using something like:
+'git send-email -1 --to yocto@yoctoproject.org --subject-prefix=meta-security][PATCH'
+
+Maintainers:    Saul Wold <sgw@linux.intel.com>
+                Armin Kuster <akuster@mvista.com>
+
+
 License
 =======
 

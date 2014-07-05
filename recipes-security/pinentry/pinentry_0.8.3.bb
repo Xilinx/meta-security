@@ -11,4 +11,5 @@ SRC_URI[sha256sum] = "568b0b09b50b2388a4f94d704d5bcb28718ecd4654ed1acc43ab1f97d9
 
 inherit autotools
 
-EXTRA_OECONF +="--disable-pinentry-gtk2 --disable-pinentry-qt --disable-pinentry-qt4 --without-x --enable-ncurses"
+EXTRA_OECONF +="--disable-pinentry-gtk2 --disable-pinentry-qt --disable-pinentry-qt4 --without-x --enable-ncurses \
+    --with-ncurses-include-dir=${STAGING_INCDIR} "

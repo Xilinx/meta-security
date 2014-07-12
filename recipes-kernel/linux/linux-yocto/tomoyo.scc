@@ -1,0 +1,4 @@
+define KFEATURE_DESCRIPTION "Toyomo Kernel Support"
+define KFEATURE_COMPATIBILITY arch
+
+kconf non-hardware toyomo.cfg

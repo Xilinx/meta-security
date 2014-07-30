@@ -22,3 +22,5 @@ do_compile() {
 	cpan_do_compile
 }
 BBCLASSEXTEND = "native"
+
+PNBLACKLIST[libnetaddr-ip-perl] = "BROKEN: doesn't build | make[2]: *** No rule to make target `config.h', needed by `Util.c'.  Stop."

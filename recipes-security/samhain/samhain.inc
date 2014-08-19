@@ -37,6 +37,10 @@ do_unpack_extra () {
 }
 addtask unpack_extra after do_unpack before do_patch
 
+do_configure_prepend_arm() {
+    export sh_cv___va_copy=yes
+}
+
 # If we use oe_runconf in do_configure() it will by default
 # use the prefix --oldincludedir=/usr/include which is not
 # recognized by Samhain's configure script and would invariably

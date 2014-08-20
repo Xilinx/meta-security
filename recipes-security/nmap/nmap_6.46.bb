@@ -14,7 +14,7 @@ inherit autotools-brokensep
 
 DEPENDS = "libpcap"
 
-EXTRA_OECONF = "--without-liblua --without-zenmap --without-subversion --with-pcap=linux"
+EXTRA_OECONF = "--without-liblua --without-zenmap --without-subversion --with-pcap=linux --without-openssl"
 
 do_configure() {
     autoconf

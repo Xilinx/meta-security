@@ -11,10 +11,10 @@ SRC_URI[sha256sum] = "3f89d9053c69507fe9533c40188a6561d49607a37b1db6380aed9039d4
 
 inherit autotools-brokensep pkgconfig distro_features_check
 
-PACKAGECONFIG ??= "ncat nping ndiff pcap"
+PACKAGECONFIG = "ncat nping ndiff pcap lua"
 PACKAGECONFIG += " ${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "zenmap", "", d)}"
 
-PACKAGECONFIG[pcap] = "--with-pcap=linux, --without-pcap, libpcap"
+PACKAGECONFIG[pcap] = "--with-pcap=linux, --without-pcap, libpcap, libpcap"
 PACKAGECONFIG[ssl] = "--with-openssl=${STAGING_LIBDIR}/.., --without-openssl, openssl, openssl"
 
 #disable/enable packages
@@ -23,7 +23,7 @@ PACKAGECONFIG[ncat] = ",--without-ncat,"
 PACKAGECONFIG[ndiff] = ",--without-ndiff,"
 
 #use nmap's Included or system's libs
-PACKAGECONFIG[lua] = "--with-liblua=${STAGING_LIBDIR}/.., --with-liblua=included, lua"
+PACKAGECONFIG[lua] = "--with-liblua=${STAGING_LIBDIR}/.., --without-liblua, lua"
 PACKAGECONFIG[pcre] = "--with-libpcre=${STAGING_LIBDIR}/.., --with-libpcre=included, libpre"
 
 #Add gui

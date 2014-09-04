@@ -9,15 +9,20 @@ PACKAGES = "\
     packagegroup-core-security \
     packagegroup-security-utils \
     packagegroup-security-scanners \
+    packagegroup-security-ids  \
+    packagegroup-security-mac  \
     "
 
 RDEPENDS_packagegroup-core-security = "\
     packagegroup-security-utils \
     packagegroup-security-scanners \
+    packagegroup-security-ids  \
+    packagegroup-security-mac  \
     "
 
 SUMMARY_packagegroup-security-utils = "Security utilities"
 RDEPENDS_packagegroup-security-utils = "\
+    checksec \
     nmap \
     libseccomp \
     pinentry \
@@ -41,3 +46,13 @@ RDEPENDS_packagegroup-security-hardening = " \
     bastille \
     "
 
+SUMMARY_packagegroup-security-ids = "Security Intrusion Detection systems"
+RDEPENDS_packagegroup-security-ids = " \
+    tripwire \
+    samhain-client \
+    "
+
+SUMMARY_packagegroup-security-mac = "Security Mandatory Access Control systems"
+RDEPENDS_packagegroup-security-mac = " \
+    ${@bb.utils.contains("DISTRO_FEATURES", "tomoyo", "ccs-tools", "",d)} \
+    "

@@ -18,6 +18,15 @@ do_configure() {
    ${S}/configure --prefix=${prefix} --libdir=${libdir}
 }
 
+do_compile_append() {
+    oe_runmake  DESTDIR=${D} tests
+}
+
 do_install() {
     oe_runmake DESTDIR=${D} install
+    oe_runmake  DESTDIR=${D} install-tests
 }
+
+PACKAGES += "${PN}-tests "
+FILES_${PN}-tests = "${libdir}/${BPN}/tests/*"
+FILES_${PN}-dbg += "${libdir}/${BPN}/tests/.debug/*"

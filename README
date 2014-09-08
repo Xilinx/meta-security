@@ -14,6 +14,16 @@ This layer depends on:
   revision: HEAD
   prio: default
 
+  URI: git://git.openembedded.org/meta-openembedded/meta-oe
+  branch: master
+  revision: HEAD
+  prio: default
+
+  URI: git://git.openembedded.org/meta-openembedded/meta-perl
+  branch: master
+  revision: HEAD
+  prio: default
+
 Adding the security layer to your build
 ========================================
 
@@ -27,6 +37,8 @@ other layers needed. e.g.:
 
   BBLAYERS ?= " \
     /path/to/oe-core/meta \
+    /path/to/meta-openembedded/meta-oe \
+    /path/to/meta-openembedded/meta-perl \
     /path/to/layer/meta-security \
 
 Contents and Help

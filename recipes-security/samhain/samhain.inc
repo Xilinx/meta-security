@@ -9,8 +9,8 @@ SRC_URI = "http://la-samhna.de/archive/samhain_signed-${PV}.tar.gz \
 	   file://${INITSCRIPT_NAME}.default \
 	  "
 
-SRC_URI[md5sum] = "f7fff913d016241eec6829bd5f740513"
-SRC_URI[sha256sum] = "844e8e22c0e259b4c12cd0ccacdb3d5569a2a1746b0aa1aa285febb266cbcf31"
+SRC_URI[md5sum] = "48c663707899dca4f3853c3192e9862c"
+SRC_URI[sha256sum] = "840218137a4c77970fa9f61c5f79d05de4bb2b287736a55d771125c94f9a51fc"
 
 S = "${WORKDIR}/samhain-${PV}"
 

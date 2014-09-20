@@ -8,8 +8,8 @@ RDEPENDS_${PN} = "perl libenv-perl perl-module-tie-array perl-module-getopt-long
 SRC_URI = "http://ftp.de.debian.org/debian/pool/main/c/checksecurity/checksecurity_${PV}.tar.gz \
            file://setuid-log-folder.patch"
 
-SRC_URI[md5sum] = "ad6cfe0cd66ebdd16dd5d4ee5fa8fa17"
-SRC_URI[sha256sum] = "a2bc2355358d6daf3cb72485d564e82cb541e8516f23b50522c816853ecd13c2"
+SRC_URI[md5sum] = "a30161c3e24d3be710b2fd13fcd1f32f"
+SRC_URI[sha256sum] = "67abe3d6391c96146e96f376d3fd6eb7a9418b0f7fe205b465219889791dba32"
 
 do_compile() {
 }

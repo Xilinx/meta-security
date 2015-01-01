@@ -3,8 +3,8 @@ DESCRIPTION = "Nikto is an Open Source (GPL) web server scanner which performs c
                files/CGIs, checks for outdated versions of over 1250 servers, and version specific problems on over 270 servers."
 SECTION = "security"
 LICENSE = "GPLv2"
+
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-RDEPENDS_${PN} = "perl libnet-ssleay-perl libwhisker2-perl perl-module-getopt-long perl-module-time-local perl-module-io-socket nikto-doc"
 
 SRC_URI = "http://cirt.net/nikto/${PN}-${PV}.tar.gz \
            file://location.patch"
@@ -99,3 +99,9 @@ do_install() {
 	install -m 0644 docs/nikto.dtd    ${D}${datadir}/doc/nikto
 	install -m 0644 docs/nikto_manual.html    ${D}${datadir}/doc/nikto
 }
+
+RDEPENDS_${PN} = "perl libnet-ssleay-perl libwhisker2-perl \
+                perl-module-getopt-long perl-module-time-local \
+                perl-module-io-socket perl-module-overloading \
+                perl-module-base perl-module-b perl-module-bytes \
+                nikto-doc"

@@ -1,0 +1,106 @@
+From 2bb998ed68841356499fe5c5cde875e87563572c Mon Sep 17 00:00:00 2001
+From: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+Date: Wed, 30 Jul 2014 21:59:17 +0200
+Subject: allow to use internal libmspack if the external is not available
+
+Signed-off-by: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+---
+ configure.ac          | 16 ++++++++++++++--
+ libclamav/Makefile.am | 30 +++++++++++++++++++++++++++++-
+ 2 files changed, 43 insertions(+), 3 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 02caad29410a..5abe018a00b0 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -131,6 +131,18 @@ m4_include([m4/reorganization/libs/curl.m4])
+ 
+ m4_include([m4/reorganization/substitutions.m4])
+ 
++PKG_CHECK_MODULES([LIBMSPACK], [libmspack],
++		  use_internal_mspack=no, use_internal_mspack=yes)
++
++AM_CONDITIONAL([USE_INTERNAL_MSPACK], test "x$use_internal_mspack" = "xyes")
++
++if test "x$use_internal_mspack" = "xyes"; then
++	mspack_msg="Internal"
++	AC_CONFIG_SUBDIRS([libclamav/libmspack-0.4alpha])
++else
++	mspack_msg="External, $LIBMSPACK_CFLAGS $LIBMSPACK_LIBS"
++fi
++
+ AM_CONDITIONAL([ENABLE_CLAMSUBMIT], [test "$have_curl" = "yes"])
+ 
+ AC_CONFIG_FILES([
+@@ -178,8 +190,6 @@ fi
+ AM_CONDITIONAL([ENABLE_LLVM],
+ 	       [test "$subdirfailed" != "yes" && test "$enable_llvm" != "no"])
+ 
+-PKG_CHECK_MODULES([LIBMSPACK], [libmspack])
+-
+ no_recursion="yes";
+ AC_OUTPUT([libclamav/Makefile])
+ 
+@@ -236,6 +246,8 @@ if test "x$PCRE_HOME" = "x"; then
+ else
+     CL_MSG_STATUS([pcre        ],[$PCRE_HOME],[$have_pcre])
+ fi
++CL_MSG_STATUS([preclass    ],[$LIBJSON_HOME],[$have_json])
++CL_MSG_STATUS([libmspack   ],[yes],[$mspack_msg])
+ if test "x$XML_LIBS" = "x"; then 
+     CL_MSG_STATUS([dmg and xar ],[no],[])
+ else
+diff --git a/libclamav/Makefile.am b/libclamav/Makefile.am
+index 538e83dcdd03..6d2cf920d6e2 100644
+--- a/libclamav/Makefile.am
++++ b/libclamav/Makefile.am
+@@ -122,11 +122,12 @@ libclamav_internal_utils_nothreads_la_SOURCES=str.c\
+ libclamav_internal_utils_nothreads_la_LDFLAGS=-static @SSL_LDFLAGS@ @JSON_LDFLAGS@
+ libclamav_internal_utils_nothreads_la_CFLAGS=$(AM_CFLAGS) -DCL_NOTHREADS @SSL_CPPFLAGS@ @JSON_CPPFLAGS@
+ libclamav_internal_utils_nothreads_la_LIBADD=@SSL_LIBS@ @JSON_LIBS@
++SUBDIRS=
+ 
+ if ENABLE_LLVM
+ LLVMLIBADD=c++/libclamavcxx.la -lstdc++ -lm
+ LLVMDEP=c++/libclamavcxx.la
+-SUBDIRS=c++
++SUBDIRS+=c++
+ else
+ LLVMLIBADD=libclamav_nocxx.la
+ LLVMDEP=libclamav_nocxx.la
+@@ -147,8 +148,35 @@ if VERSIONSCRIPT
+ libclamav_la_LDFLAGS += -Wl,@VERSIONSCRIPTFLAG@,@top_srcdir@/libclamav/libclamav.map
+ endif
+ 
++if USE_INTERNAL_MSPACK
++SUBDIRS += libmspack-0.4alpha
++libclamav_la_CFLAGS += -I@top_srcdir@/libclamav/libmspack-0.4alpha/mspack
++libclamav_la_LIBADD +=  @top_builddir@/libclamav/libmspack-0.4alpha/.libs/cabc.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/system.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/kwajd.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/hlpc.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/chmd.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/qtmd.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/litc.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/oabc.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/lzxd.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/litd.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/crc32.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/lzssd.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/kwajc.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/cabd.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/szddd.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/lzxc.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/mszipd.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/szddc.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/oabd.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/chmc.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/mszipc.o \
++			@top_builddir@/libclamav/libmspack-0.4alpha/.libs/hlpd.o
++else
+ libclamav_la_CFLAGS += $(LIBMSPACK_CFLAGS)
+ libclamav_la_LDFLAGS += $(LIBMSPACK_LIBS)
++endif
+ 
+ include_HEADERS = clamav.h
+ 

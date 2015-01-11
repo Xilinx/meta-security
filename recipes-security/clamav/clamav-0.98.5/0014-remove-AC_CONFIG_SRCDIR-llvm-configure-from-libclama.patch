@@ -1,0 +1,23 @@
+From 573da4644d9dbcff3107c4bc3a8a346a5ba0b84d Mon Sep 17 00:00:00 2001
+From: Andreas Cadhalpun <Andreas.Cadhalpun@googlemail.com>
+Date: Tue, 14 Oct 2014 20:16:04 +0200
+Subject: remove AC_CONFIG_SRCDIR([llvm/configure]) from
+ libclamav/c++/configure.ac to allow compilation without the
+ libclamav/c++/llvm directory
+
+---
+ libclamav/c++/configure.ac | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/libclamav/c++/configure.ac b/libclamav/c++/configure.ac
+index 3c7c7e26fbf8..43e187ff1f56 100644
+--- a/libclamav/c++/configure.ac
++++ b/libclamav/c++/configure.ac
+@@ -16,7 +16,6 @@ dnl   MA 02110-1301, USA.
+ AC_PREREQ([2.59])
+ AC_INIT([libclamavc++],[devel],[http://bugs.clamav.net])
+ AC_CONFIG_AUX_DIR([config])
+-AC_CONFIG_SRCDIR([llvm/configure])
+ AC_CONFIG_MACRO_DIR([m4])
+ AC_CONFIG_HEADER([clamavcxx-config.h])
+ AC_CANONICAL_TARGET

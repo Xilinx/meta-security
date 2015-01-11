@@ -1,0 +1,26 @@
+From 86ebd6e3f8fa60d0bdbed10eb10c5a7699b821e4 Mon Sep 17 00:00:00 2001
+From: Andreas Cadhalpun <Andreas.Cadhalpun@googlemail.com>
+Date: Mon, 25 Aug 2014 22:54:37 +0200
+Subject: hardcode LLVM linker flag, because llvm-config returns only flags for
+ linking statically
+
+this reduces the size of libclamav by more than 80 percent
+---
+ libclamav/c++/configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libclamav/c++/configure.ac b/libclamav/c++/configure.ac
+index a6697ddd8e82..3c7c7e26fbf8 100644
+--- a/libclamav/c++/configure.ac
++++ b/libclamav/c++/configure.ac
+@@ -121,8 +121,8 @@ if test "x$llvmconfig" != "x"; then
+     else
+         AC_SUBST(LLVMCONFIG_LDFLAGS, [`$llvmconfig --ldflags`])
+     fi
+-    AC_SUBST(LLVMCONFIG_LIBS, [`$llvmconfig --libs jit nativecodegen scalaropts ipo`])
+-    AC_SUBST(LLVMCONFIG_LIBFILES, [`$llvmconfig --libfiles jit nativecodegen scalaropts ipo`])
++    AC_SUBST(LLVMCONFIG_LIBS, [-lLLVM-$llvmver])
++    AC_SUBST(LLVMCONFIG_LIBFILES, [])
+     AC_MSG_NOTICE([CXXFLAGS from llvm-config: $LLVMCONFIG_CXXFLAGS])
+     AC_MSG_NOTICE([LDFLAGS from llvm-config: $LLVMCONFIG_LDFLAGS])
+     AC_MSG_NOTICE([LIBS from llvm-config: $LLVMCONFIG_LIBS])

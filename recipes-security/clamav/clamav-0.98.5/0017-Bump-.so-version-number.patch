@@ -1,0 +1,22 @@
+From 6569ca8a084191f9fedde16abf8fa15b6ebef4fe Mon Sep 17 00:00:00 2001
+From: Shawn Webb <swebb@sourcefire.com>
+Date: Wed, 19 Nov 2014 11:51:22 -0500
+Subject: Bump .so version number
+
+---
+ m4/reorganization/version.m4 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/m4/reorganization/version.m4 b/m4/reorganization/version.m4
+index ea263b28e647..f4fe8b1e150e 100644
+--- a/m4/reorganization/version.m4
++++ b/m4/reorganization/version.m4
+@@ -3,7 +3,7 @@ dnl VERSION="devel-`date +%Y%m%d`"
+ VERSION="0.98.5"
+ 
+ LC_CURRENT=7
+-LC_REVISION=22
++LC_REVISION=24
+ LC_AGE=1
+ LIBCLAMAV_VERSION="$LC_CURRENT":"$LC_REVISION":"$LC_AGE"
+ AC_SUBST([LIBCLAMAV_VERSION])

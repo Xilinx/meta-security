@@ -1,0 +1,56 @@
+From 3ae8ea99a010e5c513aa48c3bfa15a65772f742b Mon Sep 17 00:00:00 2001
+From: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+Date: Sat, 29 Mar 2014 15:52:55 +0100
+Subject: Add an additional \n after the number in the pidfile
+
+start-stop-daemon works without the \n in the file but pkill does not.
+Also the output of cat $PifFile looks better :)
+
+https://bugzilla.clamav.net/show_bug.cgi?id=10907
+
+Signed-off-by: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+---
+ clamav-milter/clamav-milter.c | 2 +-
+ clamd/server-th.c             | 2 +-
+ freshclam/freshclam.c         | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/clamav-milter/clamav-milter.c b/clamav-milter/clamav-milter.c
+index b6ac9e157872..2c7a4d7d3414 100644
+--- a/clamav-milter/clamav-milter.c
++++ b/clamav-milter/clamav-milter.c
+@@ -381,7 +381,7 @@ int main(int argc, char **argv) {
+ 	if((fd = fopen(opt->strarg, "w")) == NULL) {
+ 	    logg("!Can't save PID in file %s\n", opt->strarg);
+ 	} else {
+-	    if (fprintf(fd, "%u", (unsigned int)getpid())<0) {
++	    if (fprintf(fd, "%u\n", (unsigned int)getpid())<0) {
+ 	    	logg("!Can't save PID in file %s\n", opt->strarg);
+ 	    }
+ 	    fclose(fd);
+diff --git a/clamd/server-th.c b/clamd/server-th.c
+index 7ec5ae80cd64..d97cd6fb34e1 100644
+--- a/clamd/server-th.c
++++ b/clamd/server-th.c
+@@ -1034,7 +1034,7 @@ int recvloop_th(int *socketds, unsigned nsockets, struct cl_engine *engine, unsi
+ 	if((fd = fopen(opt->strarg, "w")) == NULL) {
+ 	    logg("!Can't save PID in file %s\n", opt->strarg);
+ 	} else {
+-	    if (fprintf(fd, "%u", (unsigned int) mainpid)<0) {
++	    if (fprintf(fd, "%u\n", (unsigned int) mainpid)<0) {
+ 	    	logg("!Can't save PID in file %s\n", opt->strarg);
+ 	    }
+ 	    fclose(fd);
+diff --git a/freshclam/freshclam.c b/freshclam/freshclam.c
+index 1a3279966720..166586bf6447 100644
+--- a/freshclam/freshclam.c
++++ b/freshclam/freshclam.c
+@@ -135,7 +135,7 @@ writepid (const char *pidfile)
+     }
+     else
+     {
+-        fprintf (fd, "%d", (int) getpid ());
++        fprintf (fd, "%d\n", (int) getpid ());
+         fclose (fd);
+     }
+     umask (old_umask);

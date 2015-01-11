@@ -1,0 +1,26 @@
+From 169677f7699f78d483c84b4ab54943ea622535c8 Mon Sep 17 00:00:00 2001
+From: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+Date: Wed, 19 Nov 2014 23:04:32 +0100
+Subject: llvm: don't use --system-libs
+
+this continues the saga of not linking the .a files so we don't care
+about the libs llvm links against (like -ledit)
+
+Signed-off-by: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+---
+ libclamav/c++/configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libclamav/c++/configure.ac b/libclamav/c++/configure.ac
+index 43e187ff1f56..2d2d47b9d24c 100644
+--- a/libclamav/c++/configure.ac
++++ b/libclamav/c++/configure.ac
+@@ -115,7 +115,7 @@ if test "x$llvmconfig" != "x"; then
+     if test $llvmver_test -ge 350; then
+         dnl LLVM 3.5.0 and after splits linker flags into two sets
+         ldflags=`$llvmconfig --ldflags`
+-        syslibs=`$llvmconfig --system-libs`
++        syslibs=
+         AC_SUBST(LLVMCONFIG_LDFLAGS, ["$ldflags $syslibs"])
+     else
+         AC_SUBST(LLVMCONFIG_LDFLAGS, [`$llvmconfig --ldflags`])

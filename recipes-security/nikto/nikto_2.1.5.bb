@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
 
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 
-SRC_URI = "http://cirt.net/nikto/${PN}-${PV}.tar.gz \
+SRC_URI = "http://cirt.net/nikto/${BP}.tar.gz \
            file://location.patch"
 
 SRC_URI[md5sum] = "efcc98a918becb77471ee9a5df0a7b1e"

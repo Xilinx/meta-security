@@ -30,3 +30,5 @@ do_install() {
 PACKAGES += "${PN}-tests "
 FILES_${PN}-tests = "${libdir}/${BPN}/tests/*"
 FILES_${PN}-dbg += "${libdir}/${BPN}/tests/.debug/*"
+
+RDEPENDS_${PN} = "bash"

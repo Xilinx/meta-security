@@ -47,4 +47,3 @@ FILES_${PN}-dbg = "\
 "
 
 REQUIRED_DISTRO_FEATURES ?=" tomoyo"
-RDEPEND += "systemd"

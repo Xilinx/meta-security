@@ -18,4 +18,4 @@ FILES_${PN} += "\
     /run \
     "
 
-RDEPENDS_${PN} = "acl zlib attr"
+RDEPENDS_${PN} = "acl zlib attr bash"

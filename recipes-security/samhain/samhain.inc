@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8ca43cbc842c2336e835926c2166c28b"
 SRC_URI = "http://la-samhna.de/archive/samhain_signed-${PV}.tar.gz \
 	   file://${INITSCRIPT_NAME}.init \
 	   file://${INITSCRIPT_NAME}.default \
+       file://add_aarch64_to_configure.patch \
 	  "
 
 SRC_URI[md5sum] = "64572a4dbfdc8065d6e9f7ca0eab0a34"
@@ -38,6 +39,10 @@ do_unpack_extra () {
 addtask unpack_extra after do_unpack before do_patch
 
 do_configure_prepend_arm() {
+    export sh_cv___va_copy=yes
+}
+
+do_configure_prepend_aarch64() {
     export sh_cv___va_copy=yes
 }
 

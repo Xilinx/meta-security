@@ -27,6 +27,9 @@ do_install() {
     oe_runmake  DESTDIR=${D} install-tests
 }
 
+# MIPS, aarch64, and PowerPC are not supported in this version.
+COMPATIBLE_HOST = '(x86_64|i.86|arm).*-linux'
+
 PACKAGES += "${PN}-tests "
 FILES_${PN}-tests = "${libdir}/${BPN}/tests/*"
 FILES_${PN}-dbg += "${libdir}/${BPN}/tests/.debug/*"

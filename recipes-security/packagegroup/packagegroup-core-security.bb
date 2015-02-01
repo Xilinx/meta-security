@@ -24,7 +24,6 @@ SUMMARY_packagegroup-security-utils = "Security utilities"
 RDEPENDS_packagegroup-security-utils = "\
     checksec \
     nmap \
-    libseccomp \
     pinentry \
     ${@bb.utils.contains("DISTRO_FEATURES", "pax", "pax-utils", "",d)} \
     "

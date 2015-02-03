@@ -24,6 +24,11 @@ This layer depends on:
   revision: HEAD
   prio: default
 
+  URI: git://git.openembedded.org/meta-openembedded/meta-networking
+  branch: master
+  revision: HEAD
+  prio: default
+
 Adding the security layer to your build
 ========================================
 
@@ -39,6 +44,8 @@ other layers needed. e.g.:
     /path/to/oe-core/meta \
     /path/to/meta-openembedded/meta-oe \
     /path/to/meta-openembedded/meta-perl \
+    /path/to/meta-openembedded/meta-python \
+    /path/to/meta-openembedded/meta-networking \
     /path/to/layer/meta-security \
 
 Contents and Help

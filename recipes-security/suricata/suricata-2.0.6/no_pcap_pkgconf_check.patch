@@ -1,0 +1,26 @@
+Index: suricata-2.0.6/configure
+===================================================================
+--- suricata-2.0.6.orig/configure
++++ suricata-2.0.6/configure
+@@ -17372,8 +17372,6 @@ fi
+ 
+         if test "$HAVE_PCAP_CONFIG" = "no"; then
+             CFLAGS="${CFLAGS} -DLIBPCAP_VERSION_MAJOR=1"
+-        else
+-            CFLAGS="${CFLAGS} `pcap-config --defines` `pcap-config --cflags` -DLIBPCAP_VERSION_MAJOR=1"
+         fi
+     else
+         CFLAGS="${CFLAGS} -DLIBPCAP_VERSION_MAJOR=0"
+Index: suricata-2.0.6/configure.ac
+===================================================================
+--- suricata-2.0.6.orig/configure.ac
++++ suricata-2.0.6/configure.ac
+@@ -1060,8 +1060,6 @@
+         AC_PATH_PROG(HAVE_PCAP_CONFIG, pcap-config, "no")
+         if test "$HAVE_PCAP_CONFIG" = "no"; then
+             CFLAGS="${CFLAGS} -DLIBPCAP_VERSION_MAJOR=1"
+-        else
+-            CFLAGS="${CFLAGS} `pcap-config --defines` `pcap-config --cflags` -DLIBPCAP_VERSION_MAJOR=1"
+         fi
+     else
+         CFLAGS="${CFLAGS} -DLIBPCAP_VERSION_MAJOR=0"

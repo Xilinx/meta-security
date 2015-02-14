@@ -14,6 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}-src/${BPN}-${PV}/${BPN}-$
 	   file://twinstall.sh \
 	   file://twpol-yocto.txt \
 	   file://tripwire_add_ppc64.patch \
+       file://tripwire_add_aarch64_to_configure.patch \
        "
 SRC_URI[md5sum] = "2462ea16fb0b5ae810471011ad2f2dd6"
 SRC_URI[sha256sum] = "e09a7bdca9302e704cc62067399e0b584488f825b0e58c82ad6d54cd2e899fad"

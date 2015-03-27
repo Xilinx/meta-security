@@ -53,7 +53,7 @@ EXTRA_OECONF += " --with-user=${UID}  --with-group=${GID} \
             --with-openssl=${STAGING_LIBDIR}/.. \
             --with-zlib=${STAGING_LIBDIR}/.. \
             --with-libbz2-prefix=${STAGING_DIR}${prefix} \
-            --with-libcurses-prefix=${STAGING_LIBDIR}/.. \
+            --with-libncurses-prefix=${STAGING_LIBDIR}/.. \
 "
 
 do_install_append () {

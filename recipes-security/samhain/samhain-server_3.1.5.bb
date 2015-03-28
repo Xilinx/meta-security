@@ -47,4 +47,4 @@ FILES_${PN}-dbg += " \
     ${sbindir}/.debug/* \
     "
 
-DEPENDS_${PN} += "gmp"
+DEPENDS_${PN} += "gmp bash"

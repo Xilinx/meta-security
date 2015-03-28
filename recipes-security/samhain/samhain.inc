@@ -10,8 +10,8 @@ SRC_URI = "http://la-samhna.de/archive/samhain_signed-${PV}.tar.gz \
        file://add_aarch64_to_configure.patch \
 	  "
 
-SRC_URI[md5sum] = "64572a4dbfdc8065d6e9f7ca0eab0a34"
-SRC_URI[sha256sum] = "c234afaf9ba3c6b7d240858b74423f935185de66e996405b3016ec4a288a7e1e"
+SRC_URI[md5sum] = "b72b526c6ee504317981e6dba1673b9d"
+SRC_URI[sha256sum] = "2d7d93992d1737b72ff7c835b4c90a2d4d46e448d9265c0c3341544f6b1ffcdb"
 
 S = "${WORKDIR}/samhain-${PV}"
 

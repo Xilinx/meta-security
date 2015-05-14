@@ -2,7 +2,8 @@ HOMEPAGE = "http://suricata-ids.org/"
 SECTION = "security Monitor/Admin"
 LICENSE = "GPLv2"
 
-SRC_URI = "http://www.openinfosecfoundation.org/download/suricata-2.0.7.tar.gz"
+PV = "2.0.8"
+SRC_URI = "http://www.openinfosecfoundation.org/download/suricata-${PV}.tar.gz"
 
-SRC_URI[md5sum] = "43cd7dd958d434c580426020079914d7"
-SRC_URI[sha256sum] = "c5c3ccebeecbace39df0ff2d50ec4515b541103ffaa5e33cd1dc79d4955c0dfd"
+SRC_URI[md5sum] = "a9553ccf942c0c4aa1e1a188ec1f7d93"
+SRC_URI[sha256sum] = "7af6394cb81e464f5c1ac88a1444030e30940caab6e53688a6d9eb652226d1be"

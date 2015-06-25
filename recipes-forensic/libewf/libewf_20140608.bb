@@ -7,8 +7,8 @@ DEPENDS = "virtual/gettext libtool"
 SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/universe/libe/${BPN}/${BPN}_${PV}.orig.tar.gz;name=orig \
         file://gcc5_fix.patch \
         "
-SRC_URI[orig.md5sum] = "3791d6de5910a0f6b4427cdf1e6bc663"
-SRC_URI[orig.sha256sum] = "e0f14071665b24a8077a24f4cafbf092ad5ac1859f49994dc4e843e747ba7a89"
+SRC_URI[orig.md5sum] = "fdf615f23937fad8e02b60b9e3e5fb35"
+SRC_URI[orig.sha256sum] = "d14030ce6122727935fbd676d0876808da1e112721f3cb108564a4d9bf73da71"
 
 inherit autotools-brokensep pkgconfig
 

@@ -15,16 +15,16 @@ SRC_URI[orig.sha256sum] = "19cacfd558dc00e11975e820e3c4383b52aabbd5ca081d27bb799
 SRC_URI[dpatch.md5sum] = "171e871024545b487589e6c85290576f"
 SRC_URI[dpatch.sha256sum] = "db632e254ee51a1e4328cd4449d414eff4795053d4e36bfa8e0020fcb4085cdd"
 
-inherit autotools-brokensep
+inherit autotools-brokensep pkgconfig
 
 CPPFLAGS = "-I${STAGING_INCDIR}"
 LDFLAGS = "-L${STAGING_LIBDIR}"
 
 PACKAGECONFIG ??= ""
-PACKAGECONFIG[curl] = "--with-curl=PATH, --without-curl, curl"
-PACKAGECONFIG[expat] = "--with-expat=PATH, --without-expat, expat"
+PACKAGECONFIG[curl] = "--with-curl=${STAGING_LIBDIR}, --without-curl, curl"
+PACKAGECONFIG[expat] = "--with-expat=${STAGING_LIBDIR}, --without-expat, expat"
 PACKAGECONFIG[fuse] = "--enable-fuse=yes, --enable-fuse=no, fuse"
 PACKAGECONFIG[python] = "--enable-python=yes, --enable-python=no, python"
 
 EXTRA_OECONF += "--enable-s3=no CPPFLAGS=-I${STAGING_INCDIR} LDFLAGS=-L${STAGING_LIBDIR}"
-EXTRA_OEMAKE += "CPPFLAGS='${CPPFLAGS}' LDFLAGS='-L${STAGING_LIBDIR}'"
+EXTRA_OEMAKE += "CPPFLAGS='${CPPFLAGS}' LDFLAGS='-L${STAGING_LIBDIR} -I${STAGING_INCDIR}'"

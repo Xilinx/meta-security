@@ -7,11 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8ca43cbc842c2336e835926c2166c28b"
 SRC_URI = "http://la-samhna.de/archive/samhain_signed-${PV}.tar.gz \
 	   file://${INITSCRIPT_NAME}.init \
 	   file://${INITSCRIPT_NAME}.default \
-       file://add_aarch64_to_configure.patch \
 	  "
 
-SRC_URI[md5sum] = "b72b526c6ee504317981e6dba1673b9d"
-SRC_URI[sha256sum] = "2d7d93992d1737b72ff7c835b4c90a2d4d46e448d9265c0c3341544f6b1ffcdb"
+SRC_URI[md5sum] = "2144383cc5452b9b80c7e4e4c991ad4a"
+SRC_URI[sha256sum] = "5a841708f78c6d9b4731970fa39151dff366885de08ecddc382e8c45a2c1b4e2"
 
 S = "${WORKDIR}/samhain-${PV}"
 

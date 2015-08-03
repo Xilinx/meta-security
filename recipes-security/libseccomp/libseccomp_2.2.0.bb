@@ -30,7 +30,7 @@ inherit autotools-brokensep pkgconfig
 PACKAGECONFIG ??= ""
 PACKAGECONFIG[python] = "--enable-python, --disable-python, python"
 
-do_compile_appned() {
+do_compile_append() {
     oe_runmake -C tests check-build
 }
 

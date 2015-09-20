@@ -4,23 +4,11 @@ SECTION = "security"
 LICENSE = "LGPL-2.1"
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=0;endline=1;md5=8eac08d22113880357ceb8e7c37f989f"
 
-SRCREV = "bd10aab13c7248cc0df57512617e33d6743d33a6"
+SRCREV = "7f3ae6e6a12390bd38f0787b242f60c47ad076c3"
 
-PV = "2.2.0+git${SRCPV}"
+PV = "2.2.3+git${SRCPV}"
 
 SRC_URI = "git://github.com/seccomp/libseccomp.git \
-        file://0001-arch-add-a-ppc64-syscall-table.patch \
-        file://0002-arch-add-the-basic-initial-support-for-ppc64-to-the-.patch \
-        file://0003-tools-add-ppc64-support.patch \
-        file://0004-tests-add-ppc64-support-to-the-regression-tests.patch \
-        file://0005-tests-add-ppc64-support-to-the-regression-live-tests.patch \
-        file://0006-ppc64-correct-the-ppc64-syscall-table-and-validation.patch \
-        file://0007-tests-minor-fix-in-arch-syscall-check.patch \
-        file://0008-arch-add-a-ppc-syscall-table.patch \
-        file://0009-arch-add-basic-initial-ppc-support-to-the-arch-depen.patch \
-        file://0010-tools-add-ppc-support.patch \
-        file://0011-tests-add-ppc-support-to-the-regression-tests.patch \
-        file://regresion_fixup_seq_usage.patch \
         "
 
 S = "${WORKDIR}/git"

@@ -10,6 +10,6 @@ inherit autotools pkgconfig
 
 CFLAGS += "-D_DEFAULT_SOURCE"
 
-S = "${WORKDIR}/suricata-2.0.8/${BPN}"
+S = "${WORKDIR}/suricata-${VER}/${BPN}"
 
 RDEPENDS_${PN} += "zlib"

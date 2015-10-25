@@ -3,14 +3,15 @@ DESCRIPTION = "TOMOYO Linux is a Mandatory Access Control (MAC) implementation f
 
 SECTION = "security"
 LICENSE = "GPL-2.0"
-LIC_FILES_CHKSUM = "file://README.ccs;md5=5b80632c6a2a3b7fa92ea46eff15bee9"
+LIC_FILES_CHKSUM = "file://COPYING.ccs;md5=751419260aa954499f7abaabaa882bbe"
 
 DEPENDS = "ncurses"
 
-SRC_URI = "http://osdn.dl.sourceforge.jp/tomoyo/49693/ccs-tools-1.8.3-20130406.tar.gz"
+DS = "20150505"
+SRC_URI = "http://osdn.dl.sourceforge.jp/tomoyo/49693/${BPN}-${PV}-${DS}.tar.gz"
 
-SRC_URI[md5sum] = "ffff535584cdf9ae28b85061c32e5618"
-SRC_URI[sha256sum] = "1e4129b59cd7fdb963962af7f2cccf4a66c77a4b0948f67320b569aaf6585fcf"
+SRC_URI[md5sum] = "eeee8eb96a7680bfa9c8f6de55502c44"
+SRC_URI[sha256sum] = "c358b80a2ea77a9dda79dc2a056dae3acaf3a72fcb8481cfb1cd1f16746324b4"
 
 S = "${WORKDIR}/${PN}"
 

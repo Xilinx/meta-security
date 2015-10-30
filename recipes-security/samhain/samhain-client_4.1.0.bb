@@ -8,7 +8,8 @@ EXTRA_OECONF += " \
         --with-logserver=${SAMHAIN_SERVER} \
         --with-port=${SAMHAIN_PORT} \
         --with-config-file=/etc/samhainrc \
-        --with-data-file=/var/lib/samhain/samhain_file \
+        --with-data-file=/var/samhain/samhain.data \
+        --with-pid-file=/var/samhain/samhain.pid \
         "
 
 

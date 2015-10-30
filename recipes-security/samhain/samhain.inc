@@ -87,4 +87,5 @@ do_install_append () {
 	install -d ${D}${docdir}/${PN}
 	cp -r docs/* ${D}${docdir}/${PN}
 	cp -r scripts ${D}${docdir}/${PN}
+    install -d -m 755 ${D}/var/samhain
 }

@@ -3,13 +3,12 @@ DESCRIPTION = "Nmap ("Network Mapper") is a free and open source (license) utili
 SECTION = "security"
 LICENSE = "GPL-2.0"
 
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+LIC_FILES_CHKSUM = "file://COPYING;beginline=7;endline=12;md5=51f7052ac85aaf1a2127f7803de1261e"
 
-SRC_URI = "http://nmap.org/dist/${BP}.tar.bz2 \
-            file://add_aarch64_to_configure.patch"
+SRC_URI = "http://nmap.org/dist/${BP}.tar.bz2"
 
-SRC_URI[md5sum] = "edfe81f6763223c0a29bfa15a8526e2a"
-SRC_URI[sha256sum] = "8fa11e9e203ce2d81a207db5ca4f110a525f6c01c1dd0018325a7112a51aa591"
+SRC_URI[md5sum] = "6cdf5d03cc3294b99d69dfca83f2f2ee"
+SRC_URI[sha256sum] = "9f442301c615c608a385831c3505cdfed9b0795cd100f1a258b04509802802ae"
 
 inherit autotools-brokensep pkgconfig distro_features_check
 
@@ -38,7 +37,7 @@ do_configure() {
 
 PACKAGES = "${PN} ${PN}-dbg ${PN}-doc"
 
-FILES_${PN} = "${bindir}/nmap ${datadir}/nmap/*"
+FILES_${PN} = "${bindir}/nmap ${datadir}/nmap/* ${bindir}/uninstall_ndiff"
 
 # append packages if enabled
 FILES_${PN} += "${@bb.utils.contains("PACKAGECONFIG", "ncat", "${bindir}/ncat ${target_datadir}/ncat", "", d)}"

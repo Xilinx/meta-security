@@ -3,60 +3,66 @@ DESCRIPTION = "ClamAV is an open source antivirus engine for detecting trojans, 
 HOMEPAGE = "http://www.clamav.net/index.html"
 SECTION = "security"
 LICENSE = "LGPL-2.1"
-DEPENDS = "libtool db openssl zlib ncurses bzip2 libmspack"
+
+DEPENDS = "libtool db libmspack "
 
 LIC_FILES_CHKSUM = "file://COPYING.LGPL;beginline=2;endline=3;md5=4b89c05acc71195e9a06edfa2fa7d092"
 
-SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/clamav_0.98.5%2Bdfsg.orig.tar.xz;name=archive \
-    file://0001-Change-paths-in-sample-conf-file-to-match-Debian.patch \
-    file://0002-Add-an-additional-n-after-the-number-in-the-pidfile.patch \
-    file://0003-unit_tests-increment-test-timeout-from-40secs-to-5mi.patch \
-    file://0004-Fix-compiling-on-Hurd.patch \
-    file://0005-Workaround-a-bug-in-libc-on-Hurd.patch \
-    file://0006-remove-unnecessary-harmful-flags-from-libclamav.pc.patch \
-    file://0008-Add-upstream-systemd-support-for-clamav-daemon-and-c.patch \
-    file://0009-fix-ssize_t-size_t-off_t-printf-modifier.patch \
-    file://0010-hardcode-LLVM-linker-flag-because-llvm-config-return.patch \
-    file://0014-remove-AC_CONFIG_SRCDIR-llvm-configure-from-libclama.patch \
-    file://0015-bb-10731-Allow-to-specificy-a-group-for-the-socket-o.patch \
-    file://0016-clamav-milter-add-additinal-SMFIF_-flags-before-invo.patch \
-    file://0017-Bump-.so-version-number.patch \
-    file://0018-llvm-don-t-use-system-libs.patch \
-    file://clamav-0001-clamdscan.patch \
+SRC_URI = "http://www.clamav.net/downloads/production/${BPN}-${PV}.tar.gz \
     file://clamd.conf \
     file://freshclam.conf \
     file://volatiles.03_clamav \
+    file://mempool_build_fix.patch \
+    file://remove_rpath_chk.patch \
 "
+SRC_URI[md5sum] = "cf1f3cbe62a08c9165801f79239166ff"
+SRC_URI[sha256sum] = "e144689122d3f91293808c82cbb06b7d3ac9eca7ae29564c5d148ffe7b25d58a"
 
-SRC_URI[archive.md5sum] = "34d5e8698e57ce45c4a8c3c2cb211cf3"
-SRC_URI[archive.sha256sum] = "0e353f646a0add17ca42e75ccfc7edf4f8b7c1acc972a86c317543f6b365db2d"
-
-inherit autotools-brokensep pkgconfig useradd systemd
+inherit autotools-brokensep pkgconfig useradd systemd 
 
 UID = "clamav"
 GID = "clamav"
 
-S = "${WORKDIR}/${BPN}-${PV}+dfsg"
-
-PACKAGECONFIG ??= ""
+PACKAGECONFIG ?= "ncurses openssl bz2 zlib "
 PACKAGECONFIG += " ${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)}"
 PACKAGECONFIG += "${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+PACKAGECONFIG[pcre] = "--with-pcre=${STAGING_LIBDIR},  --without-pcre, libpcre"
 PACKAGECONFIG[xml] = "--with-xml=${STAGING_LIBDIR}/.., --with-xml=no, libxml2,"
 PACKAGECONFIG[json] = "--with-libjson=${STAGING_LIBDIR}, --without-libjson, json,"
 PACKAGECONFIG[curl] = "--with-libcurl=${STAGING_LIBDIR}, --without-libcurl, curl,"
 PACKAGECONFIG[ipv6] = "--enable-ipv6, --disable-ipv6"
+PACKAGECONFIG[openssl] = "--with-openssl=${STAGING_DIR_HOST}/usr, --without-openssl, openssl, openssl"
+PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_DIR_HOST}/usr, --without-zlib, zlib, "
+PACKAGECONFIG[bz2] = "--with-libbz2-prefix=${STAGING_LIBDIR}/.., --without-libbz2-prefix, "
+PACKAGECONFIG[ncurses] = "--with-libncurses-prefix=${STAGING_LIBDIR}/.., --without-libncurses-prefix, ncurses, "
+
 PACKAGECONFI[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/', '--without-systemdsystemunitdir', "
 
 EXTRA_OECONF += " --with-user=${UID}  --with-group=${GID} \
             --without-libcheck-prefix --disable-unrar \
-            --disable-llvm \
-            --with-openssl=${STAGING_LIBDIR}/.. \
-            --with-zlib=${STAGING_LIBDIR}/.. \
-            --with-libbz2-prefix=${STAGING_DIR}${prefix} \
-            --with-libncurses-prefix=${STAGING_LIBDIR}/.. \
-"
+            --disable-mempool \
+            --program-prefix="" \
+            --disable-yara \
+            --disable-rpath \
+            "
 
-do_install_append () {
+do_configure () {
+    cd ${S}
+    ./configure ${CONFIGUREOPTS} ${EXTRA_OECONF} 
+}
+
+do_compile_append() {
+    # brute force removing RPATH
+    chrpath -d  ${B}/libclamav/.libs/libclamav.so.7.1.1
+    chrpath -d  ${B}/sigtool/.libs/sigtool
+    chrpath -d  ${B}/clambc/.libs/clambc
+    chrpath -d  ${B}/clamscan/.libs/clamscan
+    chrpath -d  ${B}/clamconf/.libs/clamconf
+    chrpath -d  ${B}/clamd/.libs/clamd
+    chrpath -d  ${B}/freshclam/.libs/freshclam
+}
+
+do_install_append() {
     install -d ${D}/${sysconfdir}
     install -d ${D}/${localstatedir}/lib/clamav
     install -d ${D}${sysconfdir}/clamav ${D}${sysconfdir}/default/volatiles
@@ -64,6 +70,7 @@ do_install_append () {
     install -m 644 ${WORKDIR}/clamd.conf ${D}/${sysconfdir}
     install -m 644 ${WORKDIR}/freshclam.conf ${D}/${sysconfdir}
     install -m 0644 ${WORKDIR}/volatiles.03_clamav  ${D}${sysconfdir}/default/volatiles/volatiles.03_clamav
+    sed -i -e 's#${STAGING_DIR_HOST}##g' ${D}${libdir}/pkgconfig/libclamav.pc
 }
 
 pkg_postinst_${PN} () {
@@ -77,8 +84,8 @@ pkg_postinst_${PN} () {
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-daemon ${PN}-doc \
             ${PN}-clamdscan ${PN}-freshclam ${PN}-libclamav6 ${PN}-staticdev"
 
-FILES_${PN} = "${bindir}/clambc ${bindir}/clamscan ${bibdir}/clamsubmit \
-                ${bindir}/sigtool ${mandir}/man1/clambc* ${mandir}/man1/clamscan* \
+FILES_${PN} = "${bindir}/clambc ${bindir}/clamscan ${bindir}/clamsubmit \
+                ${bindir}/*sigtool ${mandir}/man1/clambc* ${mandir}/man1/clamscan* \
                 ${mandir}/man1/sigtool* ${mandir}/man1/clambsubmit*  \
                 ${docdir}/clamav/* "
 
@@ -113,7 +120,7 @@ FILES_${PN}-libclamav6 = "${libdir}/libclamav.so* ${libdir}/libmspack.so*\
                           ${docdir}/libclamav6/* "
 
 FILES_${PN}-doc = "${mandir}/man/* \
-                    ${datadir}/man/* \
+                   ${datadir}/man/* \
                    ${docdir}/* "
 
 INSANE_SKIP_${PN}-libclamav6 = "dev-so"

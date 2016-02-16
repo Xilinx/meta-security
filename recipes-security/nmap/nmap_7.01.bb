@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;endline=12;md5=51f7052ac85aaf1a21
 
 SRC_URI = "http://nmap.org/dist/${BP}.tar.bz2"
 
-SRC_URI[md5sum] = "6cdf5d03cc3294b99d69dfca83f2f2ee"
-SRC_URI[sha256sum] = "9f442301c615c608a385831c3505cdfed9b0795cd100f1a258b04509802802ae"
+SRC_URI[md5sum] = "7fa4edc592184c7addc14f5acb3fe6f7"
+SRC_URI[sha256sum] = "cf1fcd2643ba2ef52f47acb3c18e52fa12a4ae4b722804da0e54560704627705"
 
 inherit autotools-brokensep pkgconfig distro_features_check
 
@@ -31,9 +31,13 @@ PACKAGECONFIG[zenmap] = "--with-zenmap, --without-zenmap, gtk+ python-core pytho
 EXTRA_OECONF = "--with-libdnet=included --with-liblinear=included --without-subversion --with-liblua=included"
 
 do_configure() {
+    # strip hard coded python2#
+    sed -i -e 's=python2\.*=python=g'  ${S}/configure.ac
+    sed -i -e 's=python2\.*=python=g'  ${S}/configure
     autoconf
     oe_runconf
 }
+
 
 PACKAGES = "${PN} ${PN}-dbg ${PN}-doc"
 

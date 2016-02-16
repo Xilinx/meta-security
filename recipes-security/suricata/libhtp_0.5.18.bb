@@ -2,7 +2,7 @@ SUMMARY = "LibHTP is a security-aware parser for the HTTP protocol and the relat
 
 require suricata.inc
 
-LIC_FILES_CHKSUM = "file://../LICENSE;beginline=1;endline=2;md5=1fbd81241fe252ec0f5658a521ab7dd8"
+LIC_FILES_CHKSUM = "file://../LICENSE;beginline=1;endline=2;md5=c70d8d3310941dcdfcd1e02800a1f548"
 
 DEPENDS = "zlib"
 

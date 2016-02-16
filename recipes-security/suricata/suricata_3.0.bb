@@ -2,10 +2,9 @@ SUMMARY = "The Suricata Engine is an Open Source Next Generation Intrusion Detec
 
 require suricata.inc
 
-LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=1fbd81241fe252ec0f5658a521ab7dd8"
+LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=c70d8d3310941dcdfcd1e02800a1f548"
 
 SRC_URI += "file://no_libhtp_build.patch \
-            file://no_pcap_pkgconf_check.patch \
             file://volatiles.03_suricata \
             file://suricata.yaml \
         "

@@ -50,7 +50,12 @@ do_configure_prepend_aarch64() {
 # recognized by Samhain's configure script and would invariably
 # throw back the error "unrecognized option: --oldincludedir=/usr/include"
 do_configure () {
-    cd ${S}
+    cat << EOF > ./config-site.${BP}
+ssp_cv_lib=no
+sh_cv_va_copy=yes
+EOF
+
+    export CONFIG_SITE=./config-site.${BP}
 	./configure \
 	    --build=${BUILD_SYS} \
 	    --host=${HOST_SYS} \

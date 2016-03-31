@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;endline=12;md5=51f7052ac85aaf1a21
 
 SRC_URI = "http://nmap.org/dist/${BP}.tar.bz2"
 
-SRC_URI[md5sum] = "0dc7fcde978b4891ba9fd91d16f19fce"
-SRC_URI[sha256sum] = "13fa971555dec00e495a5b72c1f9efa1363b8e6c7388a2f05117cb0778c0954a"
+SRC_URI[md5sum] = "0764f4dabe7cccda3c49fc3990b62a8a"
+SRC_URI[sha256sum] = "63df082a87c95a189865d37304357405160fc6333addcf5b84204c95e0539b04"
 
 inherit autotools-brokensep pkgconfig distro_features_check
 

@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.clamav.net/index.html"
 SECTION = "security"
 LICENSE = "LGPL-2.1"
 
-DEPENDS = "libtool db libmspack "
+DEPENDS = "libtool db libmspack chrpath-replacement-native"
 
 LIC_FILES_CHKSUM = "file://COPYING.LGPL;beginline=2;endline=3;md5=4b89c05acc71195e9a06edfa2fa7d092"
 
@@ -17,6 +17,11 @@ SRC_URI = "http://www.clamav.net/downloads/production/${BPN}-${PV}.tar.gz \
 "
 SRC_URI[md5sum] = "cf1f3cbe62a08c9165801f79239166ff"
 SRC_URI[sha256sum] = "e144689122d3f91293808c82cbb06b7d3ac9eca7ae29564c5d148ffe7b25d58a"
+
+LEAD_SONAME = "libclamav.so"
+SO_VER = "7.1.1"
+
+EXTRANATIVEPATH += "chrpath-native"
 
 inherit autotools-brokensep pkgconfig useradd systemd 
 
@@ -53,7 +58,7 @@ do_configure () {
 
 do_compile_append() {
     # brute force removing RPATH
-    chrpath -d  ${B}/libclamav/.libs/libclamav.so.7.1.1
+    chrpath -d  ${B}/libclamav/.libs/libclamav.so.${SO_VER}
     chrpath -d  ${B}/sigtool/.libs/sigtool
     chrpath -d  ${B}/clambc/.libs/clambc
     chrpath -d  ${B}/clamscan/.libs/clamscan
@@ -71,6 +76,7 @@ do_install_append() {
     install -m 644 ${WORKDIR}/freshclam.conf ${D}/${sysconfdir}
     install -m 0644 ${WORKDIR}/volatiles.03_clamav  ${D}${sysconfdir}/default/volatiles/volatiles.03_clamav
     sed -i -e 's#${STAGING_DIR_HOST}##g' ${D}${libdir}/pkgconfig/libclamav.pc
+    rm ${D}/${libdir}/libclamav.so
 }
 
 pkg_postinst_${PN} () {
@@ -82,7 +88,7 @@ pkg_postinst_${PN} () {
 
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-daemon ${PN}-doc \
-            ${PN}-clamdscan ${PN}-freshclam ${PN}-libclamav6 ${PN}-staticdev"
+            ${PN}-clamdscan ${PN}-freshclam ${PN}-libclamav ${PN}-staticdev"
 
 FILES_${PN} = "${bindir}/clambc ${bindir}/clamscan ${bindir}/clamsubmit \
                 ${bindir}/*sigtool ${mandir}/man1/clambc* ${mandir}/man1/clamscan* \
@@ -116,14 +122,12 @@ FILES_${PN}-dev = " ${bindir}/clamav-config ${libdir}/*.la \
 
 FILES_${PN}-staticdev = "${libdir}/*.a"
 
-FILES_${PN}-libclamav6 = "${libdir}/libclamav.so* ${libdir}/libmspack.so*\
-                          ${docdir}/libclamav6/* "
+FILES_${PN}-libclamav = "${libdir}/libclamav.so* ${libdir}/libmspack.so*\
+                          ${docdir}/libclamav/* "
 
 FILES_${PN}-doc = "${mandir}/man/* \
                    ${datadir}/man/* \
                    ${docdir}/* "
-
-INSANE_SKIP_${PN}-libclamav6 = "dev-so"
 
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM_${PN} = "--system ${UID}"
@@ -136,4 +140,4 @@ RREPLACES_${PN} += "${PN}-systemd"
 RCONFLICTS_${PN} += "${PN}-systemd"
 SYSTEMD_SERVICE_${PN} = "${BPN}.service"
 
-RDEPENDS_${PN} += "openssl ncurses-libncurses libbz2 ncurses-libtinfo clamav-freshclam clamav-libclamav6"
+RDEPENDS_${PN} += "openssl ncurses-libncurses libbz2 ncurses-libtinfo clamav-freshclam clamav-libclamav"

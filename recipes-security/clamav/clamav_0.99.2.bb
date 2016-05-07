@@ -12,11 +12,10 @@ SRC_URI = "http://www.clamav.net/downloads/production/${BPN}-${PV}.tar.gz \
     file://clamd.conf \
     file://freshclam.conf \
     file://volatiles.03_clamav \
-    file://mempool_build_fix.patch \
-    file://remove_rpath_chk.patch \
-"
-SRC_URI[md5sum] = "cf1f3cbe62a08c9165801f79239166ff"
-SRC_URI[sha256sum] = "e144689122d3f91293808c82cbb06b7d3ac9eca7ae29564c5d148ffe7b25d58a"
+    "
+
+SRC_URI[md5sum] = "61b51a04619aeafd965892a53f86d192"
+SRC_URI[sha256sum] = "167bd6a13e05ece326b968fdb539b05c2ffcfef6018a274a10aeda85c2c0027a"
 
 LEAD_SONAME = "libclamav.so"
 SO_VER = "7.1.1"

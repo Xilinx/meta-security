@@ -14,7 +14,7 @@ SRC_URI[sha256sum] = "f2ce1e989b272cfcb677616763e0a2e7ec659effa67a88aa92b3a65528
 
 S = "${WORKDIR}/${SRCNAME}-${PV}"
 
-inherit distutils
+inherit setuptools
 
 export STAGING_INCDIR
 export STAGING_LIBDIR
@@ -24,6 +24,8 @@ export HOST_SYS
 inherit autotools autotools-brokensep distutils
 
 DEPENDS += " gmp"
+
+do_compile[noexec] = "1"
 
 # We explicitly call distutils_do_install, since we want it to run, but
 # *don't* want the autotools install to run, since this package doesn't

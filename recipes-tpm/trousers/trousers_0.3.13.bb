@@ -16,8 +16,7 @@ SRC_URI = "http://sourceforge.net/projects/trousers/files/${BPN}/${PV}/${BPN}-${
 SRC_URI[md5sum] = "ad508f97b406f6e48cd90e85d78e7ca8"
 SRC_URI[sha256sum] = "bb908e4a3c88a17b247a4fc8e0fff3419d8a13170fe7bdfbe0e2c5c082a276d3"
 
-inherit autotools pkgconfig useradd update-rc.d
-inherit ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','systemd','', d)}
+inherit autotools pkgconfig useradd update-rc.d ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','systemd','', d)}
 
 PACKAGECONFIG ?= "gmp "
 PACKAGECONFIG[gmp] = "--with-gmp, --with-gmp=no, gmp"

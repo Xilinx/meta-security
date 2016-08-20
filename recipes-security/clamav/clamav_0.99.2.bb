@@ -8,7 +8,9 @@ DEPENDS = "libtool db libmspack chrpath-replacement-native"
 
 LIC_FILES_CHKSUM = "file://COPYING.LGPL;beginline=2;endline=3;md5=4b89c05acc71195e9a06edfa2fa7d092"
 
-SRC_URI = "http://www.clamav.net/downloads/production/${BPN}-${PV}.tar.gz \
+SRCREV = "5ceae552829ee65c9ecff8ff303b1f2ddfd11576"
+
+SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=${PV} \
     file://clamd.conf \
     file://freshclam.conf \
     file://volatiles.03_clamav \
@@ -16,6 +18,8 @@ SRC_URI = "http://www.clamav.net/downloads/production/${BPN}-${PV}.tar.gz \
 
 SRC_URI[md5sum] = "61b51a04619aeafd965892a53f86d192"
 SRC_URI[sha256sum] = "167bd6a13e05ece326b968fdb539b05c2ffcfef6018a274a10aeda85c2c0027a"
+
+S = "${WORKDIR}/git"
 
 LEAD_SONAME = "libclamav.so"
 SO_VER = "7.1.1"
@@ -27,9 +31,20 @@ inherit autotools-brokensep pkgconfig useradd systemd
 UID = "clamav"
 GID = "clamav"
 
-PACKAGECONFIG ?= "ncurses openssl bz2 zlib "
+# Clamav has a built llvm version 2 but does not build with gcc 6.x,
+# disable the internal one. This is a known issue
+# If you want LLVM support, use meta-oe llvm3.3 to build for GCC 6.X,
+# as defined below
+
+CLAMAV_LLVM ?= "oellvm"
+CLAMAV_LLVM_RELEASE ?= "3.3"
+
+PACKAGECONFIG ?= "ncurses openssl bz2 zlib ${CLAMAV_LLVM}"
 PACKAGECONFIG += " ${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)}"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+
+PACKAGECONFIG[oellvm] = "--with-system-llvm --with-llvm-linking=dynamic --disable-llvm, ,llvm${CLAMAV_LLVM_RELEASE}"
+
 PACKAGECONFIG[pcre] = "--with-pcre=${STAGING_LIBDIR},  --without-pcre, libpcre"
 PACKAGECONFIG[xml] = "--with-xml=${STAGING_LIBDIR}/.., --with-xml=no, libxml2,"
 PACKAGECONFIG[json] = "--with-libjson=${STAGING_LIBDIR}, --without-libjson, json,"
@@ -39,8 +54,7 @@ PACKAGECONFIG[openssl] = "--with-openssl=${STAGING_DIR_HOST}/usr, --without-open
 PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_DIR_HOST}/usr, --without-zlib, zlib, "
 PACKAGECONFIG[bz2] = "--with-libbz2-prefix=${STAGING_LIBDIR}/.., --without-libbz2-prefix, "
 PACKAGECONFIG[ncurses] = "--with-libncurses-prefix=${STAGING_LIBDIR}/.., --without-libncurses-prefix, ncurses, "
-
-PACKAGECONFI[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/', '--without-systemdsystemunitdir', "
+PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/', '--without-systemdsystemunitdir', "
 
 EXTRA_OECONF += " --with-user=${UID}  --with-group=${GID} \
             --without-libcheck-prefix --disable-unrar \

@@ -21,6 +21,8 @@ PACKAGECONFIG[acl] = " --enable-posix-acl , --disable-posix-acl"
 
 SRC_URI += "file://samhain-server-volatiles"
 
+TARGET_CC_ARCH += "${LDFLAGS}"
+
 EXTRA_OECONF += " \
     --with-config-file=REQ_FROM_SERVER/etc/samhainrc \
     --with-data-file=REQ_FROM_SERVER/var/lib/samhain/samhain_file \

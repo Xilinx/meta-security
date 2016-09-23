@@ -18,3 +18,18 @@ EXTRA_OEMAKE = "CC='${CC}' DESTDIR='${D}'"
 do_install() {
 	oe_runmake install
 }
+
+# The install target in the Makefile will fail for paxctl-native with error:
+#   install -D --owner 0 --group 0 --mode a=rx paxctl .../sbin/paxctl
+#   install: cannot change ownership of '.../sbin/paxctl': \
+#   Operation not permitted
+# Drop '--owner 0 --group 0' to fix the issue.
+do_install_class-native() {
+	local PROG=paxctl
+	install -d ${D}${base_sbindir}
+	install -d ${D}${mandir}/man1
+	install --mode a=rx $PROG ${D}${base_sbindir}/$PROG
+	install --mode a=r $PROG.1 ${D}${mandir}/man1/$PROG.1
+}
+
+BBCLASSEXTEND = "native"

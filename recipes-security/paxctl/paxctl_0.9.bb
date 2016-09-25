@@ -32,4 +32,7 @@ do_install_class-native() {
 	install --mode a=r $PROG.1 ${D}${mandir}/man1/$PROG.1
 }
 
+# Avoid QA Issue: No GNU_HASH in the elf binary
+INSANE_SKIP_${PN} = "ldflags" 
+
 BBCLASSEXTEND = "native"

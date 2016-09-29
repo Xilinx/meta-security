@@ -5,12 +5,19 @@ LICENSE = "GPLv2"
 
 LIC_FILES_CHKSUM = "file://bin/scapy;beginline=9;endline=13;md5=1d5249872cc54cd4ca3d3879262d0c69"
 
-SRC_URI = "https://bitbucket.org/secdev/${PN}/downloads/${BP}.zip"
+SRC_URI = "https://github.com/secdev/${BPN}/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz \
+           file://run-ptest \
+"
 
-SRC_URI[md5sum] = "a30d828e59801d1d092219b349f1da9e"
-SRC_URI[sha256sum] = "8972c02e39a826a10c02c2bdd5025f7251dce9589c57befd9bb55c65f02e4934"
+SRC_URI[md5sum] = "00f11df3d6b46fe6ac306efd757486f9"
+SRC_URI[sha256sum] = "1b8a86d687feb8ed01114c0c016b428674cbfec04e3eb6f5249a018c427c4f6a"
 
-inherit setuptools
+inherit setuptools ptest
+
+do_install_ptest() {
+    install -m 0644 ${S}/test/regression.uts ${D}${PTEST_PATH}
+    sed -i 's,@PTEST_PATH@,${PTEST_PATH},' ${D}${PTEST_PATH}/run-ptest
+}
 
 RDEPENDS_${PN} = "tcpdump python-subprocess python-compression python-netclient  \
                   python-netserver python-pydoc python-pkgutil python-shell \

@@ -11,6 +11,7 @@ PACKAGES = "\
     packagegroup-security-scanners \
     packagegroup-security-ids  \
     packagegroup-security-mac  \
+    ${@bb.utils.contains("DISTRO_FEATURES", "tpm", "packagegroup-security-tpm", "",d)} \
     "
 
 RDEPENDS_packagegroup-core-security = "\
@@ -18,6 +19,7 @@ RDEPENDS_packagegroup-core-security = "\
     packagegroup-security-scanners \
     packagegroup-security-ids  \
     packagegroup-security-mac  \
+    ${@bb.utils.contains("DISTRO_FEATURES", "tpm", "packagegroup-security-tpm", "",d)} \
     "
 
 SUMMARY_packagegroup-security-utils = "Security utilities"
@@ -54,4 +56,15 @@ RDEPENDS_packagegroup-security-ids = " \
 SUMMARY_packagegroup-security-mac = "Security Mandatory Access Control systems"
 RDEPENDS_packagegroup-security-mac = " \
     ${@bb.utils.contains("DISTRO_FEATURES", "tomoyo", "ccs-tools", "",d)} \
+    "
+
+SUMMARY_packagegroup-security-tpm = "Security TPM support"
+RDEPENDS_packagegroup-security-tpm = " \
+    tpm-tools \
+    trousers \
+    tpm2.0-tools \
+    tpm2.0-tss \
+    libtpm \
+    swtpm \
+    tpm2simulator-native \
     "

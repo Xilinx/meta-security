@@ -12,11 +12,4 @@ EXTRA_OECONF += " \
         --with-pid-file=/var/samhain/samhain.pid \
         "
 
-
-INSANE_SKIP_${PN} = "already-stripped"
-
-FILES_${PN} += "\
-    /run \
-    "
-
 RDEPENDS_${PN} = "acl zlib attr bash"

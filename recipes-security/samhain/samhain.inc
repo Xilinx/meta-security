@@ -46,37 +46,39 @@ do_configure_prepend_aarch64() {
 # use the prefix --oldincludedir=/usr/include which is not
 # recognized by Samhain's configure script and would invariably
 # throw back the error "unrecognized option: --oldincludedir=/usr/include"
-do_configure () {
-    cat << EOF > ./config-site.${BP}
+do_configure_prepend () {
+    cat << EOF > ${S}/config-site.${BP}
 ssp_cv_lib=no
 sh_cv_va_copy=yes
 EOF
+    export CONFIG_SITE=${S}/config-site.${BP}
+}
 
-    export CONFIG_SITE=./config-site.${BP}
+do_configure () {
 	./configure \
-	    --build=${BUILD_SYS} \
-	    --host=${HOST_SYS} \
-	    --target=${TARGET_SYS} \
-	    --prefix=${prefix} \
-	    --exec_prefix=${exec_prefix} \
-	    --bindir=${bindir} \
-	    --sbindir=${sbindir} \
-	    --libexecdir=${libexecdir} \
-	    --datadir=${datadir} \
-	    --sysconfdir=${sysconfdir} \
-	    --sharedstatedir=${sharedstatedir} \
-	    --localstatedir=${localstatedir} \
-	    --libdir=${libdir} \
-	    --includedir=${includedir} \
-	    --infodir=${infodir} \
-	    --mandir=${mandir} \
-	    ${EXTRA_OECONF}
+	--build=${BUILD_SYS} \
+	--host=${HOST_SYS} \
+	--target=${TARGET_SYS} \
+	--prefix=${prefix} \
+	--exec_prefix=${exec_prefix} \
+	--bindir=${bindir} \
+	--sbindir=${sbindir} \
+	--libexecdir=${libexecdir} \
+	--datadir=${datadir} \
+	--sysconfdir=${sysconfdir} \
+	--sharedstatedir=${sharedstatedir} \
+	--localstatedir=${localstatedir} \
+	--libdir=${libdir} \
+	--includedir=${includedir} \
+	--infodir=${infodir} \
+	--mandir=${mandir} \
+	${EXTRA_OECONF}
 }
 
 # Install the init script, it's default file, and the extraneous
 # documentation.
 do_install_append () {
-    cd ${S}
+	cd ${S}
 	oe_runmake install DESTDIR='${D}' INSTALL=install-boot
 	install -d ${D}${sysconfdir}/init.d
 	install -m 755 ${WORKDIR}/${INITSCRIPT_NAME}.init \
@@ -89,5 +91,11 @@ do_install_append () {
 	install -d ${D}${docdir}/${PN}
 	cp -r docs/* ${D}${docdir}/${PN}
 	cp -r scripts ${D}${docdir}/${PN}
-    install -d -m 755 ${D}/var/samhain
+	install -d -m 755 ${D}/var/samhain
 }
+
+FILES_${PN} += "\
+    /run \
+    "
+
+INSANE_SKIP_${PN} = "already-stripped"

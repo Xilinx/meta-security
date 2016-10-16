@@ -3,13 +3,17 @@ INITSCRIPT_PARAMS = "defaults 14 86"
 
 require samhain.inc
 
-DEPENDS = "gmp"
+DEPENDS = "gmp samhain-server-native"
 
 EXTRA_OECONF += "--enable-network=${SAMHAIN_MODE} "
 
 # supports mysql|postgresql|oracle|odbc but postgresql is the only one available
 
-PACKAGECONFG ??= "postgresql"
+PACKAGECONFIG ??= "postgresql"
+PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
+PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
+PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
+
 PACKAGECONFIG[postgres]  = "--with-database=postgresql --enable-xml-log, "", postgresql"
 PACKAGECONFIG[suidcheck]  = "--enable-suidcheck","" , "
 PACKAGECONFIG[logwatch]  = "--enable-login-watch,"" , "
@@ -38,17 +42,13 @@ do_install_append() {
         init/samhain.startLSB ${D}/var/lib/samhain
 }
 
-INSANE_SKIP_${PN} = "already-stripped"
-
 PACKAGES = "${PN} ${PN}-doc ${PN}-dbg"
 
-FILES_${PN} += " \
-    ${sbindir}/* \
-    /run \
-    "
+FILES_${PN} += "${sbindir}/*"
 
 FILES_${PN}-dbg += " \
     ${sbindir}/.debug/* \
     "
 
 RDEPENDS_${PN} += "gmp bash perl"
+BBCLASSEXTEND = "native"

@@ -63,8 +63,11 @@ RDEPENDS_packagegroup-security-tpm = " \
     tpm-tools \
     trousers \
     tpm2.0-tools \
-    tpm2.0-tss \
+    libtss2 \
+    resourcemgr \
+    libtctidevice \
+    libtctisocket \
+    resourcemgr \
     libtpm \
     swtpm \
-    tpm2simulator-native \
     "

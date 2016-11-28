@@ -7,6 +7,8 @@ SECTION = "security/tpm"
 DEPENDS = "openssl"
 
 SRC_URI = "http://sourceforge.net/projects/trousers/files/${BPN}/${PV}/${BPN}-${PV}.tar.gz \
+    file://0001-tsp_tcsi_param.c-Include-limits.h-for-POSIX_MAX.patch \
+    file://0001-Check-that-getpwent_r-is-available-before-using-it.patch \
     file://07-read_data-not-inline.patch \
     file://trousers.init.sh \
     file://trousers-udev.rules \

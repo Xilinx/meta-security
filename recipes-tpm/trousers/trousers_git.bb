@@ -6,17 +6,17 @@ SECTION = "security/tpm"
 
 DEPENDS = "openssl"
 
-SRC_URI = "http://sourceforge.net/projects/trousers/files/${BPN}/${PV}/${BPN}-${PV}.tar.gz \
-    file://0001-tsp_tcsi_param.c-Include-limits.h-for-POSIX_MAX.patch \
-    file://0001-Check-that-getpwent_r-is-available-before-using-it.patch \
-    file://07-read_data-not-inline.patch \
-    file://trousers.init.sh \
-    file://trousers-udev.rules \
-    file://tcsd.service \
-    "
+SRCREV = "4b9a70d5789b0b74f43957a6c19ab2156a72d3e0"
+PV = "0.3.14+git${SRCPV}"
 
-SRC_URI[md5sum] = "ad508f97b406f6e48cd90e85d78e7ca8"
-SRC_URI[sha256sum] = "bb908e4a3c88a17b247a4fc8e0fff3419d8a13170fe7bdfbe0e2c5c082a276d3"
+SRC_URI = " \
+	git://git.code.sf.net/p/trousers/trousers \
+    	file://trousers.init.sh \
+    	file://trousers-udev.rules \
+    	file://tcsd.service \
+    	"
+
+S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig useradd update-rc.d ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','systemd','', d)}
 
@@ -61,10 +61,10 @@ FILES_libtspi = " \
 	"
 FILES_libtspi-dbg = " \
 	${libdir}/.debug \
-	${prefix}/src/debug/${PN}/${PV}-${PR}/${PN}-${PV}/src/tspi \
-	${prefix}/src/debug/${PN}/${PV}-${PR}/${PN}-${PV}/src/trspi \
-	${prefix}/src/debug/${PN}/${PV}-${PR}/${PN}-${PV}/src/include/*.h \
-	${prefix}/src/debug/${PN}/${PV}-${PR}/${PN}-${PV}/src/include/tss \
+	${prefix}/src/debug/${BPN}/${PV}-${PR}/git/src/tspi \
+	${prefix}/src/debug/${BPN}/${PV}-${PR}/git/src/trspi \
+	${prefix}/src/debug/${BPN}/${PV}-${PR}/git/src/include/*.h \
+	${prefix}/src/debug/${BPN}/${PV}-${PR}/git/src/include/tss \
 	"
 FILES_libtspi-dev = " \
 	${includedir} \
@@ -88,11 +88,11 @@ FILES_${PN}-dev += "${libdir}/trousers"
 
 FILES_${PN}-dbg = " \
 	${sbindir}/.debug \
-	${prefix}/src/debug/${PN}/${PV}-${PR}/${PN}-${PV}/src/tcs \
-	${prefix}/src/debug/${PN}/${PV}-${PR}/${PN}-${PV}/src/tcsd \
-	${prefix}/src/debug/${PN}/${PV}-${PR}/${PN}-${PV}/src/tddl \
-	${prefix}/src/debug/${PN}/${PV}-${PR}/${PN}-${PV}/src/trousers \
-	${prefix}/src/debug/${PN}/${PV}-${PR}/${PN}-${PV}/src/include/trousers \
+	${prefix}/src/debug/${BPN}/${PV}-${PR}/git/src/tcs \
+	${prefix}/src/debug/${BPN}/${PV}-${PR}/git/src/tcsd \
+	${prefix}/src/debug/${BPN}/${PV}-${PR}/git/src/tddl \
+	${prefix}/src/debug/${BPN}/${PV}-${PR}/git/src/trousers \
+	${prefix}/src/debug/${BPN}/${PV}-${PR}/git/src/include/trousers \
 	"
 FILES_${PN}-doc = " \
 	${mandir}/man5 \

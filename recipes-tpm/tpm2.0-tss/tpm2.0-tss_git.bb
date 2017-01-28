@@ -7,7 +7,8 @@ SECTION = "tpm"
 SRCREV = "8e25d0cbb287d30c93b2b77e99bc761dc67e31a9"
 SRC_URI = " \
     git://github.com/01org/TPM2.0-TSS.git;protocol=git;branch=master;name=TPM2.0-TSS;destsuffix=TPM2.0-TSS \
-    file://ax_pthread.m4"
+    file://ax_pthread.m4 \
+    file://fix_musl_select_include.patch "
 
 inherit autotools pkgconfig
 

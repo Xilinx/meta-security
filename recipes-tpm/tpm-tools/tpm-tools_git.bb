@@ -8,19 +8,28 @@ DESCRIPTION = " \
 SECTION = "tpm"
 LICENSE = "CPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=059e8cd6165cb4c31e351f2b69388fd9"
+
 DEPENDS = "libtspi openssl"
 DEPENDS_class-native = "trousers-native"
 
-SRC_URI += " \
-    http://downloads.sourceforge.net/project/trousers/${BPN}/${PV}/${BP}.tar.gz \
-    file://tpm-tools-extendpcr.patch \
-    file://03-fix-bool-error-parseStringWithValues.patch \
-    file://gcc6_missleading_indent_fix.patch \
-"
+SRCREV = "80954ab83be8d091c6e3112514945556aaa09d39"
+SRC_URI = " \
+	git://git.code.sf.net/p/trousers/tpm-tools \
+	file://tpm-tools-extendpcr.patch \
+	"
 
-SRC_URI[md5sum] = "85a978c4e03fefd4b73cbeadde7c4d0b"
-SRC_URI[sha256sum] = "66eb4ff095542403db6b4bd4b574e8a5c08084fe4e9e5aa9a829ee84e20bea83"
+PV = "1.3.9+git${SRCPV}"
 
-inherit autotools gettext
+inherit autotools-brokensep gettext
+
+S = "${WORKDIR}/git"
+
+do_configure_prepend () {
+	mkdir -p po
+	mkdir -p m4
+	cp -R po_/* po/
+	touch po/Makefile.in.in
+	touch m4/Makefile.am
+}
 
 BBCLASSEXTEND = "native"

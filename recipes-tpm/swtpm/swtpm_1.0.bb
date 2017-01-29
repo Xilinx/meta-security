@@ -5,9 +5,11 @@ SECTION = "apps"
 
 DEPENDS = "libtasn1 fuse expect socat glib-2.0 libtpm libtpm-native"
 
-SRCREV = "2cd10cee2f74c84bda22081514b6b2cb566fa42d"
-SRC_URI = "git://github.com/stefanberger/swtpm.git \
-	   file://fix_lib_search_path.patch"
+SRCREV = "ca906a02124d0ed8b6194e845d272d23ee394a34"
+SRC_URI = " \
+	git://github.com/stefanberger/swtpm.git \
+	file://fix_signed_issue.patch \
+	"
 
 S = "${WORKDIR}/git"
 
@@ -22,10 +24,20 @@ PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', 
 PACKAGECONFIG[openssl] = "--with-openssl, --without-openssl, openssl"
 PACKAGECONFIG[gnutls] = "--with-gnutls, --without-gnutls, gnutls"
 PACKAGECONFIG[selinux] = "--with-selinux, --without-selinux, libselinux"
+PACKAGECONFIG[cuse] = "--with-cuse, --without-cuse, libselinux"
 
 EXTRA_OECONF += "--with-tss-user=${TSS_USER} --with-tss-group=${TSS_GROUP}"
 
 export SEARCH_DIR = "${STAGING_LIBDIR_NATIVE}"
+
+# dup bootstrap 
+do_configure_prepend () {
+	libtoolize --force --copy
+	autoheader
+	aclocal
+	automake --add-missing -c
+	autoconf
+}
 
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM_${PN} = "--system ${TSS_USER}"

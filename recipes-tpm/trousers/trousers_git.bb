@@ -56,6 +56,10 @@ PACKAGES = " \
 	trousers-doc \
 	"
 
+# libtspi needs tcsd for most (all?) operations, so suggest to
+# install that.
+RRECOMMENDS_libtspi = "${PN}"
+
 FILES_libtspi = " \
 	${libdir}/*.so.1 \
 	${libdir}/*.so.1.2.0 \

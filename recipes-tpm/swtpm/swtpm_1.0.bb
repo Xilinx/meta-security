@@ -25,12 +25,12 @@ PARALLEL_MAKE = ""
 TSS_USER="tss"
 TSS_GROUP="tss"
 
-PACKAGECONFIG ?= "openssl"
+PACKAGECONFIG ?= "openssl cuse"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
 PACKAGECONFIG[openssl] = "--with-openssl, --without-openssl, openssl"
 PACKAGECONFIG[gnutls] = "--with-gnutls, --without-gnutls, gnutls"
 PACKAGECONFIG[selinux] = "--with-selinux, --without-selinux, libselinux"
-PACKAGECONFIG[cuse] = "--with-cuse, --without-cuse, libselinux"
+PACKAGECONFIG[cuse] = "--with-cuse, --without-cuse"
 
 EXTRA_OECONF += "--with-tss-user=${TSS_USER} --with-tss-group=${TSS_GROUP}"
 

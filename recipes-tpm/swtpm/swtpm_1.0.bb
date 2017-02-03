@@ -9,6 +9,7 @@ SRCREV = "ca906a02124d0ed8b6194e845d272d23ee394a34"
 SRC_URI = " \
 	git://github.com/stefanberger/swtpm.git \
 	file://fix_signed_issue.patch \
+	file://fix_lib_search_path.patch \
 	"
 
 S = "${WORKDIR}/git"
@@ -45,3 +46,5 @@ USERADD_PARAM_${PN} = "--system -g ${TSS_GROUP} --home-dir  \
     --no-create-home  --shell /bin/false ${BPN}"
 
 RDEPENDS_${PN} = "libtpm expect socat bash"
+
+BBCLASSEXTEND = "native nativesdk"

@@ -57,6 +57,7 @@ PACKAGES = " \
 	"
 
 FILES_libtspi = " \
+	${libdir}/*.so.1 \
 	${libdir}/*.so.1.2.0 \
 	"
 FILES_libtspi-dbg = " \
@@ -69,7 +70,6 @@ FILES_libtspi-dbg = " \
 FILES_libtspi-dev = " \
 	${includedir} \
 	${libdir}/*.so \
-	${libdir}/*.so.1 \
 	"
 FILES_libtspi-doc = " \
 	${mandir}/man3 \

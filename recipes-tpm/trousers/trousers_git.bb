@@ -39,7 +39,6 @@ do_install_append() {
         install -m 0644 ${WORKDIR}/tcsd.service ${D}${systemd_unitdir}/system/
         sed -i -e 's#@SBINDIR@#${sbindir}#g' ${D}${systemd_unitdir}/system/tcsd.service
     fi        
-    chown -R root:root ${D}${sysconfdir}/tcsd.conf
 }
 
 CONFFILES_${PN} += "${sysconfig}/tcsd.conf"
@@ -107,8 +106,8 @@ INITSCRIPT_NAME = "trousers"
 INITSCRIPT_PARAMS = "start 99 2 3 4 5 . stop 19 0 1 6 ."
 
 USERADD_PACKAGES = "${PN}"
-GROUPADD_PARAM_${PN} = "tss"
-USERADD_PARAM_${PN} = "-M -d /var/lib/tpm -s /bin/false -g tss tss"
+GROUPADD_PARAM_${PN} = "--system tss"
+USERADD_PARAM_${PN} = "--system -M -d /var/lib/tpm -s /bin/false -g tss tss"
 
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE_${PN} = "tcsd.service"

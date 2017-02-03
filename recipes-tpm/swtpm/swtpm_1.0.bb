@@ -5,6 +5,11 @@ SECTION = "apps"
 
 DEPENDS = "libtasn1 fuse expect socat glib-2.0 libtpm libtpm-native"
 
+# configure checks for the tools already during compilation and
+# then swtpm_setup needs them at runtime
+DEPENDS += "tpm-tools-native"
+RDEPENDS_${PN} += "tpm-tools"
+
 SRCREV = "ca906a02124d0ed8b6194e845d272d23ee394a34"
 SRC_URI = " \
 	git://github.com/stefanberger/swtpm.git \

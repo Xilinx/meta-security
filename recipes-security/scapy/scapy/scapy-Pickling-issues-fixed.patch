@@ -1,0 +1,111 @@
+From 331dff6c73f89307d108f9ae89264b9548e22dc6 Mon Sep 17 00:00:00 2001
+From: Guillaume Valadon <guillaume.valadon@ssi.gouv.fr>
+Date: Wed, 31 Aug 2016 13:59:21 +0200
+Subject: [PATCH] Pickling issues fixed
+
+Backport from:
+https://github.com/secdev/scapy/pull/284
+
+Upstream-Status: Backport
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ scapy/layers/inet.py  |  6 ++++--
+ scapy/layers/inet6.py |  4 +++-
+ scapy/layers/l2.py    | 14 +++++++++-----
+ scapy/route.py        |  1 -
+ 4 files changed, 16 insertions(+), 9 deletions(-)
+
+diff --git a/scapy/layers/inet.py b/scapy/layers/inet.py
+index 4b66946..e35a247 100644
+--- a/scapy/layers/inet.py
++++ b/scapy/layers/inet.py
+@@ -734,8 +734,10 @@ conf.l3types.register(ETH_P_IP, IP)
+ conf.l3types.register_num2layer(ETH_P_ALL, IP)
+ 
+ 
+-conf.neighbor.register_l3(Ether, IP, lambda l2,l3: getmacbyip(l3.dst))
+-conf.neighbor.register_l3(Dot3, IP, lambda l2,l3: getmacbyip(l3.dst))
++def inet_register_l3(l2, l3):
++    return getmacbyip(l3.dst)
++conf.neighbor.register_l3(Ether, IP, inet_register_l3)
++conf.neighbor.register_l3(Dot3, IP, inet_register_l3)
+ 
+ 
+ ###################
+diff --git a/scapy/layers/inet6.py b/scapy/layers/inet6.py
+index ba5674c..195ca9c 100644
+--- a/scapy/layers/inet6.py
++++ b/scapy/layers/inet6.py
+@@ -474,7 +474,9 @@ class IPv6(_IPv6GuessPayload, Packet, IPTools):
+             return self.payload.answers(other.payload)
+ 
+ 
+-conf.neighbor.register_l3(Ether, IPv6, lambda l2,l3: getmacbyip6(l3.dst))
++def inet6_register_l3(l2, l3):
++    return getmacbyip6(l3.dst)
++conf.neighbor.register_l3(Ether, IPv6, inet6_register_l3)
+ 
+ 
+ class IPerror6(IPv6):
+diff --git a/scapy/layers/l2.py b/scapy/layers/l2.py
+index 3d88961..47fa386 100644
+--- a/scapy/layers/l2.py
++++ b/scapy/layers/l2.py
+@@ -183,8 +183,10 @@ class LLC(Packet):
+                     XByteField("ssap", 0x00),
+                     ByteField("ctrl", 0) ]
+ 
+-conf.neighbor.register_l3(Ether, LLC, lambda l2,l3: conf.neighbor.resolve(l2,l3.payload))
+-conf.neighbor.register_l3(Dot3, LLC, lambda l2,l3: conf.neighbor.resolve(l2,l3.payload))
++def l2_register_l3(l2, l3):
++    return conf.neighbor.resolve(l2, l3.payload)
++conf.neighbor.register_l3(Ether, LLC, l2_register_l3)
++conf.neighbor.register_l3(Dot3, LLC, l2_register_l3)
+ 
+ 
+ class CookedLinux(Packet):
+@@ -203,7 +205,7 @@ class SNAP(Packet):
+     fields_desc = [ X3BytesField("OUI",0x000000),
+                     XShortEnumField("code", 0x000, ETHER_TYPES) ]
+ 
+-conf.neighbor.register_l3(Dot3, SNAP, lambda l2,l3: conf.neighbor.resolve(l2,l3.payload))
++conf.neighbor.register_l3(Dot3, SNAP, l2_register_l3)
+ 
+ 
+ class Dot1Q(Packet):
+@@ -236,7 +238,7 @@ class Dot1Q(Packet):
+             return self.sprintf("802.1q (%Dot1Q.type%) vlan %Dot1Q.vlan%")
+ 
+             
+-conf.neighbor.register_l3(Ether, Dot1Q, lambda l2,l3: conf.neighbor.resolve(l2,l3.payload))
++conf.neighbor.register_l3(Ether, Dot1Q, l2_register_l3)
+ 
+ class STP(Packet):
+     name = "Spanning Tree Protocol"
+@@ -351,7 +353,9 @@ class ARP(Packet):
+         else:
+             return self.sprintf("ARP %op% %psrc% > %pdst%")
+                  
+-conf.neighbor.register_l3(Ether, ARP, lambda l2,l3: getmacbyip(l3.pdst))
++def l2_register_l3_arp(l2, l3):
++    return getmacbyip(l3.pdst)
++conf.neighbor.register_l3(Ether, ARP, l2_register_l3_arp)
+ 
+ class GRErouting(Packet):
+     name = "GRE routing informations"
+diff --git a/scapy/route.py b/scapy/route.py
+index 52a9562..4bd27b7 100644
+--- a/scapy/route.py
++++ b/scapy/route.py
+@@ -20,7 +20,6 @@ from error import Scapy_Exception,warning
+ class Route:
+     def __init__(self):
+         self.resync()
+-        self.s=socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+         self.cache = {}
+ 
+     def invalidate_cache(self):
+-- 
+2.8.3
+

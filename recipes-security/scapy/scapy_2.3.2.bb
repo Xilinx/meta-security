@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://bin/scapy;beginline=9;endline=13;md5=1d5249872cc54cd4
 
 SRC_URI = "https://github.com/secdev/${BPN}/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz \
            file://run-ptest \
+           file://scapy-Pickling-issues-fixed.patch \
 "
 
 SRC_URI[md5sum] = "00f11df3d6b46fe6ac306efd757486f9"

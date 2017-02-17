@@ -8,37 +8,37 @@ SRCREV = "ce5aea6a4ae7523b57ec13e2e6150aa5d83c1b4e"
 
 PV = "2.3.1+git${SRCPV}"
 
-SRC_URI = "git://github.com/seccomp/libseccomp.git;"
+SRC_URI = "git://github.com/seccomp/libseccomp.git \
+           file://run-ptest \
+"
 
 S = "${WORKDIR}/git"
 
-inherit autotools-brokensep pkgconfig
+inherit autotools-brokensep pkgconfig ptest
 
 PACKAGECONFIG ??= ""
 PACKAGECONFIG[python] = "--enable-python, --disable-python, python"
 
-do_compile_append() {
+do_compile_ptest() {
     oe_runmake -C tests check-build
 }
 
-do_install_append() {
-    install -d ${D}/${libdir}/${PN}/tests
-    install -d ${D}/${libdir}/${PN}/tools
+do_install_ptest() {
+    install -d ${D}${PTEST_PATH}/tests
+    install -d ${D}${PTEST_PATH}/tools
     for file in $(find tests/* -executable -type f); do
-        install -m 744 ${S}/${file} ${D}/${libdir}/${PN}/tests
+        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tests
     done
     for file in $(find tests/*.tests -type f); do
-        install -m 744 ${S}/${file} ${D}/${libdir}/${PN}/tests
+        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tests
     done
     for file in $(find tools/* -executable -type f); do
-        install -m 744 ${S}/${file} ${D}/${libdir}/${PN}/tools
+        install -m 744 ${S}/${file} ${D}/${PTEST_PATH}/tools
     done
 }
 
-PACKAGES += " ${PN}-tests"
 FILES_${PN} = "${bindir} ${libdir}/${PN}.so*"
-FILES_${PN}-tests = "${libdir}/${PN}/tools ${libdir}/${PN}/tests"
 FILES_${PN}-dbg += "${libdir}/${PN}/tests/.debug/* ${libdir}/${PN}/tools/.debug"
 
 RDEPENDS_${PN} = "bash"
-RDEPENDS_${PN}-tests = "bash"
+RDEPENDS_${PN}-ptest = "bash"

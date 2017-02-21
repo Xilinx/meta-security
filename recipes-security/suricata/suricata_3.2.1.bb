@@ -4,12 +4,12 @@ require suricata.inc
 
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=c70d8d3310941dcdfcd1e02800a1f548"
 
-SRC_URI += "file://no_libhtp_build.patch \
-            file://volatiles.03_suricata \
-            file://suricata.yaml \
-        "
+SRC_URI += " \
+           file://volatiles.03_suricata \
+           file://suricata.yaml \
+           "
 
-inherit autotools-brokensep pkgconfig
+inherit autotools-brokensep pkgconfig python-dir
 
 CFLAGS += "-D_DEFAULT_SOURCE"
 
@@ -33,6 +33,7 @@ PACKAGECONFIG[jansson] = "--with-libjansson-includes=${STAGING_INCDIR} --with-li
 PACKAGECONFIG[file] = ",,file, file"
 PACKAGECONFIG[nss] = "--with-libnss-includes=${STAGING_INCDIR} --with-libnss-libraries=${STAGING_LIBDIR}, nss, nss," 
 PACKAGECONFIG[nspr] = "--with-libnspr-includes=${STAGING_INCDIR} --with-libnspr-libraries=${STAGING_LIBDIR}, nspr, nspr," 
+PACKAGECONFIG[python] = "--with-python, --without-python, python, python" 
 
 export logdir = "${localstatedir}/log"
 
@@ -52,7 +53,8 @@ fi
     ${bindir}/suricata -c ${sysconfdir}/suricata.yaml -i eth0 
 }
 
-FILES_${PN} += "${sysconfdir}/suricata ${logdir}/suricata"
-FILES_${PN}-dev += "/usr/lib/python2.7/site-packages"
+PACKAGES += "${PN}-python"
+FILES_${PN} = "${bindir}/suricata ${sysconfdir}/default ${sysconfdir}/suricata ${logdir}/suricata"
+FILES_${PN}-python = "${bindir}/suricatasc ${PYTHON_SITEPACKAGES_DIR}"
 
-RDEPENDS_${PN} += " python"
+RDEPENDS_${PN}-python += "python"

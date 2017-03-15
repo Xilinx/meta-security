@@ -12,13 +12,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=059e8cd6165cb4c31e351f2b69388fd9"
 DEPENDS = "libtspi openssl"
 DEPENDS_class-native = "trousers-native"
 
-SRCREV = "80954ab83be8d091c6e3112514945556aaa09d39"
+SRCREV = "5c5126bedf2da97906358adcfb8c43c86e7dd0ee"
 SRC_URI = " \
 	git://git.code.sf.net/p/trousers/tpm-tools \
 	file://tpm-tools-extendpcr.patch \
 	"
 
-PV = "1.3.9+git${SRCPV}"
+PV = "1.3.9.1+git${SRCPV}"
 
 inherit autotools-brokensep gettext
 

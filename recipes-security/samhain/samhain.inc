@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8ca43cbc842c2336e835926c2166c28b"
 SRC_URI = "http://la-samhna.de/archive/samhain_signed-${PV}.tar.gz \
 	   file://${INITSCRIPT_NAME}.init \
 	   file://${INITSCRIPT_NAME}.default \
+           file://c99_dnmalloc.patch \
 	  "
 
 SRC_URI[md5sum] = "d98a55646b14f9419fcedde909d1bf02"
@@ -73,6 +74,10 @@ do_configure () {
 	--infodir=${infodir} \
 	--mandir=${mandir} \
 	${EXTRA_OECONF}
+}
+
+do_compile_prepend_libc-musl () {
+	sed -i 's/^#define HAVE_MALLOC_H.*//' ${B}/config.h
 }
 
 # Install the init script, it's default file, and the extraneous

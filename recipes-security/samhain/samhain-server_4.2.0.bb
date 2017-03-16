@@ -20,8 +20,8 @@ PACKAGECONFIG[logwatch]  = "--enable-login-watch,"" , "
 PACKAGECONFIG[mounts]  = "--enable-mounts-check","" , "
 PACKAGECONFIG[userfiles]  = "--enable-userfiles","" , "
 PACKAGECONFIG[ipv6]  = "--enable-ipv6,"--disable-ipv6","
-PACKAGECONFIG[selinux] = "--enable-selinux, --disable-selinux"
-PACKAGECONFIG[acl] = " --enable-posix-acl , --disable-posix-acl"
+PACKAGECONFIG[selinux] = "--enable-selinux, --disable-selinux, libselinux"
+PACKAGECONFIG[acl] = " --enable-posix-acl , --disable-posix-acl, acl"
 
 SRC_URI += "file://samhain-server-volatiles"
 

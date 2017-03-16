@@ -14,6 +14,7 @@ SRC_URI = " \
     	file://trousers.init.sh \
     	file://trousers-udev.rules \
     	file://tcsd.service \
+        file://get-user-ps-path-use-POSIX-getpwent-instead-of-getpwe.patch \
     	"
 
 S = "${WORKDIR}/git"

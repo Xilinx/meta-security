@@ -8,7 +8,7 @@ IMAGE_INSTALL = "\
     packagegroup-core-security \
     os-release \
     ${@bb.utils.contains("DISTRO_FEATURES", "x11", "packagegroup-xfce-base", "", d)} \
-    ${ROOTFS_PKGMANAGE_BOOTSTRAP} ${CORE_IMAGE_EXTRA_INSTALL}"
+    ${CORE_IMAGE_EXTRA_INSTALL}"
 
 IMAGE_LINGUAS ?= " "
 

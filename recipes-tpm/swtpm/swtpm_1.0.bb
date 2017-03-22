@@ -7,7 +7,7 @@ DEPENDS = "libtasn1 fuse expect socat glib-2.0 libtpm libtpm-native"
 
 # configure checks for the tools already during compilation and
 # then swtpm_setup needs them at runtime
-DEPENDS += "tpm-tools-native"
+DEPENDS += "tpm-tools-native expect-native socat-native"
 RDEPENDS_${PN} += "tpm-tools"
 
 SRCREV = "65d8e4d83447f4c13a41a6f995bd0490f49bc5ef"

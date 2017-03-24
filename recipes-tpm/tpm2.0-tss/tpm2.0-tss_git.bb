@@ -10,7 +10,7 @@ SRC_URI = " \
     file://ax_pthread.m4 \
     file://fix_musl_select_include.patch "
 
-inherit autotools pkgconfig
+inherit autotools pkgconfig systemd
 
 S = "${WORKDIR}/${@d.getVar('BPN',d).upper()}"
 
@@ -22,6 +22,26 @@ do_configure_prepend () {
 	cd ${S}
 	./bootstrap --force
 	cd $currentdir
+}
+
+INHERIT += "extrausers"
+EXTRA_USERS_PARAMS = "\
+	useradd -p '' tss; \
+	groupadd tss; \
+	"
+
+SYSTEMD_PACKAGES += "resourcemgr"
+SYSTEMD_SERVICE_resourcemgr = "resourcemgr.service"
+SYSTEMD_AUTO_ENABLE_resourcemgr = "enable"
+
+do_patch[postfuncs] += "fix_systemd_unit"
+fix_systemd_unit () {
+    sed -i -e 's;^ExecStart=.*/resourcemgr;ExecStart=${sbindir}/resourcemgr;' ${S}/contrib/resourcemgr.service
+}
+
+do_install_append() {
+    install -d ${D}${systemd_system_unitdir}
+    install -m0644 ${S}/contrib/resourcemgr.service ${D}${systemd_system_unitdir}/resourcemgr.service
 }
 
 PROVIDES = "${PACKAGES}"
@@ -64,4 +84,4 @@ FILES_libtctisocket-dev = " \
     ${libdir}/pkgconfig/tcti-socket.pc \
 "
 FILES_libtctisocket-staticdev = "${libdir}/libtcti-socket.*a"
-FILES_resourcemgr = "${sbindir}/resourcemgr"
+FILES_resourcemgr = "${sbindir}/resourcemgr ${systemd_system_unitdir}/resourcemgr.service"

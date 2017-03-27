@@ -4,9 +4,10 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=91b7c548d73ea16537799e8060cea819"
 SECTION = "tpm"
 
-DEPENDS = "tpm2.0-tss openssl curl"
+DEPENDS = "pkgconfig tpm2.0-tss openssl curl autoconf-archive"
 
-SRCREV = "c924cc8ca752e5af6a829f893c6be4b185d56e99"
+# Mar 17, 2017
+SRCREV = "0b744d1b13ce57b4be547ae773d7db1cbccf9a04"
 
 SRC_URI = "git://github.com/01org/tpm2.0-tools.git;protocol=git;branch=master;name=tpm2.0-tools;destsuffix=tpm2.0-tools"
 
@@ -14,10 +15,6 @@ S = "${WORKDIR}/tpm2.0-tools"
 
 PV = "git${SRCPV}"
 
-inherit autotools-brokensep pkgconfig
+inherit autotools pkgconfig
 
-do_configure () {
-	cd ${S}
-	./bootstrap  --force
-	./configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
-}
+

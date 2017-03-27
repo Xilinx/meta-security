@@ -1,14 +1,15 @@
 SUMMARY = "Software stack for TPM2."
 DESCRIPTION = "tpm2.0-tss like woah."
 LICENSE = "BSD-2-Clause"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=17067aa50a585593d421b16cffd805a9"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=500b2e742befc3da00684d8a1d5fd9da"
 SECTION = "tpm"
 
-SRCREV = "8e25d0cbb287d30c93b2b77e99bc761dc67e31a9"
+DEPENDS = "autoconf-archive pkgconfig"
+
+SRCREV = "d1bd1fe175d233c7c5adbe1b9f3d256c41721001"
 SRC_URI = " \
     git://github.com/01org/TPM2.0-TSS.git;protocol=git;branch=master;name=TPM2.0-TSS;destsuffix=TPM2.0-TSS \
-    file://ax_pthread.m4 \
-    file://fix_musl_select_include.patch "
+    file://ax_pthread.m4"
 
 inherit autotools pkgconfig systemd
 
@@ -20,7 +21,7 @@ do_configure_prepend () {
 	# execute the bootstrap script
 	currentdir=$(pwd)
 	cd ${S}
-	./bootstrap --force
+	ACLOCAL="aclocal --system-acdir=${STAGING_DATADIR}/aclocal" ./bootstrap
 	cd $currentdir
 }
 
@@ -59,16 +60,22 @@ PACKAGES = " \
     resourcemgr \
 "
 
-FILES_libtss2 = "${libdir}/libsapi.so.0.0.0"
+FILES_libtss2 = " \
+	${libdir}/libsapi.so.0.0.0 \
+	${libdir}/libmarshal.so.0.0.0 \
+"
 FILES_libtss2-dev = " \
     ${includedir}/sapi \
     ${includedir}/tcti/common.h \
     ${libdir}/libsapi.so* \
+    ${libdir}/libmarshal.so* \
     ${libdir}/pkgconfig/sapi.pc \
 "
 FILES_libtss2-staticdev = " \
     ${libdir}/libsapi.a \
     ${libdir}/libsapi.la \
+    ${libdir}/libmarshal.a \
+    ${libdir}/libmarshal.la \
 "
 FILES_libtctidevice = "${libdir}/libtcti-device.so.0.0.0"
 FILES_libtctidevice-dev = " \

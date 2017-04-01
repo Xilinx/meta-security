@@ -1,0 +1,27 @@
+Add missing header to avoid:
+
+../TPM2.0-TSS/tcti/tcti_socket.c: In function 'SocketReceiveTpmResponse':
+| ../TPM2.0-TSS/tcti/tcti_socket.c:286:5: error: unknown type name 'fd_set'
+|      fd_set readFds;
+|      ^~~~~~
+| ../TPM2.0-TSS/tcti/tcti_socket.c:287:20: error: storage size of 'tv' isn't known
+|      struct timeval tv, *tvPtr;
+|                     ^~
+
+Upstream-Status: Submitted
+tcti_socket: fix musl build issue do to missing header #393 
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+
+Index: TPM2.0-TSS/tcti/tcti_socket.c
+===================================================================
+--- TPM2.0-TSS.orig/tcti/tcti_socket.c
++++ TPM2.0-TSS/tcti/tcti_socket.c
+@@ -27,6 +27,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>   // Needed for _wtoi
++#include <sys/time.h>
+ 
+ #include "sapi/tpm20.h"
+ #include "sapi/marshal.h"

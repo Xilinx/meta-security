@@ -10,7 +10,7 @@ DEPENDS = "libtasn1 fuse expect socat glib-2.0 libtpm libtpm-native"
 DEPENDS += "tpm-tools-native expect-native socat-native"
 RDEPENDS_${PN} += "tpm-tools"
 
-SRCREV = "d7bbe3de5cc58c1dca41149df89cfdc08019a722"
+SRCREV = "073e71f99eaa7a0ff9499339176af1af62c090b2"
 SRC_URI = " \
 	git://github.com/stefanberger/swtpm.git \
 	file://fix_signed_issue.patch \

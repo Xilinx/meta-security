@@ -7,11 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8ca43cbc842c2336e835926c2166c28b"
 SRC_URI = "http://la-samhna.de/archive/samhain_signed-${PV}.tar.gz \
 	   file://${INITSCRIPT_NAME}.init \
 	   file://${INITSCRIPT_NAME}.default \
-           file://c99_dnmalloc.patch \
 	  "
 
-SRC_URI[md5sum] = "d98a55646b14f9419fcedde909d1bf02"
-SRC_URI[sha256sum] = "6b2db91fc92b3a9fc2edcc6ee16438156753c05f69c114856289e9f25ba0e50a"
+SRC_URI[md5sum] = "6de1060d6e79c4893d8d89d5cbd3c1b0"
+SRC_URI[sha256sum] = "93beabb19ac68fb5336a3d8f6b5414de05a460ff6982c41a4e3fb2082e769791"
 
 S = "${WORKDIR}/samhain-${PV}"
 

@@ -1,6 +1,6 @@
 SUMMARY = "SWTPM - OpenEmbedded wrapper scripts for native swtpm tools"
 LICENSE = "MIT"
-DEPENDS = "swtpm-native tpm-tools-native"
+DEPENDS = "swtpm-native tpm-tools-native net-tools-native"
 
 inherit native
 

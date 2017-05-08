@@ -5,10 +5,14 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
 
 inherit packagegroup
 
-PACKAGES = "packagegroup-security-tpm"
+PACKAGES = "packagegroup-security-tpm2"
 
-SUMMARY_packagegroup-security-tpm = "Security TPM support"
-RDEPENDS_packagegroup-security-tpm = " \
-    tpm-tools \
-    trousers \
+SUMMARY_packagegroup-security-tpm2 = "Security TPM 2.0 support"
+RDEPENDS_packagegroup-security-tpm2 = " \
+    tpm2.0-tools \
+    libtss2 \
+    libtctidevice \
+    libtctisocket \
+    resourcemgr \
+    kernel-module-tpm-crb \
     "

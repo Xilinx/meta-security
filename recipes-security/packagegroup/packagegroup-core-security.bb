@@ -57,17 +57,3 @@ SUMMARY_packagegroup-security-mac = "Security Mandatory Access Control systems"
 RDEPENDS_packagegroup-security-mac = " \
     ${@bb.utils.contains("DISTRO_FEATURES", "tomoyo", "ccs-tools", "",d)} \
     "
-
-SUMMARY_packagegroup-security-tpm = "Security TPM support"
-RDEPENDS_packagegroup-security-tpm = " \
-    tpm-tools \
-    trousers \
-    tpm2.0-tools \
-    libtss2 \
-    resourcemgr \
-    libtctidevice \
-    libtctisocket \
-    resourcemgr \
-    libtpm \
-    swtpm \
-    "

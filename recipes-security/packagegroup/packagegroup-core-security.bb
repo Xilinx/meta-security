@@ -11,7 +11,7 @@ PACKAGES = "\
     packagegroup-security-scanners \
     packagegroup-security-ids  \
     packagegroup-security-mac  \
-    ${@bb.utils.contains("DISTRO_FEATURES", "tpm", "packagegroup-security-tpm", "",d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "tpm", "packagegroup-security-tpm", "",d)} \
     "
 
 RDEPENDS_packagegroup-core-security = "\
@@ -19,7 +19,7 @@ RDEPENDS_packagegroup-core-security = "\
     packagegroup-security-scanners \
     packagegroup-security-ids  \
     packagegroup-security-mac  \
-    ${@bb.utils.contains("DISTRO_FEATURES", "tpm", "packagegroup-security-tpm", "",d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "tpm", "packagegroup-security-tpm", "",d)} \
     "
 
 SUMMARY_packagegroup-security-utils = "Security utilities"

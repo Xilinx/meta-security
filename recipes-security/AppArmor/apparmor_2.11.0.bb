@@ -27,14 +27,14 @@ SRC_URI[sha256sum] = "b1c489ea11e7771b8e6b181532cafbf9ebe6603e3cb00e2558f21b7a5b
 
 PARALLEL_MAKE = ""
 
-inherit pkgconfig autotools-brokensep update-rc.d python3-dir perlnative ptest
+inherit pkgconfig autotools-brokensep update-rc.d python-dir perlnative ptest
 inherit ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','systemd','', d)}
 
 S = "${WORKDIR}/apparmor-${PV}"
 
 PACKAGECONFIG ?="man"
 PACKAGECONFIG[man] = "--enable-man-pages, --disable-man-pages"
-PACKAGECONFIG[python3] = "--with-python, --without-python, python3 swig-native"
+PACKAGECONFIG[python] = "--with-python, --without-python, python swig-native"
 PACKAGECONFIG[perl] = "--with-perl, --without-perl, perl perl-native"
 
 PAMLIB="${@bb.utils.contains('DISTRO_FEATURES', 'pam', '1', '0', d)}"

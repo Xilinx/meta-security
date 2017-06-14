@@ -15,6 +15,8 @@ DEPENDS = "bison-native apr apache2 gettext-native coreutils-native"
 
 SRC_URI = " \
 	http://archive.ubuntu.com/ubuntu/pool/main/a/${BPN}/${BPN}_${PV}.orig.tar.gz \
+	file://disable_perl_h_check.patch \
+	file://crosscompile_perl_bindings.patch \
 	file://apparmor.rc \
 	file://functions \
 	file://apparmor \
@@ -27,15 +29,15 @@ SRC_URI[sha256sum] = "b1c489ea11e7771b8e6b181532cafbf9ebe6603e3cb00e2558f21b7a5b
 
 PARALLEL_MAKE = ""
 
-inherit pkgconfig autotools-brokensep update-rc.d python-dir perlnative ptest
+inherit pkgconfig autotools-brokensep update-rc.d python3native perlnative ptest cpan
 inherit ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','systemd','', d)}
 
 S = "${WORKDIR}/apparmor-${PV}"
 
-PACKAGECONFIG ?="man"
+PACKAGECONFIG ?="man python perl"
 PACKAGECONFIG[man] = "--enable-man-pages, --disable-man-pages"
-PACKAGECONFIG[python] = "--with-python, --without-python, python swig-native"
-PACKAGECONFIG[perl] = "--with-perl, --without-perl, perl perl-native"
+PACKAGECONFIG[python] = "--with-python, --without-python, python3 swig-native"
+PACKAGECONFIG[perl] = "--with-perl, --without-perl, perl perl-native swig-native"
 
 PAMLIB="${@bb.utils.contains('DISTRO_FEATURES', 'pam', '1', '0', d)}"
 
@@ -116,11 +118,12 @@ SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE_${PN} = "apparmor.service"
 SYSTEMD_AUTO_ENABLE = "disable"
 
-PACKAGES += "python-${PN} mod-${PN}"
+PACKAGES += "mod-${PN}"
 
-FILES_${PN} += "/lib/apparmor/ ${sysconfdir}/apparmor"
+FILES_${PN} += "/lib/apparmor/ ${sysconfdir}/apparmor ${PYTHON_SITEPACKAGES_DIR}"
 FILES_mod-${PN} = "${libdir}/apache2/modules/*"
-FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}"
 
 RDEPENDS_${PN} += "bash lsb"
+RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','python','python3 python3-argparse python3-json','', d)}"
+RDEPENDS_${PN}_remove += "${@bb.utils.contains('PACKAGECONFIG','perl','','perl', d)}"
 RDEPENDS_${PN}-ptest += "coreutils dbus-lib"

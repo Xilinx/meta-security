@@ -1,0 +1,26 @@
+From: Yulong Pei <Yulong.pei@windriver.com>
+Date: Thu, 21 Jan 2010 14:11:20 +0800
+Subject: [PATCH] force to use our own libtool
+
+Upstream-Status: Inappropriate [ OE specific ]
+
+Signed-off-by: Yulong Pei <Yulong.pei@windriver.com>
+---
+ ltmain.sh |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/ltmain.sh b/ltmain.sh
+--- a/ltmain.sh
++++ b/ltmain.sh
+@@ -1309,7 +1309,7 @@ EOF
+ 	dir=`$echo "X$arg" | $Xsed -e 's/^-L//'`
+ 	# We need an absolute path.
+ 	case $dir in
+-	[\\/]* | [A-Za-z]:[\\/]*) ;;
++	=* | [\\/]* | [A-Za-z]:[\\/]*) ;;
+ 	*)
+ 	  absdir=`cd "$dir" && pwd`
+ 	  if test -z "$absdir"; then
+-- 
+1.6.4
+

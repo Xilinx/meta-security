@@ -6,15 +6,13 @@ SECTION = "tpm"
 
 DEPENDS = "pkgconfig tpm2.0-tss openssl curl autoconf-archive"
 
-# Mar 17, 2017
-SRCREV = "0b744d1b13ce57b4be547ae773d7db1cbccf9a04"
+# July 10, 2017
+SRCREV = "26c0557040c1cf8107fa3ebbcf2a5b07cc84b881"
 
-SRC_URI = "git://github.com/01org/tpm2.0-tools.git;protocol=git;branch=master;name=tpm2.0-tools;destsuffix=tpm2.0-tools"
+SRC_URI = "git://github.com/01org/tpm2.0-tools.git;name=tpm2.0-tools;destsuffix=tpm2.0-tools"
 
 S = "${WORKDIR}/tpm2.0-tools"
 
-PV = "git${SRCPV}"
+PV = "2.0.0+git${SRCPV}"
 
 inherit autotools pkgconfig
-
-

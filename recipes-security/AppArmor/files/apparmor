@@ -32,6 +32,20 @@
 # Description: AppArmor init script. This script loads all AppArmor profiles.
 ### END INIT INFO
 
+log_daemon_msg() {
+    echo $*
+}
+
+log_end_msg () {
+    retval=$1
+    if [ $retval -eq 0 ]; then
+        echo "."
+    else
+        echo " failed!"
+    fi
+    return $retval
+}
+
 . /lib/apparmor/functions
 . /lib/lsb/init-functions
 
@@ -47,20 +61,19 @@ securityfs() {
 	# Need securityfs for any mode
 	if [ ! -d "${AA_SFS}" ]; then
 		if cut -d" " -f2,3 /proc/mounts | grep -q "^${SECURITYFS} securityfs"'$' ; then
-			log_action_msg "AppArmor not available as kernel LSM."
+			log_daemon_msg "AppArmor not available as kernel LSM."
 			log_end_msg 1
 			exit 1
 		else
-			log_action_begin_msg "Mounting securityfs on ${SECURITYFS}"
+			log_daemon_msg "Mounting securityfs on ${SECURITYFS}"
 			if ! mount -t securityfs none "${SECURITYFS}"; then
-				log_action_end_msg 1
 				log_end_msg 1
 				exit 1
 			fi
 		fi
 	fi
 	if [ ! -w "$AA_SFS"/.load ]; then
-		log_action_msg "Insufficient privileges to change profiles."
+		log_daemon_msg "Insufficient privileges to change profiles."
 		log_end_msg 1
 		exit 1
 	fi
@@ -127,7 +140,8 @@ test -d /rofs/etc/apparmor.d && exit 0
 rc=255
 case "$1" in
 	start)
-		if systemd-detect-virt --quiet --container && \
+		if test -x /sbin/systemd-detect-virt && \
+		   systemd-detect-virt --quiet --container && \
 		   ! is_container_with_internal_policy; then
 			log_daemon_msg "Not starting AppArmor in container"
 			log_end_msg 0
@@ -161,7 +175,8 @@ with the 'teardown' option."
 EOM
 		;;
 	teardown)
-		if systemd-detect-virt --quiet --container && \
+		if test -x /sbin/systemd-detect-virt && \
+		   systemd-detect-virt --quiet --container && \
 		   ! is_container_with_internal_policy; then
 			log_daemon_msg "Not tearing down AppArmor in container"
 			log_end_msg 0
@@ -179,7 +194,8 @@ EOM
 		log_end_msg $rc
 		;;
 	restart|reload|force-reload)
-		if systemd-detect-virt --quiet --container && \
+		if test -x /sbin/systemd-detect-virt && \
+		   systemd-detect-virt --quiet --container && \
 		   ! is_container_with_internal_policy; then
 			log_daemon_msg "Not reloading AppArmor in container"
 			log_end_msg 0

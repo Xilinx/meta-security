@@ -79,6 +79,10 @@ do_install () {
 		oe_runmake -C ${B}/changehat/pam_apparmor DESTDIR="${D}" install
 	fi
 
+	# aa-easyprof is installed by python-tools-setup.py, fix it up
+	sed -i -e 's:/usr/bin/env.*:/usr/bin/python3:' ${D}${bindir}/aa-easyprof
+	chmod 0755 ${D}${bindir}/aa-easyprof
+
 	install ${WORKDIR}/apparmor ${D}/${INIT_D_DIR}/apparmor
 	install ${WORKDIR}/functions ${D}/lib/apparmor
 }
@@ -124,6 +128,6 @@ FILES_${PN} += "/lib/apparmor/ ${sysconfdir}/apparmor ${PYTHON_SITEPACKAGES_DIR}
 FILES_mod-${PN} = "${libdir}/apache2/modules/*"
 
 RDEPENDS_${PN} += "bash lsb"
-RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','python','python3 python3-argparse python3-json','', d)}"
+RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','python','python3 python3-modules','', d)}"
 RDEPENDS_${PN}_remove += "${@bb.utils.contains('PACKAGECONFIG','perl','','perl', d)}"
 RDEPENDS_${PN}-ptest += "coreutils dbus-lib"

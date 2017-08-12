@@ -23,6 +23,9 @@ PACKAGECONFIG[ewf] = "--with-libewf=${STAGING_DIR_HOST}/usr, --without-libewf, l
 #--with-gnu-ld
 EXTRA_OECONF += "--enable-static=no --disable-java LIBS='-L${STAGING_LIBDIR}' LDFLAGS='-L${STAGING_LIBDIR}' CPPFLAGS='-I${STAGING_INCDIR}'"
 
+# Avoid QA Issue: No GNU_HASH in the elf binary
+INSANE_SKIP_${PN} = "ldflags" 
+
 FILES_${PN} += " ${datadir}/tsk"
 
 RDEPENDS_${PN} += " perl"

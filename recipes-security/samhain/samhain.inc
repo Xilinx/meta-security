@@ -5,25 +5,60 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8ca43cbc842c2336e835926c2166c28b"
 
 
 SRC_URI = "http://la-samhna.de/archive/samhain_signed-${PV}.tar.gz \
-	   file://${INITSCRIPT_NAME}.init \
-	   file://${INITSCRIPT_NAME}.default \
-	  "
+           file://samhain-cross-compile.patch \
+           file://samhain-mips64-aarch64-dnmalloc-hash-fix.patch \
+           file://samhain-samhainrc.patch \
+           file://samhain-samhainrc-fix-files-dirs-path.patch \
+           file://samhain-pid-path.patch \
+           file://samhain-sha256-big-endian.patch \
+           file://samhain-configure-add-option-for-ps.patch \
+           file://${INITSCRIPT_NAME}.init \
+           file://${INITSCRIPT_NAME}.default \
+           file://samhain.service \
+           "
 
-SRC_URI[md5sum] = "6de1060d6e79c4893d8d89d5cbd3c1b0"
-SRC_URI[sha256sum] = "93beabb19ac68fb5336a3d8f6b5414de05a460ff6982c41a4e3fb2082e769791"
+SRC_URI[md5sum] = "f499d5d06bfd1d787073a45bf28dd60f"
+SRC_URI[sha256sum] = "0f3e64afb3f00064c9b136d34a72d580cd41248c5941eba0452f364a109003c7"
 
 S = "${WORKDIR}/samhain-${PV}"
 
-inherit autotools-brokensep update-rc.d pkgconfig
+inherit autotools-brokensep update-rc.d pkgconfig systemd
 
 SAMHAIN_PORT ??= "49777"
 SAMHAIN_SERVER ??= "NULL"
 
-INITSCRIPT_NAME = "samhain-${SAMHAIN_MODE}"
+INITSCRIPT_NAME = "${BPN}"
 INITSCRIPT_PARAMS ?= "defaults"
 
+SYSTEMD_PACKAGES = "${PN}"
+SYSTEMD_SERVICE_${PN} = "${INITSCRIPT_NAME}.service"
+SYSTEMD_AUTO_ENABLE = "disable"
 
-PACKAGECONFIG ??= ""
+# mode mapping:
+# BPN                MODE_NAME   SAMHAIN_MODE
+# samhain-standalone standalone  no
+# samhain-client     client      client
+# samhain-server     server      server
+MODE_NAME = "${@d.getVar('BPN').split('-')[1]}"
+SAMHAIN_MODE = "${@oe.utils.ifelse(d.getVar('MODE_NAME') == 'standalone', 'no', '${MODE_NAME}')}"
+
+# supports mysql|postgresql|oracle|odbc but postgresql is the only one available
+
+PACKAGECONFIG ??= "postgresql ps"
+PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
+PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux audit', '', d)}"
+PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
+
+PACKAGECONFIG[postgres]  = "--with-database=postgresql --enable-xml-log, "", postgresql"
+PACKAGECONFIG[suidcheck]  = "--enable-suidcheck","" , "
+PACKAGECONFIG[logwatch]  = "--enable-login-watch,"" , "
+PACKAGECONFIG[mounts]  = "--enable-mounts-check","" , "
+PACKAGECONFIG[userfiles]  = "--enable-userfiles","" , "
+PACKAGECONFIG[ipv6]  = "--enable-ipv6,"--disable-ipv6","
+PACKAGECONFIG[selinux] = "--enable-selinux, --disable-selinux, libselinux"
+PACKAGECONFIG[acl] = " --enable-posix-acl , --disable-posix-acl, acl"
+PACKAGECONFIG[audit] = "ac_cv_header_auparse_h=yes,ac_cv_header_auparse_h=no,audit"
+PACKAGECONFIG[ps] = "--with-ps-path=${base_bindir}/ps,,,procps"
 
 do_unpack_samhain() {
     cd ${WORKDIR}
@@ -72,6 +107,9 @@ do_configure () {
 	--includedir=${includedir} \
 	--infodir=${infodir} \
 	--mandir=${mandir} \
+	--enable-network=${SAMHAIN_MODE} \
+	--with-pid-file=${localstatedir}/run/samhain.pid \
+	--with-data-file=${localstatedir}/lib/samhain/samhain_file \
 	${EXTRA_OECONF}
 }
 
@@ -82,24 +120,36 @@ do_compile_prepend_libc-musl () {
 # Install the init script, it's default file, and the extraneous
 # documentation.
 do_install_append () {
-	cd ${S}
 	oe_runmake install DESTDIR='${D}' INSTALL=install-boot
-	install -d ${D}${sysconfdir}/init.d
-	install -m 755 ${WORKDIR}/${INITSCRIPT_NAME}.init \
+
+	install -D -m 755 ${WORKDIR}/${INITSCRIPT_NAME}.init \
 		${D}${sysconfdir}/init.d/${INITSCRIPT_NAME}
 
-	install -d ${D}${sysconfdir}/default
-	install -m 755 ${WORKDIR}/${INITSCRIPT_NAME}.default \
+	install -D -m 755 ${WORKDIR}/${INITSCRIPT_NAME}.default \
 		${D}${sysconfdir}/default/${INITSCRIPT_NAME}
 
-	install -d ${D}${docdir}/${PN}
-	cp -r docs/* ${D}${docdir}/${PN}
-	cp -r scripts ${D}${docdir}/${PN}
-	install -d -m 755 ${D}/var/samhain
+	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+		if [ "${SAMHAIN_MODE}" = "no" ]; then
+		    install -D -m 0644 ${WORKDIR}/samhain.service ${D}/${systemd_system_unitdir}/samhain.service
+		else
+		    install -D -m 0644 ${WORKDIR}/samhain.service ${D}/${systemd_system_unitdir}/${BPN}.service
+		fi
+		install -D -m 0755 ${WORKDIR}/${BPN}.init ${D}/${libexecdir}/${BPN}
+		sed -i -e 's,@LIBDIR@,${libexecdir},' \
+		       -e 's,@SAMHAIN_HELPER@,${BPN},' \
+		       -e 's,@MODE_NAME@,${MODE_NAME},' \
+		       ${D}${systemd_system_unitdir}/samhain*.service
+    fi
+
+	install -d ${D}${docdir}/${BPN}
+	cp -r docs/* ${D}${docdir}/${BPN}
+	cp -r scripts ${D}${docdir}/${BPN}
+	install -d -m 755 ${D}${localstatedir}/samhain
+
+	# Prevent QA warnings about installed ${localstatedir}/run
+	if [ -d ${D}${localstatedir}/run ]; then
+		rmdir ${D}${localstatedir}/run
+	fi
 }
 
-FILES_${PN} += "\
-    /run \
-    "
-
-INSANE_SKIP_${PN} = "already-stripped"
+FILES_${PN} += "${systemd_system_unitdir}"

@@ -6,7 +6,7 @@ SECTION = "security Monitor/Admin"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=1c069be8dbbe48e89b580ab4ed86c127"
 
-SRCREV = "210a394b1ce63da7ac51a866ac2e68d439308701"
+SRCREV = "7af2781a19af31a41a259f3cce158003a3a0a72f"
 
 SRC_URI = "\
 	git://github.com/Tripwire/tripwire-open-source.git \
@@ -17,7 +17,7 @@ SRC_URI = "\
 	file://twinstall.sh \
 	file://twpol-yocto.txt \
        "
-#PV = "2.4.3.1+git${SRCPV}"
+#PV = "2.4.3.5+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 

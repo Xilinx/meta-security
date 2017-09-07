@@ -33,7 +33,7 @@ EXTRA_USERS_PARAMS = "\
 	groupadd tss; \
 	"
 
-SYSTEMD_PACKAGES += "resourcemgr"
+SYSTEMD_PACKAGES = "resourcemgr"
 SYSTEMD_SERVICE_resourcemgr = "resourcemgr.service"
 SYSTEMD_AUTO_ENABLE_resourcemgr = "enable"
 

@@ -50,11 +50,14 @@ python() {
         raise bb.parse.SkipRecipe('Requires meta-webserver to be present.')
 }
 
+CONFIGUREOPTS_remove = "--disable-static"
+EXTRA_OECONF_append = " --enable-static"
 
 do_configure() {
 	cd ${S}/libraries/libapparmor
+	aclocal
 	autoconf --force
-	libtoolize --automake -c
+	libtoolize --automake -c --force
 	automake -ac
 	./configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
 	sed -i -e 's#^YACC.*#YACC := bison#' ${S}/parser/Makefile
@@ -148,4 +151,4 @@ ALLOW_EMPTY_${PN} = "1"
 RDEPENDS_${PN} += "bash lsb"
 RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','python','python3 python3-modules','', d)}"
 RDEPENDS_${PN}_remove += "${@bb.utils.contains('PACKAGECONFIG','perl','','perl', d)}"
-RDEPENDS_${PN}-ptest += "coreutils dbus-lib"
+RDEPENDS_${PN}-ptest += "perl coreutils dbus-lib"

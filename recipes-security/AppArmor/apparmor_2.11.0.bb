@@ -11,7 +11,7 @@ SECTION = "admin"
 LICENSE = "GPLv2 & GPLv2+ & BSD-3-Clause & LGPLv2.1+"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=fd57a4b0bc782d7b80fd431f10bbf9d0"
 
-DEPENDS = "bison-native apr apache2 gettext-native coreutils-native"
+DEPENDS = "bison-native apr gettext-native coreutils-native"
 
 SRC_URI = " \
 	http://archive.ubuntu.com/ubuntu/pool/main/a/${BPN}/${BPN}_${PV}.orig.tar.gz \
@@ -38,8 +38,18 @@ PACKAGECONFIG ?="man python perl"
 PACKAGECONFIG[man] = "--enable-man-pages, --disable-man-pages"
 PACKAGECONFIG[python] = "--with-python, --without-python, python3 swig-native"
 PACKAGECONFIG[perl] = "--with-perl, --without-perl, perl perl-native swig-native"
+PACKAGECONFIG[apache2] = ",,apache2,"
 
 PAMLIB="${@bb.utils.contains('DISTRO_FEATURES', 'pam', '1', '0', d)}"
+HTTPD="${@bb.utils.contains('PACKAGECONFIG', 'apache2', '1', '0', d)}"
+
+
+python() {
+    if 'apache2' in d.getVar('PACKAGECONFIG').split() and \
+	'webserver' not in d.getVar('BBFILE_COLLECTIONS').split():
+        raise bb.parse.SkipRecipe('Requires meta-webserver to be present.')
+}
+
 
 do_configure() {
 	cd ${S}/libraries/libapparmor
@@ -57,7 +67,10 @@ do_compile () {
         oe_runmake -C ${B}/utils
         oe_runmake -C ${B}/parser
         oe_runmake -C ${B}/profiles
-        oe_runmake -C ${B}/changehat/mod_apparmor
+
+	if test -z "${HTTPD}" ; then
+        	oe_runmake -C ${B}/changehat/mod_apparmor
+	fi	
 
 	if test -z "${PAMLIB}" ; then
         	oe_runmake -C ${B}/changehat/pam_apparmor
@@ -73,7 +86,10 @@ do_install () {
 	oe_runmake -C ${B}/utils DESTDIR="${D}" install
 	oe_runmake -C ${B}/parser DESTDIR="${D}" install
 	oe_runmake -C ${B}/profiles DESTDIR="${D}" install
-	oe_runmake -C ${B}/changehat/mod_apparmor DESTDIR="${D}" install
+
+	if test -z "${HTTPD}" ; then
+		oe_runmake -C ${B}/changehat/mod_apparmor DESTDIR="${D}" install
+	fi
 
 	if test -z "${PAMLIB}" ; then
 		oe_runmake -C ${B}/changehat/pam_apparmor DESTDIR="${D}" install
@@ -122,10 +138,12 @@ SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE_${PN} = "apparmor.service"
 SYSTEMD_AUTO_ENABLE = "disable"
 
-PACKAGES += "mod-${PN}"
+PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'apache2', 'mod-${PN}', '', d)}"
 
 FILES_${PN} += "/lib/apparmor/ ${sysconfdir}/apparmor ${PYTHON_SITEPACKAGES_DIR}"
 FILES_mod-${PN} = "${libdir}/apache2/modules/*"
+
+ALLOW_EMPTY_${PN} = "1"
 
 RDEPENDS_${PN} += "bash lsb"
 RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG','python','python3 python3-modules','', d)}"

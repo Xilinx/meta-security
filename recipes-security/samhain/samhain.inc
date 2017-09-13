@@ -44,17 +44,18 @@ SAMHAIN_MODE = "${@oe.utils.ifelse(d.getVar('MODE_NAME') == 'standalone', 'no', 
 
 # supports mysql|postgresql|oracle|odbc but postgresql is the only one available
 
-PACKAGECONFIG ??= "postgresql ps"
-PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
-PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux audit', '', d)}"
-PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
+PACKAGECONFIG ??= "postgresql ps \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux audit', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
+"
 
-PACKAGECONFIG[postgres]  = "--with-database=postgresql --enable-xml-log, "", postgresql"
-PACKAGECONFIG[suidcheck]  = "--enable-suidcheck","" , "
-PACKAGECONFIG[logwatch]  = "--enable-login-watch,"" , "
-PACKAGECONFIG[mounts]  = "--enable-mounts-check","" , "
-PACKAGECONFIG[userfiles]  = "--enable-userfiles","" , "
-PACKAGECONFIG[ipv6]  = "--enable-ipv6,"--disable-ipv6","
+PACKAGECONFIG[postgresql]  = "--with-database=postgresql --enable-xml-log, , postgresql"
+PACKAGECONFIG[suidcheck]  = "--enable-suidcheck, , "
+PACKAGECONFIG[logwatch]  = "--enable-login-watch, , "
+PACKAGECONFIG[mounts]  = "--enable-mounts-check, , "
+PACKAGECONFIG[userfiles]  = "--enable-userfiles, , "
+PACKAGECONFIG[ipv6]  = "--enable-ipv6,--disable-ipv6,"
 PACKAGECONFIG[selinux] = "--enable-selinux, --disable-selinux, libselinux attr"
 PACKAGECONFIG[acl] = " --enable-posix-acl , --disable-posix-acl, acl"
 PACKAGECONFIG[audit] = "ac_cv_header_auparse_h=yes,ac_cv_header_auparse_h=no,audit"
@@ -90,6 +91,7 @@ EOF
 }
 
 do_configure () {
+	autoconf -f
 	./configure \
 	--build=${BUILD_SYS} \
 	--host=${HOST_SYS} \

@@ -13,6 +13,7 @@ SRC_URI = "http://la-samhna.de/archive/samhain_signed-${PV}.tar.gz \
            file://samhain-sha256-big-endian.patch \
            file://samhain-configure-add-option-for-ps.patch \
            file://samhain-avoid-searching-host-for-postgresql.patch \
+           file://samhain-add-LDFLAGS-variable-for-samhain_setpwd.patch \
            file://${INITSCRIPT_NAME}.init \
            file://${INITSCRIPT_NAME}.default \
            file://samhain.service \

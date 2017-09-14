@@ -12,6 +12,7 @@ SRC_URI = "http://la-samhna.de/archive/samhain_signed-${PV}.tar.gz \
            file://samhain-pid-path.patch \
            file://samhain-sha256-big-endian.patch \
            file://samhain-configure-add-option-for-ps.patch \
+           file://samhain-avoid-searching-host-for-postgresql.patch \
            file://${INITSCRIPT_NAME}.init \
            file://${INITSCRIPT_NAME}.default \
            file://samhain.service \
@@ -50,7 +51,7 @@ PACKAGECONFIG ??= "postgresql ps \
     ${@bb.utils.contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
 "
 
-PACKAGECONFIG[postgresql]  = "--with-database=postgresql --enable-xml-log, , postgresql"
+PACKAGECONFIG[postgresql]  = "--with-database=postgresql --enable-xml-log PGSQL_INC_DIR=${STAGING_INCDIR} PGSQL_LIB_DIR=${STAGING_LIBDIR}, , postgresql"
 PACKAGECONFIG[suidcheck]  = "--enable-suidcheck, , "
 PACKAGECONFIG[logwatch]  = "--enable-login-watch, , "
 PACKAGECONFIG[mounts]  = "--enable-mounts-check, , "

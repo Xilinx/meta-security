@@ -10,7 +10,7 @@ SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/universe/libe/${BPN}/${BPN}_${P
 SRC_URI[orig.md5sum] = "fdf615f23937fad8e02b60b9e3e5fb35"
 SRC_URI[orig.sha256sum] = "d14030ce6122727935fbd676d0876808da1e112721f3cb108564a4d9bf73da71"
 
-inherit autotools-brokensep pkgconfig
+inherit autotools-brokensep pkgconfig gettext
 
 PACKAGECONFIG ??= "zlib ssl bz2"
 PACKAGECONFIG[zlib] = "--with-zlib, --without-zlib, zlib, zlib"

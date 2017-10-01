@@ -151,7 +151,7 @@ do_install () {
 
 	${THISDIR}/files/set_required_questions.py ${D}${sysconfdir}/Bastille/config ${D}${datadir}/Bastille/Questions
 
-	ln -s ${D}${sbindir}/RevertBastille ${D}${sbindir}/UndoBastille
+	ln -s RevertBastille ${D}${sbindir}/UndoBastille
 }
 
 FILES_${PN} += "${datadir}/Bastille ${libdir}/Bastille ${libdir}/perl* ${sysconfdir}/*"

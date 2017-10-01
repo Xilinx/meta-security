@@ -3,9 +3,6 @@ DESCRIPTION = "Tools used by redhat linux distribution for security checks"
 SECTION = "security"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-PR = "r0"
-
-RDEPENDS_${PN} = "file libcap-ng procps findutils"
 
 SRC_URI = "file://find-chroot-py.sh \
            file://find-chroot.sh \
@@ -39,3 +36,5 @@ do_install() {
 	install -m 0755 ${WORKDIR}/selinux-check-devices.sh    ${D}${bindir}
 	install -m 0755 ${WORKDIR}/selinux-ls-unconfined.sh    ${D}${bindir}
 }
+
+RDEPENDS_${PN} = "file libcap-ng procps findutils"

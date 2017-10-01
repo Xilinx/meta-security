@@ -16,3 +16,5 @@ PV = "0.1.6+git${SRCPV}"
 inherit setuptools3
 
 S = "${WORKDIR}/git"
+
+RDEPENDS_${PN} = "python"

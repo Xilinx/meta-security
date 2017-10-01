@@ -3,7 +3,6 @@ DESCRIPTION = "checksecurity is a simple package which will scan your system for
 SECTION = "security"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-RDEPENDS_${PN} = "perl libenv-perl perl-module-tie-array perl-module-getopt-long perl-module-file-glob util-linux findutils coreutils"
 
 SRC_URI = "http://ftp.de.debian.org/debian/pool/main/c/checksecurity/checksecurity_${PV}.tar.gz \
            file://setuid-log-folder.patch"
@@ -17,3 +16,5 @@ do_compile() {
 do_install() {
     oe_runmake PREFIX=${D}
 }
+
+RDEPENDS_${PN} = "perl libenv-perl perl-module-tie-array perl-module-getopt-long perl-module-file-glob util-linux findutils coreutils"

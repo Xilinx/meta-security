@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-4.8:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-4.9:"
 
 # TPM kernel support
 KERNEL_FEATURES_append += "${@bb.utils.contains('DISTRO_FEATURES', 'tpm', ' features/tpm/tpm.scc', '', d)}"

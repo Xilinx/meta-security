@@ -9,16 +9,19 @@ SECTION = "security"
 LICENSE = "ISC"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3a265095c549c1808686a676f2699c98"
 
-SRC_URI = "http://www.cs.columbia.edu/~angelos/Code/${BPN}.tar.gz \
+MAIN_ID = "${@d.getVar('PV').split('.')[0]}"
+MINOR_ID = "${@d.getVar('PV').split('.')[1]}"
+SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}-${MAIN_ID}-${MINOR_ID}/${BPN}_${PV}.tar.gz \
        file://configure-remove-hardcode-path.patch \
        file://makefile-add-ldflags.patch \
        file://run-ptest \
 "
+S = "${WORKDIR}/${BPN}-${PV}+dfsg.orig"
 
 inherit autotools-brokensep ptest
 
-SRC_URI[md5sum] = "ba58a0297c421dc6aa671e6b753ef695"
-SRC_URI[sha256sum] = "62f7a9d57ceb6bcdd47b604b637a7ac8ed337cef0ab02f1fa28b7e61c9b15821"
+SRC_URI[md5sum] = "a14553e6ad921b5c85026ce5bec3afe7"
+SRC_URI[sha256sum] = "38d2acfa1c3630a07adcb5c8fe92d2aef7f0e6d242b8998b2bbb1c6e4c408d46"
 
 DEPENDS = "flex openssl"
 

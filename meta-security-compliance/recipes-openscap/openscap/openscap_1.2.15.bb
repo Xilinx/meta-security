@@ -11,7 +11,7 @@ DEPENDS = "autoconf-archive pkgconfig gconf procps curl libxml2 rpm \
 
 DEPENDS_class-native = "autoconf-archive-native pkgconfig-native swig-native curl-native libxml2-native libxslt-native dpkg-native libgcrypt-native nss-native"
 
-SRCREV = "7a924c0eea10d05f512660192c8c4aef447801a6"
+SRCREV = "240930d42611983c65ecae16dbca3248ce130921"
 SRC_URI = "git://github.com/akuster/openscap.git;branch=oe \
            file://crypto_pkgconfig.patch \
            file://run-ptest \
@@ -66,6 +66,7 @@ do_install_append_class-native () {
 TESTDIR = "tests"
 
 do_compile_ptest() {
+    sed -i 's:python2:python:' ${S}/${TESTDIR}/nist/test_worker.py
     echo 'buildtest-TESTS: $(check)' >> ${TESTDIR}/Makefile
     oe_runmake -C ${TESTDIR} buildtest-TESTS
 }
@@ -78,5 +79,6 @@ do_install_ptest() {
 FILES_${PN} += "${PYTHON_SITEPACKAGES_DIR}"
 
 RDEPENDS_${PN} += "libxml2 python libgcc"
+RDEPENDS_${PN}-ptest = "bash perl python"
 
 BBCLASSEXTEND = "native"

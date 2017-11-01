@@ -33,10 +33,12 @@ case "${1}" in
 			exit 0
 		fi
 
-		start-stop-daemon --start --quiet --oknodo --pidfile /var/run/${NAME}.pid --user ${USER} --chuid ${USER} --exec ${DAEMON} -- ${DAEMON_OPTS}
+		start-stop-daemon --start --quiet --oknodo \
+			--pidfile /var/run/${NAME}.pid --make-pidfile --background \
+			--user ${USER} --chuid ${USER} \
+			--exec ${DAEMON} -- ${DAEMON_OPTS} --foreground
 		RETVAL="$?"
 		echo "$NAME."
-		[ "$RETVAL" = 0 ] && pidof $DAEMON > /var/run/${NAME}.pid
 		exit $RETVAL
 		;;
 

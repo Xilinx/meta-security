@@ -30,6 +30,8 @@ PACKAGECONFIG[python3] = "--enable-python3, --disable-python3, python3, python3"
 PACKAGECONFIG[perl] = "--enable-perl, --disable-perl, perl, perl"
 PACKAGECONFIG[rpm] = " --enable-util-scap-as-rpm, --disable-util-scap-as-rpm, rpm, rpm"
 
+export LDFLAGS += " -ldl"
+
 EXTRA_OECONF += "--enable-probes-independent --enable-probes-linux \
 		--enable-probes-solaris --enable-probes-unix  --disable-util-oscap-docker\
 		--enable-util-oscap-ssh --enable-util-oscap --enable-ssp --enable-sce \

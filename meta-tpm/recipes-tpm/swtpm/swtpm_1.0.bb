@@ -10,14 +10,12 @@ DEPENDS = "libtasn1 expect socat glib-2.0 libtpm libtpm-native"
 DEPENDS += "tpm-tools-native expect-native socat-native"
 RDEPENDS_${PN} += "tpm-tools"
 
-SRCREV = "073e71f99eaa7a0ff9499339176af1af62c090b2"
-SRC_URI = " \
-	git://github.com/stefanberger/swtpm.git \
-	file://fix_signed_issue.patch \
-	file://fix_lib_search_path.patch \
-        file://fix_fcntl_h.patch \
-        file://ioctl_h.patch \
-	"
+SRCREV = "4f4f2f0a7e3195f6df8d235d58630a08e69403d8"
+SRC_URI = "git://github.com/stefanberger/swtpm.git \
+           file://fix_lib_search_path.patch \
+           file://fix_fcntl_h.patch \
+           file://ioctl_h.patch \
+           "
 
 S = "${WORKDIR}/git"
 

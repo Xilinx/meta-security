@@ -65,14 +65,14 @@ case "$1" in
 	fi
 	#
 	echo -n "Starting ${NAME}"
-	/sbin/start-stop-daemon --start --quiet --exec $DAEMON
+	start-stop-daemon --start --quiet --exec $DAEMON
 	RETVAL=$?
 	samhain_done
 	;;
 
   stop)
-	echo -n "Stopping $NAME"
-        ( /sbin/start-stop-daemon --stop --quiet --exec $DAEMON )
+        echo -n "Stopping $NAME"
+        start-stop-daemon --stop --quiet --exec $DAEMON
 	RETVAL=$? 
 
 	#
@@ -95,8 +95,8 @@ case "$1" in
 	;;
 
   reload|force-reload)
-       	echo -n "Reloading $NAME configuration files"
-       	/sbin/start-stop-daemon --stop --signal 1 --quiet --exec $DAEMON
+        echo -n "Reloading $NAME configuration files"
+        start-stop-daemon --stop --signal 1 --quiet --exec $DAEMON
 	RETVAL=$?
 	samhain_done
 	;;

@@ -45,7 +45,7 @@ do_compile_ptest () {
 }
 
 do_install_append() {
-    sed -i -e "s@${STAGING_DIR_HOST}@@g" ${D}${bindir}/xmlsec1-config
+    sed -i -e "s@${STAGING_DIR}@@g" ${D}${bindir}/xmlsec1-config
 }
 
 do_install_ptest () {

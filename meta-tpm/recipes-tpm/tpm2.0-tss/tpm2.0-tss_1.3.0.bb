@@ -6,16 +6,16 @@ SECTION = "tpm"
 
 DEPENDS = "autoconf-archive pkgconfig"
 
-SRCREV = "30794affab01598bbacfe1f167be7c068a0c0476"
+SRCREV = "b1d9ece8c6bea2e3043943b2edfaebcdca330c38"
 
 SRC_URI = " \
-    git://github.com/01org/TPM2.0-TSS.git;protocol=git;branch=master;name=TPM2.0-TSS;destsuffix=TPM2.0-TSS \
+    git://github.com/tpm2-software/tpm2-tss.git;branch=1.x \
     file://ax_pthread.m4 \
 "
 
 inherit autotools pkgconfig systemd
 
-S = "${WORKDIR}/${@d.getVar('BPN',d).upper()}"
+S = "${WORKDIR}/git"
 
 do_configure_prepend () {
 	mkdir -p ${S}/m4
@@ -37,19 +37,22 @@ SYSTEMD_PACKAGES = "resourcemgr"
 SYSTEMD_SERVICE_resourcemgr = "resourcemgr.service"
 SYSTEMD_AUTO_ENABLE_resourcemgr = "enable"
 
-do_patch[postfuncs] += "fix_systemd_unit"
+do_patch[postfuncs] += "${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','fix_systemd_unit','', d)}"
 fix_systemd_unit () {
     sed -i -e 's;^ExecStart=.*/resourcemgr;ExecStart=${sbindir}/resourcemgr;' ${S}/contrib/resourcemgr.service
 }
 
 do_install_append() {
-    install -d ${D}${systemd_system_unitdir}
-    install -m0644 ${S}/contrib/resourcemgr.service ${D}${systemd_system_unitdir}/resourcemgr.service
+    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+        install -d ${D}${systemd_system_unitdir}
+        install -m0644 ${S}/contrib/resourcemgr.service ${D}${systemd_system_unitdir}/resourcemgr.service
+    fi
 }
 
 PROVIDES = "${PACKAGES}"
 PACKAGES = " \
     ${PN}-dbg \
+    ${PN}-doc \
     libtss2 \
     libtss2-dev \
     libtss2-staticdev \

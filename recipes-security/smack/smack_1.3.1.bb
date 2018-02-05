@@ -5,13 +5,13 @@ LICENSE = "LGPL-2.1"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 
-SRCREV = "478f68d182c5070f510482194d3e097b11c21907"
+SRCREV = "4a102c7584b39ce693995ffb65e0918a9df98dd8"
 SRC_URI = " \
-	git://github.com/smack-team/smack.git;branch=v1.3.x \
+	git://github.com/smack-team/smack.git \
 	file://smack_generator_make_fixup.patch \
 	file://run-ptest"
 
-PV = "1.3.0+git${SRCPV}"
+PV = "1.3.1"
 
 inherit autotools update-rc.d pkgconfig ptest ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','systemd','', d)}
 

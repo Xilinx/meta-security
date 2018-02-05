@@ -8,16 +8,13 @@ DEPENDS = "libtool db libmspack chrpath-replacement-native"
 
 LIC_FILES_CHKSUM = "file://COPYING.LGPL;beginline=2;endline=3;md5=4b89c05acc71195e9a06edfa2fa7d092"
 
-SRCREV = "5ceae552829ee65c9ecff8ff303b1f2ddfd11576"
+SRCREV = "224f73461a44e278e9fa50ba59f51ee5e64373e0"
 
-SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=${PV} \
+SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=rel/0.99 \
     file://clamd.conf \
     file://freshclam.conf \
     file://volatiles.03_clamav \
     "
-
-SRC_URI[md5sum] = "61b51a04619aeafd965892a53f86d192"
-SRC_URI[sha256sum] = "167bd6a13e05ece326b968fdb539b05c2ffcfef6018a274a10aeda85c2c0027a"
 
 S = "${WORKDIR}/git"
 

@@ -7,11 +7,10 @@ LIC_FILES_CHKSUM = "file://bin/scapy;beginline=9;endline=13;md5=1d5249872cc54cd4
 
 SRC_URI = "https://github.com/secdev/${BPN}/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz \
            file://run-ptest \
-           file://scapy-Pickling-issues-fixed.patch \
 "
 
-SRC_URI[md5sum] = "00f11df3d6b46fe6ac306efd757486f9"
-SRC_URI[sha256sum] = "1b8a86d687feb8ed01114c0c016b428674cbfec04e3eb6f5249a018c427c4f6a"
+SRC_URI[md5sum] = "336d6832110efcf79ad30c9856ef5842"
+SRC_URI[sha256sum] = "67642cf7b806e02daeddd588577588caebddc3426db7904e7999a0b0334a63b5"
 
 inherit setuptools ptest
 

@@ -9,7 +9,7 @@ HOMEPAGE = "http://www.fail2ban.org"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://COPYING;md5=ecabc31e90311da843753ba772885d9f"
 
-SRCREV ="c60784540c5307d16cdc136ace5b395961492e73"
+SRCREV ="a45488465e0dd547eb8479c0fa9fd577c1837213"
 SRC_URI = " \
 	git://github.com/fail2ban/fail2ban.git;branch=0.10 \
 	file://initd \

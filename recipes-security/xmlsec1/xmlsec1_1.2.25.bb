@@ -17,6 +17,7 @@ SRC_URI = "http://www.aleksey.com/xmlsec/download/${BP}.tar.gz \
     file://change-finding-path-of-nss.patch \
     file://makefile-ptest.patch \
     file://xmlsec1-examples-allow-build-in-separate-dir.patch \
+    file://xmlsec1-fix-a-typo-in-examples-verify3.c.patch \
     file://run-ptest \
     "
 

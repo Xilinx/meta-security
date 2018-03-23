@@ -14,6 +14,7 @@ SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=rel/0.99 \
     file://clamd.conf \
     file://freshclam.conf \
     file://volatiles.03_clamav \
+    file://${BPN}.service \
     "
 
 S = "${WORKDIR}/git"
@@ -23,7 +24,7 @@ SO_VER = "7.1.1"
 
 EXTRANATIVEPATH += "chrpath-native"
 
-inherit autotools-brokensep pkgconfig useradd systemd 
+inherit autotools-brokensep pkgconfig useradd systemd
 
 UID = "clamav"
 GID = "clamav"
@@ -87,6 +88,9 @@ do_install_append() {
     install -m 0644 ${WORKDIR}/volatiles.03_clamav  ${D}${sysconfdir}/default/volatiles/volatiles.03_clamav
     sed -i -e 's#${STAGING_DIR_HOST}##g' ${D}${libdir}/pkgconfig/libclamav.pc
     rm ${D}/${libdir}/libclamav.so
+    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};then
+        install -D -m 0644 ${WORKDIR}/clamav.service ${D}${systemd_unitdir}/system/clamav.service
+    fi
 }
 
 pkg_postinst_${PN} () {
@@ -123,7 +127,8 @@ FILES_${PN}-freshclam = "${bindir}/freshclam \
                         ${sysconfdir}/clamav ${sysconfdir}/default/volatiles \
                         ${localstatedir}/lib/clamav \
                         ${docdir}/${PN}-freshclam ${mandir}/man1/freshclam.* \
-                        ${mandir}/man5/freshclam.conf.*"
+                        ${mandir}/man5/freshclam.conf.* \
+                        ${systemd_unitdir}/system/clamav-freshclam.service"
 
 FILES_${PN}-dev = " ${bindir}/clamav-config ${libdir}/*.la \
                     ${libdir}/pkgconfig/*.pc \

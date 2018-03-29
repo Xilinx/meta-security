@@ -18,4 +18,3 @@ do_install_append() {
 }
 
 RDEPENDS_${PN} += "gmp bash perl"
-BBCLASSEXTEND = "native"

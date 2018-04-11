@@ -1,3 +1,4 @@
+From 47379747e34f952d31af028c672940ca7859ae3c Mon Sep 17 00:00:00 2001
 From: Yulong Pei <Yulong.pei@windriver.com>
 Date: Wed, 21 Jul 2010 22:33:43 +0800
 Subject: [PATCH] change finding path of nss and nspr
@@ -6,13 +7,16 @@ Upstream-Status: Pending
 
 Signed-off-by: Yulong Pei <Yulong.pei@windriver.com>
 Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- configure.ac |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
 
+---
+ configure.ac | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 3278200..6edec7d 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -618,7 +618,7 @@
+@@ -644,7 +644,7 @@ if test "z$NSS_FOUND" = "zno" ; then
  
      if test "z$with_nspr" != "z" ; then
  	NSPR_PREFIX="$with_nspr"
@@ -21,7 +25,7 @@ Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
  	if test "z$with_gnu_ld" = "zyes" ; then
  	    NSPR_LIBS="-Wl,-rpath-link -Wl,$with_nspr/lib -L$with_nspr/lib $NSPR_LIBS_LIST"
  	else
-@@ -626,7 +626,7 @@
+@@ -652,7 +652,7 @@ if test "z$NSS_FOUND" = "zno" ; then
  	fi
  	NSPR_INCLUDES_FOUND="yes"
  	NSPR_LIBS_FOUND="yes"
@@ -30,7 +34,7 @@ Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
      else
  	for dir in $ac_nss_inc_dir ; do
      	    if test -f $dir/nspr/prinit.h ; then
-@@ -664,7 +664,7 @@
+@@ -690,7 +690,7 @@ if test "z$NSS_FOUND" = "zno" ; then
  	OLD_CPPFLAGS=$CPPFLAGS
  	CPPFLAGS="$NSPR_CFLAGS"
  	AC_EGREP_CPP(yes,[
@@ -39,7 +43,7 @@ Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
              #if PR_VMAJOR >= 4
                 yes
              #endif
-@@ -689,7 +689,7 @@
+@@ -715,7 +715,7 @@ if test "z$NSS_FOUND" = "zno" ; then
      NSS_NSS_H=""
  
      if test "z$with_nss" != "z" ; then
@@ -48,7 +52,7 @@ Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
  	if test "z$with_gnu_ld" = "zyes" ; then
  	    NSS_LIBS="$NSS_LIBS -Wl,-rpath-link -Wl,$with_nss/lib -L$with_nss/lib $NSS_LIBS_LIST"
          else
-@@ -697,7 +697,7 @@
+@@ -723,7 +723,7 @@ if test "z$NSS_FOUND" = "zno" ; then
          fi
  	NSS_INCLUDES_FOUND="yes"
  	NSS_LIBS_FOUND="yes"
@@ -57,9 +61,9 @@ Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
      else
  	for dir in $ac_nss_inc_dir ; do
  	    if test -f $dir/nss/nss.h ; then
-@@ -735,7 +735,7 @@
+@@ -761,7 +761,7 @@ if test "z$NSS_FOUND" = "zno" ; then
         OLD_CPPFLAGS=$CPPFLAGS
-        CPPFLAGS="$NSS_CFLAGS"
+        CPPFLAGS="$NSPR_CFLAGS $NSS_CFLAGS"
         AC_EGREP_CPP(yes,[
 -          #include <nss.h>
 +	  #include <nss3/nss.h>

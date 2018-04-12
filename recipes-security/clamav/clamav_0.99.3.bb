@@ -35,7 +35,7 @@ GID = "clamav"
 # as defined below
 
 CLAMAV_LLVM ?= "oellvm"
-CLAMAV_LLVM_RELEASE ?= "5.0"
+CLAMAV_LLVM_RELEASE ?= "6.0"
 
 PACKAGECONFIG ?= "ncurses openssl bz2 zlib ${CLAMAV_LLVM}"
 PACKAGECONFIG += " ${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)}"

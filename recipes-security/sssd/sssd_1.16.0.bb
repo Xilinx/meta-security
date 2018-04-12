@@ -14,7 +14,9 @@ SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz\
 SRC_URI[md5sum] = "f721ace2ebfa6744cfea55e3ecd2d82f"
 SRC_URI[sha256sum] = "c581a6e5365cef87fca419c0c9563cf15eadbb682863d648d85ffcded7a3940f"
 
-inherit autotools pkgconfig gettext update-rc.d python-dir
+inherit autotools pkgconfig gettext update-rc.d python-dir distro_features_check
+
+REQUIRED_DISTRO_FEATURES = "pam"
 
 CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
     ac_cv_path_NSUPDATE=${bindir} \

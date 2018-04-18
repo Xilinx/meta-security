@@ -46,7 +46,10 @@ do_compile_ptest () {
 }
 
 do_install_append() {
-    sed -i -e "s@${STAGING_DIR}@@g" ${D}${bindir}/xmlsec1-config
+    for i in ${bindir}/xmlsec1-config ${libdir}/xmlsec1Conf.sh \
+        ${libdir}/pkgconfig/xmlsec1-openssl.pc; do
+        sed -i -e "s@${RECIPE_SYSROOT}@@g" ${D}$i
+    done
 }
 
 do_install_ptest () {

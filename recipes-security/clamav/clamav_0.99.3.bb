@@ -93,8 +93,8 @@ do_install_append() {
     fi
 }
 
-pkg_postinst_${PN} () {
-    if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+pkg_postinst_ontarget_${PN} () {
+    if [ -e /etc/init.d/populate-volatile.sh ] ; then
         ${sysconfdir}/init.d/populate-volatile.sh update
     fi
     chown ${UID}:${GID} ${localstatedir}/lib/clamav

@@ -46,8 +46,8 @@ do_install_append () {
     install -m 0644 ${WORKDIR}/volatiles.03_suricata  ${D}${sysconfdir}/default/volatiles/volatiles.03_suricata
 }
 
-pkg_postinst_${PN} () {
-if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+pkg_postinst_ontarget_${PN} () {
+if [ -e /etc/init.d/populate-volatile.sh ] ; then
     ${sysconfdir}/init.d/populate-volatile.sh update
 fi
     ${bindir}/suricata -c ${sysconfdir}/suricata.yaml -i eth0 

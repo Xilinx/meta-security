@@ -73,9 +73,9 @@ fi
 
 SYSTEMD_PACKAGES = "${PN}"
 
-PACKAGES =+ "${PN}-python"
+PACKAGES =+ "${PN}-socketcontrol"
 FILES_${PN} += "${logdir}/suricata ${systemd_unitdir}"
-FILES_${PN}-python = "${bindir}/suricatasc ${PYTHON_SITEPACKAGES_DIR}"
+FILES_${PN}-socketcontrol = "${bindir}/suricatasc ${PYTHON_SITEPACKAGES_DIR}"
 
 CONFFILES_${PN} = "${sysconfdir}/suricata/suricata.yaml"
 

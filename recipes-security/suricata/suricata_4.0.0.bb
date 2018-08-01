@@ -40,6 +40,9 @@ PACKAGECONFIG[python] = "--enable-python, --disable-python, python, python"
 export logdir = "${localstatedir}/log"
 
 do_install_append () {
+
+    oe_runmake install-rules DESTDIR=${D}
+
     install -d ${D}${sysconfdir}/suricata
     install -d ${D}${sysconfdir}/suricata ${D}${sysconfdir}/default/volatiles
     install -m 644 classification.config ${D}${sysconfdir}/suricata

@@ -50,7 +50,6 @@ pkg_postinst_ontarget_${PN} () {
 if [ -e /etc/init.d/populate-volatile.sh ] ; then
     ${sysconfdir}/init.d/populate-volatile.sh update
 fi
-    ${bindir}/suricata -c ${sysconfdir}/suricata.yaml -i eth0 
 }
 
 PACKAGES += "${PN}-python"

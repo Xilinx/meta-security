@@ -52,8 +52,8 @@ if [ -e /etc/init.d/populate-volatile.sh ] ; then
 fi
 }
 
-PACKAGES += "${PN}-python"
-FILES_${PN} = "${bindir}/suricata ${sysconfdir}/default ${sysconfdir}/suricata ${logdir}/suricata"
+PACKAGES =+ "${PN}-python"
+FILES_${PN} += "${logdir}/suricata"
 FILES_${PN}-python = "${bindir}/suricatasc ${PYTHON_SITEPACKAGES_DIR}"
 
 RDEPENDS_${PN}-python = "python"

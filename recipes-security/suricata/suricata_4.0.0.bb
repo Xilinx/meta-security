@@ -47,6 +47,8 @@ do_install_append () {
     install -m 644 ${WORKDIR}/suricata.yaml ${D}${sysconfdir}/suricata
     install -m 0644 ${WORKDIR}/volatiles.03_suricata  ${D}${sysconfdir}/default/volatiles/volatiles.03_suricata
 
+    install -d ${D}${logdir}/suricata
+
     install -d ${D}${systemd_unitdir}/system
     sed  -e s:/etc:${sysconfdir}:g \
          -e s:/var/run:/run:g \

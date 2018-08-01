@@ -56,4 +56,6 @@ PACKAGES =+ "${PN}-python"
 FILES_${PN} += "${logdir}/suricata"
 FILES_${PN}-python = "${bindir}/suricatasc ${PYTHON_SITEPACKAGES_DIR}"
 
+CONFFILES_${PN} = "${sysconfdir}/suricata/suricata.yaml"
+
 RDEPENDS_${PN}-python = "python"

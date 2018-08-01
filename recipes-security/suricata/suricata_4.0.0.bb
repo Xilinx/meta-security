@@ -7,9 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=c70d8d3310941dcdfcd
 SRC_URI += " \
            file://volatiles.03_suricata \
            file://suricata.yaml \
+           file://suricata.service \
            "
 
-inherit autotools-brokensep pkgconfig python-dir 
+inherit autotools-brokensep pkgconfig python-dir systemd 
 
 CFLAGS += "-D_DEFAULT_SOURCE"
 
@@ -45,6 +46,16 @@ do_install_append () {
     install -m 644 reference.config ${D}${sysconfdir}/suricata
     install -m 644 ${WORKDIR}/suricata.yaml ${D}${sysconfdir}/suricata
     install -m 0644 ${WORKDIR}/volatiles.03_suricata  ${D}${sysconfdir}/default/volatiles/volatiles.03_suricata
+
+    install -d ${D}${systemd_unitdir}/system
+    sed  -e s:/etc:${sysconfdir}:g \
+         -e s:/var/run:/run:g \
+         -e s:/var:${localstatedir}:g \
+         -e s:/usr/bin:${bindir}:g \
+         -e s:/bin/kill:${base_bindir}/kill:g \
+         -e s:/usr/lib:${libdir}:g \
+         ${WORKDIR}/suricata.service > ${D}${systemd_unitdir}/system/suricata.service
+
 }
 
 pkg_postinst_ontarget_${PN} () {
@@ -53,8 +64,10 @@ if [ -e /etc/init.d/populate-volatile.sh ] ; then
 fi
 }
 
+SYSTEMD_PACKAGES = "${PN}"
+
 PACKAGES =+ "${PN}-python"
-FILES_${PN} += "${logdir}/suricata"
+FILES_${PN} += "${logdir}/suricata ${systemd_unitdir}"
 FILES_${PN}-python = "${bindir}/suricatasc ${PYTHON_SITEPACKAGES_DIR}"
 
 CONFFILES_${PN} = "${sysconfdir}/suricata/suricata.yaml"

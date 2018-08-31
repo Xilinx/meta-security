@@ -19,8 +19,11 @@ SRC_URI = "http://la-samhna.de/archive/samhain_signed-${PV}.tar.gz \
            file://samhain.service \
            "
 
-SRC_URI[md5sum] = "f499d5d06bfd1d787073a45bf28dd60f"
-SRC_URI[sha256sum] = "0f3e64afb3f00064c9b136d34a72d580cd41248c5941eba0452f364a109003c7"
+SRC_URI[md5sum] = "08863fad583acc7293ef29b4528c837e"
+SRC_URI[sha256sum] = "0cd779b3666264e1f370f7ec37891f680b4caa04895fab8c5aa9a52e41ec885d"
+
+UPSTREAM_CHECK_URI = "https://www.la-samhna.de/samhain/archive.html"
+UPSTREAM_CHECK_REGEX = "samhain_signed-(?P<pver>(\d+(\.\d+)+))\.tar"
 
 S = "${WORKDIR}/samhain-${PV}"
 

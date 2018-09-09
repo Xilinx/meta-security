@@ -5,20 +5,16 @@ LICENSE = "GPLv2"
 
 LIC_FILES_CHKSUM = "file://bin/scapy;beginline=9;endline=13;md5=1d5249872cc54cd4ca3d3879262d0c69"
 
-SRC_URI = "https://github.com/secdev/${BPN}/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz \
-           file://run-ptest \
-"
+SRC_URI[md5sum] = "d7d3c4294f5a718e234775d38dbeb7ec"
+SRC_URI[sha256sum] = "452f714f5c2eac6fd0a6146b1dbddfc24dd5f4103f3ed76227995a488cfb2b73"
 
-SRC_URI[md5sum] = "336d6832110efcf79ad30c9856ef5842"
-SRC_URI[sha256sum] = "67642cf7b806e02daeddd588577588caebddc3426db7904e7999a0b0334a63b5"
-
-inherit setuptools ptest
+inherit pypi ptest
 
 do_install_ptest() {
     install -m 0644 ${S}/test/regression.uts ${D}${PTEST_PATH}
     sed -i 's,@PTEST_PATH@,${PTEST_PATH},' ${D}${PTEST_PATH}/run-ptest
 }
 
-RDEPENDS_${PN} = "tcpdump python-subprocess python-compression python-netclient  \
-                  python-netserver python-pydoc python-pkgutil python-shell \
-                  python-threading python-numbers python-pycrypto"
+RDEPENDS_${PN} = "tcpdump ${PYTHON_PN}-compression ${PYTHON_PN}-netclient  \
+                  ${PYTHON_PN}-netserver ${PYTHON_PN}-pydoc ${PYTHON_PN}-pkgutil ${PYTHON_PN}-shell \
+                  ${PYTHON_PN}-threading ${PYTHON_PN}-numbers ${PYTHON_PN}-pycrypto"

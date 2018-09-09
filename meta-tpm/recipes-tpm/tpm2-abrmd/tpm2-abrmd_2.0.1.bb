@@ -9,14 +9,15 @@ SECTION = "security/tpm"
 LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=500b2e742befc3da00684d8a1d5fd9da"
 
-DEPENDS += "autoconf-archive dbus glib-2.0 pkgconfig tpm2.0-tss glib-2.0-native"
+DEPENDS += "autoconf-archive dbus glib-2.0 pkgconfig tpm2.0-tss glib-2.0-native \
+            libtss2 libtss2-mu libtss2-tcti-device libtss2-tcti-mssim"
 
 SRC_URI = "\
     git://github.com/01org/tpm2-abrmd.git \
     file://tpm2-abrmd-init.sh \
     file://tpm2-abrmd.default \
 "
-SRCREV = "59ce1008e5fa3bd5a143437b0f7390851fd25bd8"
+SRCREV = "80f8966b90d6394ad568e362d2936b333c2822bb"
 
 S = "${WORKDIR}/git"
 
@@ -37,7 +38,6 @@ PACKAGECONFIG ?="udev"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd', '', d)}"
 
 PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}, --with-systemdsystemunitdir=no"
-PACKAGECONFIG[udev] = "--with-udevrulesdir=${sysconfdir}/udev/rules.d, --without-udevrulesdir"
 
 do_install_append() {
     install -d "${D}${sysconfdir}/init.d"
@@ -49,6 +49,6 @@ do_install_append() {
 
 FILES_${PN} += "${libdir}/systemd/system-preset"
 
-RDEPENDS_${PN} += "libgcc dbus-glib libtss2 libtctidevice libtctisocket"
+RDEPENDS_${PN} += "tpm2.0-tss"
 
 BBCLASSEXTEND = "native"

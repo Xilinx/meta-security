@@ -24,8 +24,8 @@ SRC_URI = " \
         file://run-ptest \
 	"
 
-SRC_URI[md5sum] = "899fd834dc5c8ebf2d52b97e4a174af7"
-SRC_URI[sha256sum] = "b1c489ea11e7771b8e6b181532cafbf9ebe6603e3cb00e2558f21b7a5bdd739a"
+SRC_URI[md5sum] = "49054f58042f8e51ea92cc866575a833"
+SRC_URI[sha256sum] = "8a2b0cd083faa4d0640f579024be3a629faa7db3b99540798a1a050e2eaba056"
 
 PARALLEL_MAKE = ""
 

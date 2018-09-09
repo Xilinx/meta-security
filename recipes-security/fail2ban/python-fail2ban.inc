@@ -9,14 +9,14 @@ HOMEPAGE = "http://www.fail2ban.org"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://COPYING;md5=ecabc31e90311da843753ba772885d9f"
 
-SRCREV ="a45488465e0dd547eb8479c0fa9fd577c1837213"
+SRCREV ="ac0d441fd68852ffda7b15c71f16b7f4fde1a7ee"
 SRC_URI = " \
-	git://github.com/fail2ban/fail2ban.git;branch=0.10 \
+	git://github.com/fail2ban/fail2ban.git;branch=0.11 \
 	file://initd \
-	file://fail2ban_setup.py \
+        file://fail2ban_setup.py \
 "
 
-inherit update-rc.d setuptools
+inherit update-rc.d
 
 S = "${WORKDIR}/git"
 
@@ -32,10 +32,11 @@ do_install_append () {
 	install -d ${D}/${sysconfdir}/fail2ban
 	install -d ${D}/${sysconfdir}/init.d
     	install -m 0755 ${WORKDIR}/initd ${D}${sysconfdir}/init.d/fail2ban-server
+	chown -R root:root ${D}/${bindir}
 }
 
 FILES_${PN} += "/run"
 
 INSANE_SKIP_${PN}_append = "already-stripped"
 
-RDEPENDS_${PN} = "sysklogd iptables sqlite3 python python-pyinotify"
+RDEPENDS_${PN} = "sysklogd iptables sqlite3 ${PYTHON_PN} ${PYTHON_PN}-pyinotify"

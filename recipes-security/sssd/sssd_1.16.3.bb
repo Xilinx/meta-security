@@ -1,6 +1,6 @@
 SUMMARY = "system security services daemon"
 DESCRIPTION = "SSSD is a system security services daemon"
-HOMEPAGE = "https://fedorahosted.org/sssd/"
+HOMEPAGE = "https://pagure.io/SSSD/sssd/"
 SECTION = "base"
 LICENSE = "GPLv3+"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
@@ -11,8 +11,8 @@ DEPENDS += "libldb dbus libtalloc libpcre glib-2.0 popt e2fsprogs libtevent"
 SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz\
             file://sssd.conf "
 
-SRC_URI[md5sum] = "f721ace2ebfa6744cfea55e3ecd2d82f"
-SRC_URI[sha256sum] = "c581a6e5365cef87fca419c0c9563cf15eadbb682863d648d85ffcded7a3940f"
+SRC_URI[md5sum] = "af4288c9d1f9953e3b3b6e0b165a5ece"
+SRC_URI[sha256sum] = "ee5d17a0c663c09819cbab9364085b9e57faeca02406cc30efe14cc0cfc04ec4"
 
 inherit autotools pkgconfig gettext update-rc.d python-dir distro_features_check
 

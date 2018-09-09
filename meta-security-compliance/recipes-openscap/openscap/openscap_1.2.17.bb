@@ -11,7 +11,7 @@ DEPENDS = "autoconf-archive pkgconfig gconf procps curl libxml2 rpm \
 
 DEPENDS_class-native = "autoconf-archive-native pkgconfig-native swig-native curl-native libxml2-native libxslt-native dpkg-native libgcrypt-native nss-native"
 
-SRCREV = "240930d42611983c65ecae16dbca3248ce130921"
+SRCREV = "59c234b3e9907480c89dfbd1b466a6bf72a2d2ed"
 SRC_URI = "git://github.com/akuster/openscap.git;branch=oe \
            file://crypto_pkgconfig.patch \
            file://run-ptest \
@@ -46,6 +46,7 @@ do_configure_prepend () {
 	sed -i 's:-I/usr/include:-I${STAGING_INCDIR}:' ${S}/swig/perl/Makefile.am
 	sed -i 's:-I/usr/include:-I${STAGING_INCDIR}:' ${S}/swig/python3/Makefile.am
 	sed -i 's:-I/usr/include:-I${STAGING_INCDIR}:' ${S}/swig/python2/Makefile.am
+	sed -i 's:python2:python:' ${S}/utils/scap-as-rpm
 }
 
 

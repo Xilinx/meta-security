@@ -4,7 +4,7 @@ require suricata.inc
 
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=c70d8d3310941dcdfcd1e02800a1f548"
 
-SRC_URI += "https://rules.emergingthreats.net/open/suricata-4.0/emerging.rules.tar.gz;name=rules"
+SRC_URI += "file://emerging.rules.tar.gz;name=rules"
 
 SRC_URI += " \
            file://volatiles.03_suricata \
@@ -12,8 +12,8 @@ SRC_URI += " \
            file://suricata.service \
            "
 
-SRC_URI[rules.md5sum] = "7e8b570d318c98bff65f2ddc457122cb"
-SRC_URI[rules.sha256sum] = "229e3035804c2b816092c6eea09e35f9db0ea421758551a7a740cdd9c15e3feb"
+SRC_URI[rules.md5sum] = "205c5e5b54e489207ed892c03ad75b33"
+SRC_URI[rules.sha256sum] = "4aa81011b246875a57181c6a0569ca887845e366904bcaf0043220f33bd69798"
 
 inherit autotools-brokensep pkgconfig python-dir systemd 
 

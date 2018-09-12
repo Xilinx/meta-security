@@ -23,7 +23,7 @@ inherit autotools-brokensep ptest
 SRC_URI[md5sum] = "a14553e6ad921b5c85026ce5bec3afe7"
 SRC_URI[sha256sum] = "38d2acfa1c3630a07adcb5c8fe92d2aef7f0e6d242b8998b2bbb1c6e4c408d46"
 
-DEPENDS = "flex openssl bison-native"
+DEPENDS = "flex openssl10 bison-native"
 
 EXTRA_OEMAKE += "test-sample -j1"
 

@@ -6,16 +6,13 @@ LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=1fbd81241fe252ec0f5658a521ab7dd8"
 
 DEPENDS = "libnl openssl sqlite3 libpcre libpcap"
-RC = "rc2"
-SRC_URI = "http://download.aircrack-ng.org/${BP}-${RC}.tar.gz \
-            file://fixup_cflags.patch"
 
-SRC_URI[md5sum] = "ebe9d537f06f4d6956213af09c4476da"
-SRC_URI[sha256sum] = "ba5b3eda44254efc5b7c9f776eb756f7cc323ad5d0813c101e92edb483d157e9"
+SRC_URI = "http://download.aircrack-ng.org/${BP}.tar.gz"
+
+SRC_URI[md5sum] = "c7c5b076dee0c25ee580b0f56f455623"
+SRC_URI[sha256sum] = "8ae08a7c28741f6ace2769267112053366550e7f746477081188ad38410383ca"
 
 inherit autotools-brokensep pkgconfig
-
-S = "${WORKDIR}/${BP}-rc2"
 
 PACKAGECONFIG ?= ""
 CFLAGS += " -I${S}/src/include"

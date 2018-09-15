@@ -8,9 +8,8 @@ DEPENDS = "libtasn1 expect socat glib-2.0 libtpm libtpm-native"
 # configure checks for the tools already during compilation and
 # then swtpm_setup needs them at runtime
 DEPENDS += "tpm-tools-native expect-native socat-native"
-RDEPENDS_${PN} += "tpm-tools"
 
-SRCREV = "4f4f2f0a7e3195f6df8d235d58630a08e69403d8"
+SRCREV = "66b42f52ef363998cb57f039889d59381d20bdf1"
 SRC_URI = "git://github.com/stefanberger/swtpm.git \
            file://fix_lib_search_path.patch \
            file://fix_fcntl_h.patch \
@@ -59,3 +58,5 @@ python() {
         'filesystems-layer' not in d.getVar('BBFILE_COLLECTIONS').split():
         raise bb.parse.SkipRecipe('Cuse enabled which requires meta-filesystems to be present.')
 }
+
+RDEPENDS_${PN} += "tpm-tools"

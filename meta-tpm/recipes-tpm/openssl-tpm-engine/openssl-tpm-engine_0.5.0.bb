@@ -1,5 +1,5 @@
 DESCRIPTION = "OpenSSL secure engine based on TPM hardware"
-HOMEPAGE = "https://sourceforge.net/projects/trousers/"
+HOMEPAGE = "https://github.com/mgerstner/openssl_tpm_engine"
 SECTION = "security/tpm"
 
 LICENSE = "openssl"
@@ -8,18 +8,18 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=11f0ee3af475c85b907426e285c9bb52"
 DEPENDS += "openssl trousers"
 
 SRC_URI = "\
-    git://git.code.sf.net/p/trousers/openssl_tpm_engine \
+    git://github.com/mgerstner/openssl_tpm_engine.git \
     file://0001-create-tpm-key-support-well-known-key-option.patch \
     file://0002-libtpm-support-env-TPM_SRK_PW.patch \
-    file://0003-Fix-not-building-libtpm.la.patch \
     file://0003-tpm-openssl-tpm-engine-parse-an-encrypted-tpm-SRK-pa.patch \
     file://0004-tpm-openssl-tpm-engine-change-variable-c-type-from-c.patch \
+    file://openssl11_build_fix.patch \
 "
-SRCREV = "bbc2b1af809f20686e0d3553a62f0175742c0d60"
+SRCREV = "b28de5065e6eb9aa5d5afe2276904f7624c2cbaf"
 
 S = "${WORKDIR}/git"
 
-inherit autotools-brokensep
+inherit autotools-brokensep pkgconfig
 
 # The definitions below are used to decrypt the srk password.
 # It is allowed to define the values in 3 forms: string, hex number and
@@ -41,35 +41,22 @@ CFLAGS_append += "-DSRK_DEC_PW=${srk_dec_pw} -DSRK_DEC_SALT=${srk_dec_salt}"
 #CFLAGS_append += "-DTPM_SRK_PLAIN_PW"
 
 do_configure_prepend() {
-    cd "${S}"
+    cd ${B}
     cp LICENSE COPYING
-    touch NEWS AUTHORS ChangeLog
+    touch NEWS AUTHORS ChangeLog README
 }
 
-do_install_append() {
-    install -m 0755 -d "${D}${libdir}/engines"
-    install -m 0755 -d "${D}${prefix}/local/ssl/lib/engines"
-    install -m 0755 -d "${D}${libdir}/ssl/engines"
-
-    cp -f "${D}${libdir}/openssl/engines/libtpm.so.0.0.0" "${D}${libdir}/libtpm.so.0"
-    cp -f "${D}${libdir}/openssl/engines/libtpm.so.0.0.0" "${D}${libdir}/engines/libtpm.so"
-    cp -f "${D}${libdir}/openssl/engines/libtpm.so.0.0.0" "${D}${prefix}/local/ssl/lib/engines/libtpm.so"
-    mv -f "${D}${libdir}/openssl/engines/libtpm.so.0.0.0" "${D}${libdir}/ssl/engines/libtpm.so"
-    mv -f "${D}${libdir}/openssl/engines/libtpm.la" "${D}${libdir}/ssl/engines/libtpm.la"
-    rm -rf "${D}${libdir}/openssl"
-}
-
-FILES_${PN}-staticdev += "${libdir}/ssl/engines/libtpm.la"
+FILES_${PN}-staticdev += "${libdir}/ssl/engines-1.1/tpm.la"
 FILES_${PN}-dbg += "\
-    ${libdir}/ssl/engines/.debug \
-    ${libdir}/engines/.debug \
-    ${prefix}/local/ssl/lib/engines/.debug \
+    ${libdir}/ssl/engines-1.1/.debug \
+    ${libdir}/engines-1.1/.debug \
+    ${prefix}/local/ssl/lib/engines-1.1/.debug \
 "
 FILES_${PN} += "\
-    ${libdir}/ssl/engines/libtpm.so* \
-    ${libdir}/engines/libtpm.so* \
+    ${libdir}/ssl/engines-1.1/tpm.so* \
+    ${libdir}/engines-1.1/tpm.so* \
     ${libdir}/libtpm.so* \
-    ${prefix}/local/ssl/lib/engines/libtpm.so* \
+    ${prefix}/local/ssl/lib/engines-1.1/tpm.so* \
 "
 
 RDEPENDS_${PN} += "libcrypto libtspi"

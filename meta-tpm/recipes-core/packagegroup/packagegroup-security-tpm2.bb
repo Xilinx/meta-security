@@ -12,7 +12,7 @@ RDEPENDS_packagegroup-security-tpm2 = " \
     tpm2.0-tools \
     trousers \
     libtss2 \
-    libtctidevice \
-    libtctisocket \
+    libtss2-tcti-device \
+    libtss2-tcti-mssim \
     resourcemgr \
     "

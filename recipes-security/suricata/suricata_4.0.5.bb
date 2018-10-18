@@ -10,12 +10,13 @@ SRC_URI += " \
            file://volatiles.03_suricata \
            file://suricata.yaml \
            file://suricata.service \
+           file://run-ptest \
            "
 
 SRC_URI[rules.md5sum] = "205c5e5b54e489207ed892c03ad75b33"
 SRC_URI[rules.sha256sum] = "4aa81011b246875a57181c6a0569ca887845e366904bcaf0043220f33bd69798"
 
-inherit autotools-brokensep pkgconfig python-dir systemd 
+inherit autotools-brokensep pkgconfig python-dir systemd ptest
 
 CFLAGS += "-D_DEFAULT_SOURCE"
 
@@ -28,6 +29,8 @@ EXTRA_OECONF += " --disable-debug \
     "
 
 PACKAGECONFIG ??= "htp jansson file pcre yaml pcap cap-ng net nfnetlink nss nspr"
+PACKAGECONFIG_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'unittests', '', d)}"
+
 PACKAGECONFIG[htp] = "--with-libhtp-includes=${STAGING_INCDIR} --with-libhtp-libraries=${STAGING_LIBDIR}, ,libhtp,"
 PACKAGECONFIG[pcre] = "--with-libpcre-includes=${STAGING_INCDIR} --with-libpcre-libraries=${STAGING_LIBDIR}, ,libpcre ," 
 PACKAGECONFIG[yaml] = "--with-libyaml-includes=${STAGING_INCDIR} --with-libyaml-libraries=${STAGING_LIBDIR}, ,libyaml ,"
@@ -42,6 +45,7 @@ PACKAGECONFIG[file] = ",,file, file"
 PACKAGECONFIG[nss] = "--with-libnss-includes=${STAGING_INCDIR} --with-libnss-libraries=${STAGING_LIBDIR}, nss, nss," 
 PACKAGECONFIG[nspr] = "--with-libnspr-includes=${STAGING_INCDIR} --with-libnspr-libraries=${STAGING_LIBDIR}, nspr, nspr," 
 PACKAGECONFIG[python] = "--enable-python, --disable-python, python, python" 
+PACKAGECONFIG[unittests] = "--enable-unittests, --disable-unittests," 
 
 export logdir = "${localstatedir}/log"
 

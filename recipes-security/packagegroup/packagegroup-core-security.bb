@@ -28,6 +28,10 @@ RDEPENDS_packagegroup-security-utils = "\
     nmap \
     pinentry \
     python3-scapy \
+    ding-libs \
+    xmlsec1 \
+    keyutils \
+    libseccomp \
     ${@bb.utils.contains("DISTRO_FEATURES", "pax", "pax-utils", "",d)} \
     "
 
@@ -52,7 +56,7 @@ RDEPENDS_packagegroup-security-hardening = " \
 SUMMARY_packagegroup-security-ids = "Security Intrusion Detection systems"
 RDEPENDS_packagegroup-security-ids = " \
     tripwire \
-    samhain-client \
+    samhain-standalone \
     suricata \
     "
 

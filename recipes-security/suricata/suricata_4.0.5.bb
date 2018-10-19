@@ -69,6 +69,10 @@ do_install_append () {
          -e s:/bin/kill:${base_bindir}/kill:g \
          -e s:/usr/lib:${libdir}:g \
          ${WORKDIR}/suricata.service > ${D}${systemd_unitdir}/system/suricata.service
+
+    # Remove /var/run as it is created on startup
+    rm -rf ${D}${localstatedir}/run
+
 }
 
 pkg_postinst_ontarget_${PN} () {
@@ -80,7 +84,7 @@ fi
 SYSTEMD_PACKAGES = "${PN}"
 
 PACKAGES =+ "${PN}-socketcontrol"
-FILES_${PN} += "${systemd_unitdir} /run"
+FILES_${PN} += "${systemd_unitdir}"
 FILES_${PN}-socketcontrol = "${bindir}/suricatasc ${PYTHON_SITEPACKAGES_DIR}"
 
 CONFFILES_${PN} = "${sysconfdir}/suricata/suricata.yaml"

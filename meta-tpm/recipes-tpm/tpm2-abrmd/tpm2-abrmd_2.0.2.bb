@@ -9,15 +9,16 @@ SECTION = "security/tpm"
 LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=500b2e742befc3da00684d8a1d5fd9da"
 
-DEPENDS += "autoconf-archive dbus glib-2.0 pkgconfig tpm2.0-tss glib-2.0-native \
+DEPENDS = "autoconf-archive dbus glib-2.0 tpm2.0-tss glib-2.0-native \
             libtss2 libtss2-mu libtss2-tcti-device libtss2-tcti-mssim"
+
 
 SRC_URI = "\
     git://github.com/01org/tpm2-abrmd.git \
     file://tpm2-abrmd-init.sh \
     file://tpm2-abrmd.default \
 "
-SRCREV = "80f8966b90d6394ad568e362d2936b333c2822bb"
+SRCREV = "d0120ace58d97bc9520c0d558657eaca87ae73b1"
 
 S = "${WORKDIR}/git"
 
@@ -34,9 +35,7 @@ USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM_${PN} = "tss"
 USERADD_PARAM_${PN} = "--system -M -d /var/lib/tpm -s /bin/false -g tss tss"
 
-PACKAGECONFIG ?="udev"
-PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd', '', d)}"
-
+PACKAGECONFIG ?="${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd', '', d)}"
 PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}, --with-systemdsystemunitdir=no"
 
 do_install_append() {

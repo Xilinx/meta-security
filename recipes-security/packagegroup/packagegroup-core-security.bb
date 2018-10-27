@@ -65,7 +65,7 @@ RDEPENDS_packagegroup-security-ids = " \
 SUMMARY_packagegroup-security-mac = "Security Mandatory Access Control systems"
 RDEPENDS_packagegroup-security-mac = " \
     ${@bb.utils.contains("DISTRO_FEATURES", "tomoyo", "ccs-tools", "",d)} \
-    ${@bb.utils.contains("DISTRO_FEATURES", "apparmor", "", "",d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "apparmor", "apparmor", "",d)} \
     ${@bb.utils.contains("DISTRO_FEATURES", "smack", "smack", "",d)} \
     "
 
@@ -76,5 +76,7 @@ RDEPENDS_packagegroup-security-ptest = " \
     keyutils-ptest \
     libseccomp-ptest \
     python-scapy-ptest \
+    ${@bb.utils.contains("DISTRO_FEATURES", "apparmor", "apparmor-ptest", "",d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "smack", "smack-ptest", "",d)} \
     ptest-runner \
     "

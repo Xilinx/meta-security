@@ -76,6 +76,7 @@ RDEPENDS_packagegroup-security-ptest = " \
     keyutils-ptest \
     libseccomp-ptest \
     python-scapy-ptest \
+    suricata-ptest \
     ${@bb.utils.contains("DISTRO_FEATURES", "apparmor", "apparmor-ptest", "",d)} \
     ${@bb.utils.contains("DISTRO_FEATURES", "smack", "smack-ptest", "",d)} \
     ptest-runner \

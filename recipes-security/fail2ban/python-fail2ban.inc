@@ -14,9 +14,10 @@ SRC_URI = " \
 	git://github.com/fail2ban/fail2ban.git;branch=0.11 \
 	file://initd \
         file://fail2ban_setup.py \
+        file://run-ptest \
 "
 
-inherit update-rc.d
+inherit update-rc.d ptest
 
 S = "${WORKDIR}/git"
 
@@ -33,6 +34,12 @@ do_install_append () {
 	install -d ${D}/${sysconfdir}/init.d
     	install -m 0755 ${WORKDIR}/initd ${D}${sysconfdir}/init.d/fail2ban-server
 	chown -R root:root ${D}/${bindir}
+}
+
+do_install_ptest_append () {
+        install -d ${D}${PTEST_PATH}
+        sed -i -e 's/##PYTHON##/${PYTHON_PN}/g' ${D}${PTEST_PATH}/run-ptest
+        install -D ${S}/bin/fail2ban-testcases ${D}${PTEST_PATH}
 }
 
 FILES_${PN} += "/run"

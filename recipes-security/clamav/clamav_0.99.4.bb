@@ -8,7 +8,7 @@ DEPENDS = "libtool db libmspack chrpath-replacement-native"
 
 LIC_FILES_CHKSUM = "file://COPYING.LGPL;beginline=2;endline=3;md5=4b89c05acc71195e9a06edfa2fa7d092"
 
-SRCREV = "224f73461a44e278e9fa50ba59f51ee5e64373e0"
+SRCREV = "b66e5e27b48c0a07494f9df9b809ed933cede047"
 
 SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=rel/0.99 \
     file://clamd.conf \

@@ -21,7 +21,7 @@ SRC_URI = " \
 	file://functions \
 	file://apparmor \
 	file://apparmor.service \
-        file://run-ptest \
+	file://run-ptest \
 	"
 
 SRC_URI[md5sum] = "49054f58042f8e51ea92cc866575a833"
@@ -46,7 +46,7 @@ HTTPD="${@bb.utils.contains('PACKAGECONFIG', 'apache2', '1', '0', d)}"
 
 python() {
     if 'apache2' in d.getVar('PACKAGECONFIG').split() and \
-	'webserver' not in d.getVar('BBFILE_COLLECTIONS').split():
+            'webserver' not in d.getVar('BBFILE_COLLECTIONS').split():
         raise bb.parse.SkipRecipe('Requires meta-webserver to be present.')
 }
 

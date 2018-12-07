@@ -24,22 +24,6 @@ EXTRA_USERS_PARAMS = "\
 	groupadd tss; \
 	"
 
-SYSTEMD_PACKAGES = "resourcemgr"
-SYSTEMD_SERVICE_resourcemgr = "resourcemgr.service"
-SYSTEMD_AUTO_ENABLE_resourcemgr = "enable"
-
-do_patch[postfuncs] += "${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','fix_systemd_unit','', d)}"
-fix_systemd_unit () {
-    sed -i -e 's;^ExecStart=.*/resourcemgr;ExecStart=${sbindir}/resourcemgr;' ${S}/contrib/resourcemgr.service
-}
-
-do_install_append() {
-    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-        install -d ${D}${systemd_system_unitdir}
-        install -m0644 ${S}/contrib/resourcemgr.service ${D}${systemd_system_unitdir}/resourcemgr.service
-    fi
-}
-
 PROVIDES = "${PACKAGES}"
 PACKAGES = " \
     ${PN} \
@@ -57,7 +41,6 @@ PACKAGES = " \
     libtss2 \
     libtss2-dev \
     libtss2-staticdev \
-    resourcemgr \
 "
 
 FILES_libtss2-tcti-device = "${libdir}/libtss2-tcti-device.so.*"
@@ -89,5 +72,3 @@ FILES_libtss2-dev = " \
 FILES_libtss2-staticdev = "${libdir}/libtss*a"
 
 FILES_${PN} = "${libdir}/udev"
-
-FILES_resourcemgr = "${sbindir}/resourcemgr ${systemd_system_unitdir}/resourcemgr.service"

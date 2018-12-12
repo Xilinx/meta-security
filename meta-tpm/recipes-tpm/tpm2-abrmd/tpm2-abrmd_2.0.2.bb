@@ -46,7 +46,8 @@ do_install_append() {
     install -m 0644 "${WORKDIR}/tpm2-abrmd.default" "${D}${sysconfdir}/default/tpm2-abrmd"
 }
 
-FILES_${PN} += "${libdir}/systemd/system-preset"
+FILES_${PN} += "${libdir}/systemd/system-preset \
+		${datadir}/dbus-1"
 
 RDEPENDS_${PN} += "tpm2.0-tss"
 

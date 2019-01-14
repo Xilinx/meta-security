@@ -29,11 +29,11 @@ SRC_URI[sha256sum] = "8a2b0cd083faa4d0640f579024be3a629faa7db3b99540798a1a050e2e
 
 PARALLEL_MAKE = ""
 
-inherit pkgconfig autotools-brokensep update-rc.d python3native perlnative ptest cpan
+inherit pkgconfig autotools-brokensep update-rc.d python3native perlnative ptest cpan manpages
 inherit ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','systemd','', d)}
 
-PACKAGECONFIG ?="man python perl"
-PACKAGECONFIG[man] = "--enable-man-pages, --disable-man-pages"
+PACKAGECONFIG ??= "python perl"
+PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages"
 PACKAGECONFIG[python] = "--with-python, --without-python, python3 swig-native"
 PACKAGECONFIG[perl] = "--with-perl, --without-perl, perl perl-native swig-native"
 PACKAGECONFIG[apache2] = ",,apache2,"

@@ -50,8 +50,7 @@ python() {
         raise bb.parse.SkipRecipe('Requires meta-webserver to be present.')
 }
 
-CONFIGUREOPTS_remove = "--disable-static"
-EXTRA_OECONF_append = " --enable-static"
+DISABLE_STATIC = ""
 
 do_configure() {
 	cd ${S}/libraries/libapparmor

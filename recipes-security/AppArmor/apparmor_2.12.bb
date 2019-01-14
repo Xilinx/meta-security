@@ -86,6 +86,11 @@ do_install () {
 	oe_runmake -C ${B}/parser DESTDIR="${D}" install
 	oe_runmake -C ${B}/profiles DESTDIR="${D}" install
 
+	# If perl is disabled this script won't be any good
+	if ! ${@bb.utils.contains('PACKAGECONFIG','perl','true','false', d)}; then
+		rm -f ${D}${sbindir}/aa-notify
+	fi
+
 	if test -z "${HTTPD}" ; then
 		oe_runmake -C ${B}/changehat/mod_apparmor DESTDIR="${D}" install
 	fi

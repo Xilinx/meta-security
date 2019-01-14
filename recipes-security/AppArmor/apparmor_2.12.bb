@@ -29,8 +29,7 @@ SRC_URI[sha256sum] = "8a2b0cd083faa4d0640f579024be3a629faa7db3b99540798a1a050e2e
 
 PARALLEL_MAKE = ""
 
-inherit pkgconfig autotools-brokensep update-rc.d python3native perlnative ptest cpan manpages
-inherit ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','systemd','', d)}
+inherit pkgconfig autotools-brokensep update-rc.d python3native perlnative ptest cpan manpages systemd
 
 PACKAGECONFIG ??= "python perl"
 PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages"
@@ -101,11 +100,8 @@ do_install () {
 
 	install ${WORKDIR}/apparmor ${D}/${INIT_D_DIR}/apparmor
 	install ${WORKDIR}/functions ${D}/lib/apparmor
-	if [ "${VIRTUAL-RUNTIME_init_manager}" = "systemd" ]; then
-		install -d ${D}${systemd_system_unitdir}
-		install ${WORKDIR}/apparmor.service \
-			${D}${systemd_system_unitdir}
-	fi
+	install -d ${D}${systemd_system_unitdir}
+	install ${WORKDIR}/apparmor.service ${D}${systemd_system_unitdir}
 }
 
 do_compile_ptest () {

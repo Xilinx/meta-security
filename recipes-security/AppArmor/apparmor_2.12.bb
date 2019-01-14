@@ -17,6 +17,7 @@ SRC_URI = " \
 	http://archive.ubuntu.com/ubuntu/pool/main/a/${BPN}/${BPN}_${PV}.orig.tar.gz \
 	file://disable_perl_h_check.patch \
 	file://crosscompile_perl_bindings.patch \
+	file://tool-paths.patch \
 	file://apparmor.rc \
 	file://functions \
 	file://apparmor \
@@ -56,8 +57,6 @@ do_configure() {
 	libtoolize --automake -c --force
 	automake -ac
 	./configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
-	sed -i -e 's#^YACC.*#YACC := bison#' ${S}/parser/Makefile
-	sed -i -e 's#^LEX.*#LEX := flex#' ${S}/parser/Makefile
 }
 
 do_compile () {

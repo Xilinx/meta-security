@@ -1,0 +1,37 @@
+Upstream-Status: Backport
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+From e7edd937adcbf1b3c8d38a31de5bacb2029b1965 Mon Sep 17 00:00:00 2001
+From: John Johansen <john.johansen@canonical.com>
+Date: Thu, 4 Oct 2018 23:15:28 -0700
+Subject: [PATCH] parser: fix Makefile hardcoded paths to flex and bison
+
+The hardcoded paths for flex and python can break builds on systems
+where those tools are stored in an alternate location. Use which
+to lookup where flex and bison are available.
+
+This fixes issue #4
+
+Signed-off-by: John Johansen <john.johansen@canonical.com>
+---
+ parser/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/parser/Makefile b/parser/Makefile
+index 4d370c36..015c218d 100644
+--- a/parser/Makefile
++++ b/parser/Makefile
+@@ -27,9 +27,9 @@ INSTALL_CONFDIR=${DESTDIR}${CONFDIR}
+ LOCALEDIR=/usr/share/locale
+ MANPAGES=apparmor.d.5 apparmor.7 apparmor_parser.8 subdomain.conf.5
+ 
+-YACC	:= /usr/bin/bison
++YACC	:= bison
+ YFLAGS	:= -d
+-LEX	:= /usr/bin/flex
++LEX	:= flex
+ LEXFLAGS = -B -v
+ WARNINGS = -Wall
+ EXTRA_WARNINGS = -Wsign-compare -Wmissing-field-initializers -Wformat-security -Wunused-parameter
+-- 
+2.11.0

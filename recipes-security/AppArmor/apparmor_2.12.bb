@@ -32,8 +32,6 @@ PARALLEL_MAKE = ""
 inherit pkgconfig autotools-brokensep update-rc.d python3native perlnative ptest cpan
 inherit ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','systemd','systemd','', d)}
 
-S = "${WORKDIR}/apparmor-${PV}"
-
 PACKAGECONFIG ?="man python perl"
 PACKAGECONFIG[man] = "--enable-man-pages, --disable-man-pages"
 PACKAGECONFIG[python] = "--with-python, --without-python, python3 swig-native"

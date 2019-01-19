@@ -10,6 +10,13 @@ SRC_URI[sha256sum] = "1baa048936207ceb1a4281a0e1e3b4317667c754872a0bb4734c5213c4
 
 inherit pypi
 
+do_install_append() {
+    if [ "${PYTHON_PN}" = "python3" ]; then
+        sed -i -e 's/python/python3/' ${D}${bindir}/scapy
+        sed -i -e 's/python/python3/' ${D}${bindir}/UTscapy
+    fi
+}
+
 RDEPENDS_${PN} = "tcpdump ${PYTHON_PN}-compression ${PYTHON_PN}-cryptography ${PYTHON_PN}-netclient  \
                   ${PYTHON_PN}-netserver ${PYTHON_PN}-pydoc ${PYTHON_PN}-pkgutil ${PYTHON_PN}-shell \
                   ${PYTHON_PN}-threading ${PYTHON_PN}-numbers ${PYTHON_PN}-pycrypto"

@@ -32,6 +32,11 @@ EXTRA_OECONF = "\
     --with-nss=${STAGING_LIBDIR}/../.. --with-nspr=${STAGING_LIBDIR}/../.. \
     "
 
+# these can be dynamically loaded with xmlSecCryptoDLLoadLibrary()
+FILES_SOLIBSDEV = "${libdir}/libxmlsec1.so"
+FILES_${PN} += "${libdir}/libxmlsec1-*.so"
+INSANE_SKIP_${PN} = "dev-so"
+
 FILES_${PN}-dev += "${libdir}/xmlsec1Conf.sh"
 FILES_${PN}-dbg += "${PTEST_PATH}/.debug/*"
 

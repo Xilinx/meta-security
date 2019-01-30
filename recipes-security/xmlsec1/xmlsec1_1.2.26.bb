@@ -5,7 +5,7 @@ DESCRIPTION = "\
     XML security standards "XML Digital Signature" and "XML Encryption". \
     "
 HOMEPAGE = "http://www.aleksey.com/xmlsec/"
-DEPENDS = "libtool libxml2 libxslt openssl zlib libgcrypt gnutls nss nspr libgpg-error"
+DEPENDS = "libtool libxml2 libxslt zlib"
 
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://COPYING;md5=352791d62092ea8104f085042de7f4d0"
@@ -28,9 +28,11 @@ inherit autotools-brokensep ptest pkgconfig
 CFLAGS += "-I${STAGING_INCDIR}/nspr4 -I${STAGING_INCDIR}/nss3"
 CPPFLAGS += "-I${STAGING_INCDIR}/nspr4 -I${STAGING_INCDIR}/nss3"
 
-EXTRA_OECONF = "\
-    --with-nss=${STAGING_LIBDIR}/../.. --with-nspr=${STAGING_LIBDIR}/../.. \
-    "
+PACKAGECONFIG ??= "gnutls libgcrypt nss openssl"
+PACKAGECONFIG[gnutls] = ",,gnutls"
+PACKAGECONFIG[libgcrypt] = ",,libgcrypt"
+PACKAGECONFIG[nss] = "--with-nss=${STAGING_LIBDIR}/../.. --with-nspr=${STAGING_LIBDIR}/../..,,nss nspr"
+PACKAGECONFIG[openssl] = ",,openssl"
 
 # these can be dynamically loaded with xmlSecCryptoDLLoadLibrary()
 FILES_SOLIBSDEV = "${libdir}/libxmlsec1.so"

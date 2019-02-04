@@ -5,16 +5,23 @@ LICENSE = "GPLv2"
 
 LIC_FILES_CHKSUM = "file://bin/scapy;beginline=9;endline=13;md5=1d5249872cc54cd4ca3d3879262d0c69"
 
-SRC_URI[md5sum] = "e6a03d8c924a6bbde1e86fc58bd2b9d6"
-SRC_URI[sha256sum] = "1baa048936207ceb1a4281a0e1e3b4317667c754872a0bb4734c5213c468e86a"
+S = "${WORKDIR}/git"
 
-inherit pypi
+SRCREV = "bad14cb1a5aee29f8107fbe8ad008d4645f14da7"
+SRC_URI = "git://github.com/secdev/scapy.git"
+
+inherit ptest
 
 do_install_append() {
     if [ "${PYTHON_PN}" = "python3" ]; then
         sed -i -e 's/python/python3/' ${D}${bindir}/scapy
         sed -i -e 's/python/python3/' ${D}${bindir}/UTscapy
     fi
+}
+
+do_install_ptest() {
+    install -m 0644 ${S}/test/regression.uts ${D}${PTEST_PATH}
+    sed -i 's,@PTEST_PATH@,${PTEST_PATH},' ${D}${PTEST_PATH}/run-ptest
 }
 
 RDEPENDS_${PN} = "tcpdump ${PYTHON_PN}-compression ${PYTHON_PN}-cryptography ${PYTHON_PN}-netclient  \

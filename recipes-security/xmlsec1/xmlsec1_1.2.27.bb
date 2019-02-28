@@ -28,11 +28,12 @@ inherit autotools-brokensep ptest pkgconfig
 CFLAGS += "-I${STAGING_INCDIR}/nspr4 -I${STAGING_INCDIR}/nss3"
 CPPFLAGS += "-I${STAGING_INCDIR}/nspr4 -I${STAGING_INCDIR}/nss3"
 
-PACKAGECONFIG ??= "gnutls libgcrypt nss openssl"
+PACKAGECONFIG ??= "gnutls libgcrypt nss openssl des"
 PACKAGECONFIG[gnutls] = ",,gnutls"
 PACKAGECONFIG[libgcrypt] = ",,libgcrypt"
 PACKAGECONFIG[nss] = "--with-nss=${STAGING_LIBDIR}/../.. --with-nspr=${STAGING_LIBDIR}/../..,,nss nspr"
 PACKAGECONFIG[openssl] = ",,openssl"
+PACKAGECONFIG[des] = ",--disable-des,,"
 
 # these can be dynamically loaded with xmlSecCryptoDLLoadLibrary()
 FILES_SOLIBSDEV = "${libdir}/libxmlsec1.so"

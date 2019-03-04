@@ -1,18 +1,21 @@
 SUMMARY = "Software stack for TPM2."
 DESCRIPTION = "tpm2.0-tss like woah."
 LICENSE = "BSD-2-Clause"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=0b1d631c4218b72f6b05cb58613606f4"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=500b2e742befc3da00684d8a1d5fd9da"
 SECTION = "tpm"
 
-DEPENDS = "autoconf-archive-native libgcrypt"
+DEPENDS = "autoconf-archive-native libgcrypt openssl"
 
-SRCREV = "dc31e8dca9dbc77d16e419dc514ce8c526cd3351"
+SRCREV = "eb69e13559f20a0b49002a685c6f4a39be9503e2"
 
-SRC_URI = "git://github.com/tpm2-software/tpm2-tss.git;branch=2.0.x"
+SRC_URI = "git://github.com/tpm2-software/tpm2-tss.git;branch=2.2.x"
 
 inherit autotools-brokensep pkgconfig systemd
 
 S = "${WORKDIR}/git"
+
+PACKAGECONFIG ??= ""
+PACKAGECONFIG[oxygen] = ",--disable-doxygen-doc, "
 
 do_configure_prepend () {
        ./bootstrap
@@ -72,3 +75,5 @@ FILES_libtss2-dev = " \
 FILES_libtss2-staticdev = "${libdir}/libtss*a"
 
 FILES_${PN} = "${libdir}/udev"
+
+RDEPENDS_libtss2 = "libgcrypt"

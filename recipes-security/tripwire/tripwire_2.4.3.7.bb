@@ -6,7 +6,7 @@ SECTION = "security Monitor/Admin"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=1c069be8dbbe48e89b580ab4ed86c127"
 
-SRCREV = "80db91b4c1ca4be9efafd2286e3b2ad32ba4c34c"
+SRCREV = "6e64a9e5b70a909ec439bc5a099e3fcf38c614b0"
 
 SRC_URI = "\
 	git://github.com/Tripwire/tripwire-open-source.git \

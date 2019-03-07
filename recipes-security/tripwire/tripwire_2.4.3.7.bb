@@ -62,6 +62,7 @@ do_install () {
 do_install_ptest_append () {
 	install -d ${D}${PTEST_PATH}/tests
 	cp -a ${S}/src/test-harness/* ${D}${PTEST_PATH}
+	sed -i -e 's@../../../../bin@${sbindir}@'  ${D}${PTEST_PATH}/twtools.pm
 }
 
 FILES_${PN} += "${libdir} ${docdir}/${PN}/*"
@@ -70,4 +71,4 @@ FILES_${PN}-staticdev += "${localstatedir}/lib/${PN}/lib*.a"
 FILES_${PN}-ptest += "${PTEST_PATH}/tests "
 
 RDEPENDS_${PN} += " perl nano msmtp cronie"
-RDEPENDS_${PN}-ptest = " perl lib-perl"
+RDEPENDS_${PN}-ptest = " perl lib-perl perl-modules "

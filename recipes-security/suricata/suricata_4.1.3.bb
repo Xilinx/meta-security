@@ -16,7 +16,7 @@ SRC_URI += " \
 SRC_URI[rules.md5sum] = "205c5e5b54e489207ed892c03ad75b33"
 SRC_URI[rules.sha256sum] = "4aa81011b246875a57181c6a0569ca887845e366904bcaf0043220f33bd69798"
 
-inherit autotools-brokensep pkgconfig python-dir systemd ptest
+inherit autotools-brokensep pkgconfig python3-dir systemd ptest
 
 CFLAGS += "-D_DEFAULT_SOURCE"
 
@@ -26,6 +26,7 @@ CACHED_CONFIGUREVARS = "ac_cv_header_htp_htp_h=yes ac_cv_lib_htp_htp_conn_create
 EXTRA_OECONF += " --disable-debug \
     --enable-non-bundled-htp \
     --disable-gccmarch-native \
+    --disable-suricata-update \
     "
 
 PACKAGECONFIG ??= "htp jansson file pcre yaml pcap cap-ng net nfnetlink nss nspr"
@@ -44,7 +45,7 @@ PACKAGECONFIG[jansson] = "--with-libjansson-includes=${STAGING_INCDIR} --with-li
 PACKAGECONFIG[file] = ",,file, file"
 PACKAGECONFIG[nss] = "--with-libnss-includes=${STAGING_INCDIR} --with-libnss-libraries=${STAGING_LIBDIR}, nss, nss," 
 PACKAGECONFIG[nspr] = "--with-libnspr-includes=${STAGING_INCDIR} --with-libnspr-libraries=${STAGING_LIBDIR}, nspr, nspr," 
-PACKAGECONFIG[python] = "--enable-python, --disable-python, python, python" 
+PACKAGECONFIG[python] = "--enable-python, --disable-python, python3, python3" 
 PACKAGECONFIG[unittests] = "--enable-unittests, --disable-unittests," 
 
 export logdir = "${localstatedir}/log"

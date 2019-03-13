@@ -14,12 +14,12 @@ DEPENDS = "autoconf-archive dbus glib-2.0 tpm2.0-tss glib-2.0-native \
 
 
 SRC_URI = "\
-    git://github.com/01org/tpm2-abrmd.git \
+    git://github.com/tpm2-software/tpm2-abrmd.git \
     file://tpm2-abrmd-init.sh \
     file://tpm2-abrmd.default \
 "
 
-SRCREV = "e2f30eebd79079ed92952e78a6f8ab1c2c6194da"
+SRCREV = "06d9d433ba27159687255406baa37940db15465b"
 
 S = "${WORKDIR}/git"
 

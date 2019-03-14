@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3edd6782854304fd11da4975ab9799c1"
 
 SRC_URI = "https://cisofy.com/files/${BPN}-${PV}.tar.gz"
 
-SRC_URI[md5sum] = "ac0ae8086e31f263f2da0c5c553686ba"
-SRC_URI[sha256sum] = "c9cb9b77dcdc782decbf06ddca30c0e853605b99029d8e86ade8449a0959be3b"
+SRC_URI[md5sum] = "3422cee3b12fc33338fcde003d65e234"
+SRC_URI[sha256sum] = "fde6ccf8d6ec0ae1e9c9f4a6d640cddcde4bf7a92f8437d47d16a5477e21bfda"
 
 S = "${WORKDIR}/${BPN}"
 

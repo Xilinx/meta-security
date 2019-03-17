@@ -15,4 +15,9 @@ RDEPENDS_packagegroup-security-tpm2 = " \
     libtss2-tcti-device \
     libtss2-tcti-mssim \
     tpm2-abrmd \
+    tpm2-pkcs11 \
+    cryptsetup-tpm-incubator \
     "
+
+RDEPENDS_packagegroup-security-tpm2_append_x86 = " tpm2-tcti-uefi"
+RDEPENDS_packagegroup-security-tpm2_append_x86-64 = " tpm2-tcti-uefi"

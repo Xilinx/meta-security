@@ -9,7 +9,7 @@ PACKAGES = "packagegroup-security-tpm2"
 
 SUMMARY_packagegroup-security-tpm2 = "Security TPM 2.0 support"
 RDEPENDS_packagegroup-security-tpm2 = " \
-    tpm2.0-tools \
+    tpm2-tools \
     trousers \
     libtss2 \
     libtss2-tcti-device \

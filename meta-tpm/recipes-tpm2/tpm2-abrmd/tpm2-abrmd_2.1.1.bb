@@ -9,7 +9,7 @@ SECTION = "security/tpm"
 LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=500b2e742befc3da00684d8a1d5fd9da"
 
-DEPENDS = "autoconf-archive dbus glib-2.0 tpm2.0-tss glib-2.0-native \
+DEPENDS = "autoconf-archive dbus glib-2.0 tpm2-tss glib-2.0-native \
             libtss2 libtss2-mu libtss2-tcti-device libtss2-tcti-mssim"
 
 
@@ -50,6 +50,6 @@ do_install_append() {
 FILES_${PN} += "${libdir}/systemd/system-preset \
 		${datadir}/dbus-1"
 
-RDEPENDS_${PN} += "tpm2.0-tss"
+RDEPENDS_${PN} += "tpm2-tss"
 
 BBCLASSEXTEND = "native"

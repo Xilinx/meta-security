@@ -14,9 +14,12 @@ SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz\
 SRC_URI[md5sum] = "af4288c9d1f9953e3b3b6e0b165a5ece"
 SRC_URI[sha256sum] = "ee5d17a0c663c09819cbab9364085b9e57faeca02406cc30efe14cc0cfc04ec4"
 
-inherit autotools pkgconfig gettext update-rc.d python-dir distro_features_check
+inherit autotools pkgconfig gettext python-dir distro_features_check
 
 REQUIRED_DISTRO_FEATURES = "pam"
+
+SSSD_UID ?= "root"
+SSSD_GID ?= "root"
 
 CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
     ac_cv_path_NSUPDATE=${bindir} \
@@ -25,6 +28,7 @@ CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
 
 PACKAGECONFIG ?="nss nscd"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
+PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 
 PACKAGECONFIG[ssh] = "--with-ssh, --with-ssh=no, "
 PACKAGECONFIG[samba] = "--with-samba, --with-samba=no, samba"
@@ -55,6 +59,17 @@ do_install () {
     rmdir --ignore-fail-on-non-empty "${D}/${bindir}"
     install -d ${D}/${sysconfdir}/${BPN}
     install -m 600 ${WORKDIR}/${BPN}.conf ${D}/${sysconfdir}/${BPN}
+
+    # Remove /var/run as it is created on startup
+    rm -rf ${D}${localstatedir}/run
+
+}
+
+pkg_postinst_ontarget_${PN} () {
+if [ -e /etc/init.d/populate-volatile.sh ] ; then
+    ${sysconfdir}/init.d/populate-volatile.sh update
+fi
+    chown ${SSSD_UID}:${SSSD_GID} ${sysconfdir}/${BPN}/${BPN}.conf
 }
 
 CONFFILES_${PN} = "${sysconfdir}/${BPN}/${BPN}.conf"
@@ -70,4 +85,4 @@ FILES_${PN}-dev = " ${includedir}/* ${libdir}/*la ${libdir}/*/*la"
 # The package contains symlinks that trip up insane
 INSANE_SKIP_${PN} = "dev-so"
 
-RDEPENDS_${PN} += "bind dbus"
+RDEPENDS_${PN} = "bind dbus libldb libpam"

@@ -11,8 +11,8 @@ DEPENDS += "libldb dbus libtalloc libpcre glib-2.0 popt e2fsprogs libtevent"
 SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz\
             file://sssd.conf "
 
-SRC_URI[md5sum] = "af4288c9d1f9953e3b3b6e0b165a5ece"
-SRC_URI[sha256sum] = "ee5d17a0c663c09819cbab9364085b9e57faeca02406cc30efe14cc0cfc04ec4"
+SRC_URI[md5sum] = "757bbb6f15409d8d075f4f06cb678d50"
+SRC_URI[sha256sum] = "6bb212cd6b75b918e945c24e7c3f95a486fb54d7f7d489a9334cfa1a1f3bf959"
 
 inherit autotools pkgconfig gettext python-dir distro_features_check
 

@@ -117,6 +117,7 @@ do_configure () {
 	--enable-network=${SAMHAIN_MODE} \
 	--with-pid-file=${localstatedir}/run/samhain.pid \
 	--with-data-file=${localstatedir}/lib/samhain/samhain_file \
+	--disable-dnmalloc \
 	${EXTRA_OECONF}
 }
 

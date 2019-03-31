@@ -17,7 +17,6 @@ SRC_URI = " \
 	http://archive.ubuntu.com/ubuntu/pool/main/a/${BPN}/${BPN}_${PV}.orig.tar.gz \
 	file://disable_perl_h_check.patch \
 	file://crosscompile_perl_bindings.patch \
-	file://tool-paths.patch \
 	file://apparmor.rc \
 	file://functions \
 	file://apparmor \
@@ -25,8 +24,8 @@ SRC_URI = " \
 	file://run-ptest \
 	"
 
-SRC_URI[md5sum] = "49054f58042f8e51ea92cc866575a833"
-SRC_URI[sha256sum] = "8a2b0cd083faa4d0640f579024be3a629faa7db3b99540798a1a050e2eaba056"
+SRC_URI[md5sum] = "2439b35266b5a3a461b0a2dba6e863c3"
+SRC_URI[sha256sum] = "844def9926dfda5c7858428d06e44afc80573f9706458b6e7282edbb40b11a30"
 
 PARALLEL_MAKE = ""
 
@@ -60,6 +59,13 @@ do_configure() {
 }
 
 do_compile () {
+        # Fixes:
+        # | sed -ie 's///g' Makefile.perl
+        # | sed: -e expression #1, char 0: no previous regular expression
+        #| Makefile:478: recipe for target 'Makefile.perl' failed
+        sed -i "s@sed -ie 's///g' Makefile.perl@@" ${S}/libraries/libapparmor/swig/perl/Makefile
+
+
 	oe_runmake -C ${B}/libraries/libapparmor
         oe_runmake -C ${B}/binutils
         oe_runmake -C ${B}/utils

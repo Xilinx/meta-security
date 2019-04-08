@@ -19,6 +19,8 @@ class ClamavTest(OERuntimeTestCase):
             f.write(os.linesep)
             f.write("nameserver 8.8.4.4")
             f.write(os.linesep)
+            f.write("nameserver 127.0.0.1")
+            f.write(os.linesep)
 
     @classmethod
     def tearDownClass(cls):

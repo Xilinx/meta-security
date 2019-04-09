@@ -4,8 +4,9 @@ HOMEPAGE = "http://www.clamav.net/index.html"
 SECTION = "security"
 LICENSE = "LGPL-2.1"
 
-DEPENDS = "libtool db libmspack chrpath-replacement-native"
-
+DEPENDS = "libtool db libmspack chrpath-replacement-native clamav-native"
+DEPENDS_class-native = "db-native"
+ 
 LIC_FILES_CHKSUM = "file://COPYING.LGPL;beginline=2;endline=3;md5=4b89c05acc71195e9a06edfa2fa7d092"
 
 SRCREV = "b66e5e27b48c0a07494f9df9b809ed933cede047"
@@ -15,6 +16,7 @@ SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=rel/0.99 \
     file://freshclam.conf \
     file://volatiles.03_clamav \
     file://${BPN}.service \
+    file://freshclam-native.conf \
     "
 
 S = "${WORKDIR}/git"
@@ -28,6 +30,7 @@ inherit autotools-brokensep pkgconfig useradd systemd
 
 UID = "clamav"
 GID = "clamav"
+INSTALL_CLAMAV_CVD ?= "1"
 
 # Clamav has a built llvm version 2 but does not build with gcc 6.x,
 # disable the internal one. This is a known issue
@@ -58,12 +61,27 @@ EXTRA_OECONF += " --with-user=${UID}  --with-group=${GID} \
             --disable-rpath \
             "
 
+EXTRA_OECONF_class-native += "--without-libcheck-prefix --disable-unrar \
+            --with-system-llvm --with-llvm-linking=dynamic --disable-llvm \
+            --disable-mempool \
+            --program-prefix="" \
+            --disable-yara \
+            --without-libbz2-prefix --without-zlib \
+            "
+
 do_configure () {
+    cd ${S}
+    ./configure ${CONFIGUREOPTS} ${EXTRA_OECONF} 
+    install -d ${S}/clamav_db
+}
+
+do_configure_class-native () {
     cd ${S}
     ./configure ${CONFIGUREOPTS} ${EXTRA_OECONF} 
 }
 
-do_compile_append() {
+
+do_compile_append_class-target() {
     # brute force removing RPATH
     chrpath -d  ${B}/libclamav/.libs/libclamav.so.${SO_VER}
     chrpath -d  ${B}/sigtool/.libs/sigtool
@@ -72,9 +90,14 @@ do_compile_append() {
     chrpath -d  ${B}/clamconf/.libs/clamconf
     chrpath -d  ${B}/clamd/.libs/clamd
     chrpath -d  ${B}/freshclam/.libs/freshclam
+
+    if [ "${INSTALL_CLAMAV_CVD}" = "1" ]; then
+        bbnote "CLAMAV creating cvd"
+        ${STAGING_BINDIR_NATIVE}/freshclam --datadir=${S}/clamav_db --config=${WORKDIR}/freshclam-native.conf
+    fi
 }
 
-do_install_append() {
+do_install_append_class-target () {
     install -d ${D}/${sysconfdir}
     install -d ${D}/${localstatedir}/lib/clamav
     install -d ${D}${sysconfdir}/clamav ${D}${sysconfdir}/default/volatiles
@@ -84,6 +107,7 @@ do_install_append() {
     install -m 0644 ${WORKDIR}/volatiles.03_clamav  ${D}${sysconfdir}/default/volatiles/volatiles.03_clamav
     sed -i -e 's#${STAGING_DIR_HOST}##g' ${D}${libdir}/pkgconfig/libclamav.pc
     rm ${D}/${libdir}/libclamav.so
+    install -m 666 ${S}/clamav_db/* ${D}/${localstatedir}/lib/clamav/.
     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};then
         install -D -m 0644 ${WORKDIR}/clamav.service ${D}${systemd_unitdir}/system/clamav.service
     fi
@@ -93,11 +117,11 @@ pkg_postinst_ontarget_${PN} () {
     if [ -e /etc/init.d/populate-volatile.sh ] ; then
         ${sysconfdir}/init.d/populate-volatile.sh update
     fi
-    chown ${UID}:${GID} ${localstatedir}/lib/clamav
+    chown -R ${UID}:${GID} ${localstatedir}/lib/clamav
 }
 
 
-PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-daemon ${PN}-doc \
+PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-daemon ${PN}-doc ${PN}-cvd \
             ${PN}-clamdscan ${PN}-freshclam ${PN}-libclamav ${PN}-staticdev"
 
 FILES_${PN} = "${bindir}/clambc ${bindir}/clamscan ${bindir}/clamsubmit \
@@ -140,6 +164,8 @@ FILES_${PN}-doc = "${mandir}/man/* \
                    ${datadir}/man/* \
                    ${docdir}/* "
 
+FILES_${PN}-cvd =  "${localstatedir}/lib/clamav/*.cvd ${localstatedir}/lib/clamav/*.dat"
+
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM_${PN} = "--system ${UID}"
 USERADD_PARAM_${PN} = "--system -g ${GID} --home-dir  \
@@ -152,3 +178,6 @@ RCONFLICTS_${PN} += "${PN}-systemd"
 SYSTEMD_SERVICE_${PN} = "${BPN}.service"
 
 RDEPENDS_${PN} += "openssl ncurses-libncurses libbz2 ncurses-libtinfo clamav-freshclam clamav-libclamav"
+RDEPENDS_${PN}_class-native = ""
+
+BBCLASSEXTEND = "native"

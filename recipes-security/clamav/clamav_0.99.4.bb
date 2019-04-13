@@ -4,8 +4,8 @@ HOMEPAGE = "http://www.clamav.net/index.html"
 SECTION = "security"
 LICENSE = "LGPL-2.1"
 
-DEPENDS = "libtool db libmspack chrpath-replacement-native clamav-native"
-DEPENDS_class-native = "db-native"
+DEPENDS = "libtool db libmspack openssl zlib llvm chrpath-replacement-native clamav-native"
+DEPENDS_class-native = "db-native openssl-native zlib-native"
  
 LIC_FILES_CHKSUM = "file://COPYING.LGPL;beginline=2;endline=3;md5=4b89c05acc71195e9a06edfa2fa7d092"
 
@@ -36,38 +36,34 @@ INSTALL_CLAMAV_CVD ?= "1"
 # disable the internal one. This is a known issue
 # If you want LLVM support, use the one in core
 
-PACKAGECONFIG ?= "ncurses openssl bz2 zlib llvm"
-PACKAGECONFIG += " ${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)}"
-PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+CLAMAV_USR_DIR = "${STAGING_DIR_NATIVE}/usr"
+CLAMAV_USR_DIR_class-target = "${STAGING_DIR_HOST}/usr"
 
-PACKAGECONFIG[llvm] = "--with-system-llvm --with-llvm-linking=dynamic --disable-llvm, ,llvm"
+PACKAGECONFIG_class-target ?= "ncurses bz2"
+PACKAGECONFIG_class-target += " ${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)}"
+PACKAGECONFIG_class-target += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 
 PACKAGECONFIG[pcre] = "--with-pcre=${STAGING_LIBDIR},  --without-pcre, libpcre"
-PACKAGECONFIG[xml] = "--with-xml=${STAGING_LIBDIR}/.., --with-xml=no, libxml2,"
+PACKAGECONFIG[xml] = "--with-xml=${CLAMAV_USR_DIR}, --disable-xml, libxml2,"
 PACKAGECONFIG[json] = "--with-libjson=${STAGING_LIBDIR}, --without-libjson, json,"
 PACKAGECONFIG[curl] = "--with-libcurl=${STAGING_LIBDIR}, --without-libcurl, curl,"
 PACKAGECONFIG[ipv6] = "--enable-ipv6, --disable-ipv6"
-PACKAGECONFIG[openssl] = "--with-openssl=${STAGING_DIR_HOST}/usr, --without-openssl, openssl, openssl"
-PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_DIR_HOST}/usr --disable-zlib-vcheck , --without-zlib, zlib, "
-PACKAGECONFIG[bz2] = "--with-libbz2-prefix=${STAGING_LIBDIR}/.., --without-libbz2-prefix, "
-PACKAGECONFIG[ncurses] = "--with-libncurses-prefix=${STAGING_LIBDIR}/.., --without-libncurses-prefix, ncurses, "
+PACKAGECONFIG[bz2] = "--with-libbz2-prefix=${CLAMAV_USR_DIR}, --without-libbz2-prefix, "
+PACKAGECONFIG[ncurses] = "--with-libncurses-prefix=${CLAMAV_USR_DIR}, --without-libncurses-prefix, ncurses, "
 PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/, --without-systemdsystemunitdir, "
 
-EXTRA_OECONF += " --with-user=${UID}  --with-group=${GID} \
-            --without-libcheck-prefix --disable-unrar \
-            --disable-mempool \
-            --program-prefix="" \
-            --disable-yara \
-            --disable-rpath \
-            "
-
-EXTRA_OECONF_class-native += "--without-libcheck-prefix --disable-unrar \
+EXTRA_OECONF_CLAMAV = "--without-libcheck-prefix --disable-unrar \
             --with-system-llvm --with-llvm-linking=dynamic --disable-llvm \
             --disable-mempool \
             --program-prefix="" \
             --disable-yara \
-            --without-libbz2-prefix --without-zlib \
+            --disable-xml \
+            --with-openssl=${CLAMAV_USR_DIR} \
+            --with-zlib=${CLAMAV_USR_DIR} --disable-zlib-vcheck \
             "
+
+EXTRA_OECONF_class-native += "${EXTRA_OECONF_CLAMAV}"
+EXTRA_OECONF_class-target += "--with-user=${UID}  --with-group=${GID} --disable-rpath ${EXTRA_OECONF_CLAMAV}"
 
 do_configure () {
     cd ${S}
@@ -117,6 +113,7 @@ pkg_postinst_ontarget_${PN} () {
     if [ -e /etc/init.d/populate-volatile.sh ] ; then
         ${sysconfdir}/init.d/populate-volatile.sh update
     fi
+    mkdir -p ${localstatedir}/lib/clamav
     chown -R ${UID}:${GID} ${localstatedir}/lib/clamav
 }
 
@@ -177,7 +174,7 @@ RREPLACES_${PN} += "${PN}-systemd"
 RCONFLICTS_${PN} += "${PN}-systemd"
 SYSTEMD_SERVICE_${PN} = "${BPN}.service"
 
-RDEPENDS_${PN} += "openssl ncurses-libncurses libbz2 ncurses-libtinfo clamav-freshclam clamav-libclamav"
+RDEPENDS_${PN} = "openssl ncurses-libncurses libbz2 ncurses-libtinfo clamav-freshclam clamav-libclamav"
 RDEPENDS_${PN}_class-native = ""
 
 BBCLASSEXTEND = "native"

@@ -4,7 +4,7 @@ SECTION = "security"
 LICENSE = "LGPL-2.1"
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=0;endline=1;md5=8eac08d22113880357ceb8e7c37f989f"
 
-SRCREV = "4d64011741375bb1a4ba7d71905ca37b97885083"
+SRCREV = "fb43972ea1aab24f2a70193fb7445c2674f594e3"
 
 SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.4 \
            file://run-ptest \

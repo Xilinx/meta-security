@@ -24,12 +24,9 @@ This layer depends on:
 Patches
 =======
 
-Please submit any patches against the integrity layer via Github
-pull requests.
-
 For discussion or patch submission via email, use the
 yocto@yoctoproject.org mailing list. When submitting patches that way,
-make sure to copy the maintainer and add a "[meta-]"
+make sure to copy the maintainer and add a "[meta-integrity]"
 prefix to the subject of the mails.
 
 Maintainer: Armin Kuster <akuster808@gmail.com>

@@ -4,15 +4,13 @@ IMAGE_FEATURES += "ssh-server-openssh"
 
 TEST_SUITES = "ssh ping ptest apparmor clamav samhain sssd tripwire checksec smack suricata"
 
-DISTRO_FEATURES_append = " ptest"
 INSTALL_CLAMAV_CVD = "1"
 
 IMAGE_INSTALL = "\
     packagegroup-base \
     packagegroup-core-boot \
-    packagegroup-core-security \
+    packagegroup-core-security-ptest \
     os-release \
-    clamav-cvd \
     " 
 
 

@@ -10,6 +10,14 @@ IMAGE_INSTALL = "\
     packagegroup-base \
     packagegroup-core-boot \
     packagegroup-core-security-ptest \
+    clamav \
+    tripwire \
+    checksec \
+    suricata \
+    samhain-standalone \
+    ${@bb.utils.contains("DISTRO_FEATURES", "pam", "sssd", "",d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "apparmor", "apparmor", "",d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "smack", "smack-test", "",d)} \
     os-release \
     " 
 

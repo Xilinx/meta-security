@@ -7,7 +7,7 @@ DEPENDS += "openssl attr keyutils"
 DEPENDS_class-native += "openssl-native keyutils-native"
 
 PV = "1.0+git${SRCPV}"
-SRCREV = "0267fa16990fd0ddcc89984a8e55b27d43e80167"
+SRCREV = "782224f33cd711050cbf6146a12122cd73f9136b"
 SRC_URI = "git://git.code.sf.net/p/linux-ima/ima-evm-utils"
 
 # Documentation depends on asciidoc, which we do not have, so

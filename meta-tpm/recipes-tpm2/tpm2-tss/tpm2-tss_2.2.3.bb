@@ -6,7 +6,7 @@ SECTION = "tpm"
 
 DEPENDS = "autoconf-archive-native libgcrypt openssl"
 
-SRCREV = "eb69e13559f20a0b49002a685c6f4a39be9503e2"
+SRCREV = "36b1539c82bf675265d6f6a6cd808a189b6971f4"
 
 SRC_URI = "git://github.com/tpm2-software/tpm2-tss.git;branch=2.2.x"
 

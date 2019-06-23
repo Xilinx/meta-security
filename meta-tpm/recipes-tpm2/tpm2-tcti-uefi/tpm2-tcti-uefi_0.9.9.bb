@@ -7,7 +7,7 @@ DEPENDS = "libtss2-dev gnu-efi-native gnu-efi pkgconfig"
 SRC_URI = "git://github.com/tpm2-software/tpm2-tcti-uefi.git \
            file://configure_oe_fixup.patch \
           "
-SRCREV = "131889d12d2c7d8974711d2ebd1032cd32577b7f"
+SRCREV = "7baf1eebfeb56a896bdd5d677fb24377d619eb9d"
 
 S = "${WORKDIR}/git"
 

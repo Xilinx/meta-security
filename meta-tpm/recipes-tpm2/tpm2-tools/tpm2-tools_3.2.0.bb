@@ -6,7 +6,7 @@ SECTION = "tpm"
 
 DEPENDS = "pkgconfig tpm2-tss openssl curl autoconf-archive"
 
-SRCREV = "74ba065e5914bc5d713ca3709d62a5751b097369"
+SRCREV = "a17daa948fc67685651bf3b7a589ed341080ddd3"
 
 SRC_URI = "git://github.com/tpm2-software/tpm2-tools.git;branch=3.X"
 

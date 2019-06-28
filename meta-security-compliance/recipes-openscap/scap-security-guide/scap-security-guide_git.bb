@@ -10,6 +10,7 @@ DEPENDS = "openscap-native"
 
 SRCREV = "423d9f40021a03abd018bef7818a3a9fe91a083c"
 SRC_URI = "git://github.com/akuster/scap-security-guide.git;branch=oe;"
+PV = "v0.1.33+git${SRCPV}"
 
 inherit cmake
 

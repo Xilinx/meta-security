@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/akuster/openscap.git;branch=oe \
            file://crypto_pkgconfig.patch \
            file://run-ptest \
 "
+PV = "v1.2.17+git${SRCPV}"
 
 inherit autotools-brokensep pkgconfig python3native perlnative ptest
 

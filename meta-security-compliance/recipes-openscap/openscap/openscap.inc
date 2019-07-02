@@ -10,9 +10,9 @@ DEPENDS = "autoconf-archive dbus acl bzip2 pkgconfig gconf procps curl libxml2 l
 
 DEPENDS_class-native = "autoconf-archive-native pkgconfig-native swig-native curl-native libxml2-native libxslt-native dpkg-native libgcrypt-native nss-native"
 
-inherit cmake pkgconfig python3native perlnative ptest
-
 S = "${WORKDIR}/git"
+
+inherit cmake pkgconfig python3native perlnative ptest
 
 PACKAGECONFIG ?= "python3 rpm perl"
 PACKAGECONFIG[python3] = "-DENABLE_PYTHON3=True, , python3, python3"
@@ -25,7 +25,6 @@ EXTRA_OECONF += "-DENABLE_PROBES_INDEPENDENT=yes -DENABLE_PROBES_LINUX=yes -DWIT
                 -DENABLE_OSCAP_UTIL_DOCKER=no \
                 "
 
-EXTRA_OECONF_class-native += "-DENABLE_PROBES=True"
 
 STAGING_OSCAP_DIR = "${TMPDIR}/work-shared/${MACHINE}/oscap-source"
 STAGING_OSCAP_BUILDDIR = "${TMPDIR}/work-shared/openscap/oscap-build-artifacts"
@@ -33,9 +32,9 @@ STAGING_OSCAP_BUILDDIR = "${TMPDIR}/work-shared/openscap/oscap-build-artifacts"
 EXTRANATIVEPATH += "chrpath-native"
 
 do_configure_append_class-native () {
-	sed -i 's:OSCAP_DEFAULT_CPE_PATH.*$:OSCAP_DEFAULT_CPE_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/cpe":' ${S}/config.h
-	sed -i 's:OSCAP_DEFAULT_SCHEMA_PATH.*$:OSCAP_DEFAULT_SCHEMA_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/schemas":' ${S}/config.h
-	sed -i 's:OSCAP_DEFAULT_XSLT_PATH.*$:OSCAP_DEFAULT_XSLT_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/xsl":' ${S}/config.h
+	sed -i 's:OSCAP_DEFAULT_CPE_PATH.*$:OSCAP_DEFAULT_CPE_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/cpe":' ${B}/config.h
+	sed -i 's:OSCAP_DEFAULT_SCHEMA_PATH.*$:OSCAP_DEFAULT_SCHEMA_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/schemas":' ${B}/config.h
+	sed -i 's:OSCAP_DEFAULT_XSLT_PATH.*$:OSCAP_DEFAULT_XSLT_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/xsl":' ${B}/config.h
 }
 
 do_clean[cleandirs] += " ${STAGING_OSCAP_BUILDDIR}"

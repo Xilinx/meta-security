@@ -3,9 +3,9 @@
 
 SUMARRY = "NIST Certified SCAP 1.2 toolkit with OE changes"
 
+include openscap.inc
+
 SRCREV = "4bbdb46ff651f809d5b38ca08d769790c4bfff90"
 SRC_URI = "git://github.com/akuster/openscap.git;branch=oe-1.3 \
            file://run-ptest \
 "
-
-include openscap.inc

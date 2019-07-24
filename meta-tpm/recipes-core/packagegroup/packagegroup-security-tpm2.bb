@@ -21,6 +21,3 @@ RDEPENDS_packagegroup-security-tpm2 = " \
     ibmswtpm2 \
     cryptsetup-tpm-incubator \
     "
-
-RDEPENDS_packagegroup-security-tpm2_append_x86 = " tpm2-tcti-uefi"
-RDEPENDS_packagegroup-security-tpm2_append_x86-64 = " tpm2-tcti-uefi"

@@ -2,7 +2,7 @@ SUMMARY = "TCTI module for use with TSS2 libraries in UEFI environment"
 SECTION = "security/tpm"
 LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=500b2e742befc3da00684d8a1d5fd9da"
-DEPENDS = "libtss2-dev gnu-efi-native gnu-efi pkgconfig"
+DEPENDS = "libtss2-dev gnu-efi-native gnu-efi pkgconfig autoconf-archive-native"
 
 SRC_URI = "git://github.com/tpm2-software/tpm2-tcti-uefi.git \
            file://configure_oe_fixup.patch \

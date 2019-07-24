@@ -6,6 +6,7 @@ DEPENDS = "libtss2-dev gnu-efi-native gnu-efi pkgconfig autoconf-archive-native"
 
 SRC_URI = "git://github.com/tpm2-software/tpm2-tcti-uefi.git \
            file://configure_oe_fixup.patch \
+	   file://0001-configure.ac-stop-inserting-host-directories-into-co.patch \
           "
 SRCREV = "7baf1eebfeb56a896bdd5d677fb24377d619eb9d"
 

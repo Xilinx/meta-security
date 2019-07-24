@@ -13,6 +13,13 @@ S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig
 
+EFI_ARCH_x86 = "ia32"
+EFI_ARCH_x86-64 = "x86_64"
+
 COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
-EXTRA_OECONF_append = " --with-efi-includedir=${STAGING_INCDIR}/efi --with-efi-lds=${STAGING_LIBDIR_NATIVE}/"
+EXTRA_OECONF_append = "\
+    --with-efi-includedir=${STAGING_INCDIR}/efi \
+    --with-efi-crt0=${STAGING_LIBDIR_NATIVE}/crt0-efi-${EFI_ARCH}.o \
+    --with-efi-lds=${STAGING_LIBDIR_NATIVE}/elf_${EFI_ARCH}_efi.lds \
+"
 RDEPENDS_${PN} = "gnu-efi"

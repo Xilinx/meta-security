@@ -14,6 +14,17 @@ S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig
 
+EFIDIR ?= "/EFI/BOOT"
+
+do_compile_append() {
+	oe_runmake example
+}
+
+do_install_append() {
+	install -d "${D}${EFIDIR}"
+	install -m 0755 "${B}"/example/*.efi "${D}${EFIDIR}"
+}
+
 EFI_ARCH_x86 = "ia32"
 EFI_ARCH_x86-64 = "x86_64"
 
@@ -24,3 +35,5 @@ EXTRA_OECONF_append = "\
     --with-efi-lds=${STAGING_LIBDIR_NATIVE}/elf_${EFI_ARCH}_efi.lds \
 "
 RDEPENDS_${PN} = "gnu-efi"
+
+FILES_${PN} += "${EFIDIR}"

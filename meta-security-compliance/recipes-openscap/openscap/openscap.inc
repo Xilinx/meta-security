@@ -6,71 +6,50 @@ HOME_URL = "https://www.open-scap.org/tools/openscap-base/"
 LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
 LICENSE = "LGPL-2.1"
 
-DEPENDS = "autoconf-archive dbus acl bzip2 pkgconfig gconf procps curl libxml2 libxslt libcap swig libgcrypt chrpath-replacement-native "
-
-DEPENDS_class-native = "autoconf-archive-native pkgconfig-native swig-native curl-native libxml2-native libxslt-native dpkg-native libgcrypt-native nss-native"
+DEPENDS = "autoconf-archive dbus acl bzip2 pkgconfig gconf procps curl libxml2 libxslt libcap swig"
+DEPENDS_class-native = "autoconf-archive-native pkgconfig-native swig-native curl-native libxml2-native libxslt-native libcap-native dpkg-native"
 
 S = "${WORKDIR}/git"
 
-inherit cmake pkgconfig python3native perlnative ptest
+inherit cmake pkgconfig python3native perlnative
 
-PACKAGECONFIG ?= "python3 rpm perl"
-PACKAGECONFIG[python3] = "-DENABLE_PYTHON3=True, , python3, python3"
-PACKAGECONFIG[perl] = "-DENABLE_PERL=True,, perl, perl"
-PACKAGECONFIG[rpm] = "-DENABLE_OSCAP_UTIL_AS_RPM=True, ,rpm, rpm"
+PACKAGECONFIG ?= "python3 rpm perl gcrypt ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
+PACKAGECONFIG[python3] = "-DENABLE_PYTHON3=ON, ,python3, python3"
+PACKAGECONFIG[perl] = "-DENABLE_PERL=ON, ,perl, perl"
+PACKAGECONFIG[rpm] = "-DENABLE_OSCAP_UTIL_AS_RPM=ON, ,rpm, rpm"
+PACKAGECONFIG[gcrypt] = "-DWITH_CRYPTO=gcrypt, ,libgcrypt"
+PACKAGECONFIG[nss3] = "-DWITH_CRYPTO=nss3, ,nss"
+PACKAGECONFIG[selinux] = ", ,libselinux"
 
-EXTRA_OECONF += "-DENABLE_PROBES_INDEPENDENT=yes -DENABLE_PROBES_LINUX=yes -DWITH_CRYPTO=gcrypt\
-		-DENABLE_PROBES_SOLARIS=yes -DENABLE_PROBES_UNIX=yes  -DENABLE_TESTS=no \
-		-DENABLE_OSCAP_UTIL_SSH=yes -DENABLE_OSCAP_UTIL=yes -DENABLE_SCE=yes \
-                -DENABLE_OSCAP_UTIL_DOCKER=no \
-                "
-
+EXTRA_OECMAKE += "-DENABLE_PROBES_LINUX=ON -DENABLE_PROBES_UNIX=ON \
+                  -DENABLE_PROBES_SOLARIS=OFF -DENABLE_PROBES_INDEPENDENT=ON \
+                  -DENABLE_OSCAP_UTIL=ON -DENABLE_OSCAP_UTIL_SSH=ON \
+                  -DENABLE_OSCAP_UTIL_DOCKER=OFF -DENABLE_OSCAP_UTIL_CHROOT=OFF \
+                  -DENABLE_OSCAP_UTIL_PODMAN=OFF -DENABLE_OSCAP_UTIL_VM=OFF \
+                  -DENABLE_PROBES_WINDOWS=OFF -DENABLE_VALGRIND=OFF \
+                  -DENABLE_SCE=ON -DENABLE_MITRE=OFF -DENABLE_TESTS=OFF \
+                  -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_SKIP_RPATH=ON \
+                 "
 
 STAGING_OSCAP_DIR = "${TMPDIR}/work-shared/${MACHINE}/oscap-source"
 STAGING_OSCAP_BUILDDIR = "${TMPDIR}/work-shared/openscap/oscap-build-artifacts"
 
-EXTRANATIVEPATH += "chrpath-native"
-
 do_configure_append_class-native () {
-	sed -i 's:OSCAP_DEFAULT_CPE_PATH.*$:OSCAP_DEFAULT_CPE_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/cpe":' ${B}/config.h
-	sed -i 's:OSCAP_DEFAULT_SCHEMA_PATH.*$:OSCAP_DEFAULT_SCHEMA_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/schemas":' ${B}/config.h
-	sed -i 's:OSCAP_DEFAULT_XSLT_PATH.*$:OSCAP_DEFAULT_XSLT_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/xsl":' ${B}/config.h
+    sed -i 's:OSCAP_DEFAULT_CPE_PATH.*$:OSCAP_DEFAULT_CPE_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/cpe":' ${B}/config.h
+    sed -i 's:OSCAP_DEFAULT_SCHEMA_PATH.*$:OSCAP_DEFAULT_SCHEMA_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/schemas":' ${B}/config.h
+    sed -i 's:OSCAP_DEFAULT_XSLT_PATH.*$:OSCAP_DEFAULT_XSLT_PATH "${STAGING_OSCAP_BUILDDIR}${datadir_native}/openscap/xsl":' ${B}/config.h
 }
 
-do_clean[cleandirs] += " ${STAGING_OSCAP_BUILDDIR}"
-
-do_compile_append_class-target() {
-	sed -i -e 's:${STAGING_BINDIR_NATIVE}/python3-native/python3:${bindir}/python3:' ${B}/utils/oscap-docker
-}
+do_clean[cleandirs] += "${STAGING_OSCAP_BUILDDIR}"
 
 do_install_append_class-native () {
-	oscapdir=${STAGING_OSCAP_BUILDDIR}/${datadir_native}
-	install -d $oscapdir	
-	cp -a ${D}/${STAGING_DATADIR_NATIVE}/openscap $oscapdir
+    oscapdir=${STAGING_OSCAP_BUILDDIR}/${datadir_native}
+    install -d $oscapdir
+    cp -a ${D}/${STAGING_DATADIR_NATIVE}/openscap $oscapdir
 }
-
-TESTDIR = "tests"
-
-do_compile_ptest() {
-    oe-runcmake ${TESTDIR} 
-}
-
-do_install_ptest() {
-    # install the tests
-    cp -rf ${B}/${TESTDIR} ${D}${PTEST_PATH}
-}
-
-do_fixup_rpath() {
-	chrpath -d ${D}${libdir}/libopenscap.so.25.0.1
-	chrpath -d ${D}${libdir}/libopenscap_sce.so.25.0.1
-	chrpath -d ${D}${bindir}/oscap
-}
-
-addtask fixup_rpath before do_package after do_install
 
 FILES_${PN} += "${PYTHON_SITEPACKAGES_DIR}"
 
 RDEPENDS_${PN} += "libxml2 python3 libgcc"
-RDEPENDS_${PN}-ptest = "bash perl python3-core"
 
 BBCLASSEXTEND = "native"

@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=97662e4486d9a1d09f358851d9f41a1a"
 LICENSE = "LGPL-2.1"
 
 DEPENDS = "openscap-native python3 python3-pyyaml-native python3-jinja2-native libxml2-native"
-RDEPNEDS_${PN} = "openscap"
+RDEPENDS_${PN} = "openscap"
 
 S = "${WORKDIR}/git"
 

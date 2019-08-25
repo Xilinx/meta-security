@@ -24,7 +24,7 @@ SRC_URI = " \
 	file://run-ptest \
 	"
 
-SRCREV = "af4808b5f6b58946f5c5a4de4b77df5e0eae6ca0"
+SRCREV = "2f9d9ea7e01a115b29858455d3b1b5c6a0bab75c"
 S = "${WORKDIR}/git"
 
 PARALLEL_MAKE = ""
@@ -139,6 +139,12 @@ do_install_ptest () {
 
 	install -d ${t}/binutils
 	cp -rf ${B}/binutils ${t}
+}
+
+pkg_postinst_ontarget_${PN} () {
+if [ ! -d /etc/apparmor.d/cache ] ; then
+    mkdir /etc/apparmor.d/cache
+fi
 }
 
 INITSCRIPT_PACKAGES = "${PN}"

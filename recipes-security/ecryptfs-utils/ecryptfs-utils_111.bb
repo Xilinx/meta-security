@@ -30,13 +30,13 @@ EXTRA_OECONF = "\
     --disable-pywrap \
     --disable-nls \
     --with-pamdir=${base_libdir}/security \
+    --disable-openssl \
     "
 
 PACKAGECONFIG ??= "nss \
     ${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} \
     "
 PACKAGECONFIG[nss] = "--enable-nss,--disable-nss,nss,"
-PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl,"
 PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam,"
 
 do_configure_prepend() {

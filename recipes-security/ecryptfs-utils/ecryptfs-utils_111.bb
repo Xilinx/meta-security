@@ -14,6 +14,7 @@ DEPENDS = "keyutils libgcrypt intltool-native glib-2.0-native"
 SRC_URI = "\
     https://launchpad.net/ecryptfs/trunk/${PV}/+download/${BPN}_${PV}.orig.tar.gz \
     file://ecryptfs-utils-CVE-2016-6224.patch \
+    file://0001-avoid-race-condition.patch \
     file://ecryptfs.service \
     "
 

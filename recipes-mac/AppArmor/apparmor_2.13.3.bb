@@ -42,7 +42,6 @@ PACKAGECONFIG[aa-decode] = ",,,bash"
 PAMLIB="${@bb.utils.contains('DISTRO_FEATURES', 'pam', '1', '0', d)}"
 HTTPD="${@bb.utils.contains('PACKAGECONFIG', 'apache2', '1', '0', d)}"
 
-
 python() {
     if 'apache2' in d.getVar('PACKAGECONFIG').split() and \
             'webserver' not in d.getVar('BBFILE_COLLECTIONS').split():
@@ -86,7 +85,6 @@ do_compile () {
 do_install () {
 	install -d ${D}/${INIT_D_DIR}
 	install -d ${D}/lib/apparmor
-		
 	oe_runmake -C ${B}/libraries/libapparmor DESTDIR="${D}" install
 	oe_runmake -C ${B}/binutils DESTDIR="${D}" install
 	oe_runmake -C ${B}/utils DESTDIR="${D}" install
@@ -116,8 +114,13 @@ do_install () {
 
 	install ${WORKDIR}/apparmor ${D}/${INIT_D_DIR}/apparmor
 	install ${WORKDIR}/functions ${D}/lib/apparmor
-	install -d ${D}${systemd_system_unitdir}
-	install ${WORKDIR}/apparmor.service ${D}${systemd_system_unitdir}
+	sed -i -e 's/getconf _NPROCESSORS_ONLN/nproc/' ${D}/lib/apparmor/functions
+	sed -i -e 's/ls -AU/ls -A/' ${D}/lib/apparmor/functions  
+
+	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+		install -d ${D}${systemd_system_unitdir}
+		install ${WORKDIR}/apparmor.service ${D}${systemd_system_unitdir}
+	fi
 }
 
 do_compile_ptest () {
@@ -153,13 +156,16 @@ if [ ! -d /etc/apparmor.d/cache ] ; then
 fi
 }
 
+# We need the init script so don't rm it
+RMINITDIR_class-target_remove = " rm_sysvinit_initddir"
+
 INITSCRIPT_PACKAGES = "${PN}"
 INITSCRIPT_NAME = "apparmor"
 INITSCRIPT_PARAMS = "start 16 2 3 4 5 . stop 35 0 1 6 ."
 
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE_${PN} = "apparmor.service"
-SYSTEMD_AUTO_ENABLE = "disable"
+SYSTEMD_AUTO_ENABLE ?= "enable"
 
 PACKAGES += "mod-${PN}"
 

@@ -123,6 +123,15 @@ do_install () {
 	fi
 }
 
+#Building ptest on arm fails.
+do_compile_ptest_aarch64 () {
+  :
+}
+
+do_compile_ptest_arm () {
+  :
+}
+
 do_compile_ptest () {
         oe_runmake -C ${B}/tests/regression/apparmor
         oe_runmake -C ${B}/parser/tst
@@ -148,6 +157,15 @@ do_install_ptest () {
 
 	install -d ${t}/binutils
 	cp -rf ${B}/binutils ${t}
+}
+
+#Building ptest on arm fails.
+do_install_ptest_aarch64 () {
+  :
+}
+
+do_install_ptest_arm() {
+  :
 }
 
 pkg_postinst_ontarget_${PN} () {

@@ -14,7 +14,7 @@ SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz\
 SRC_URI[md5sum] = "757bbb6f15409d8d075f4f06cb678d50"
 SRC_URI[sha256sum] = "6bb212cd6b75b918e945c24e7c3f95a486fb54d7f7d489a9334cfa1a1f3bf959"
 
-inherit autotools pkgconfig gettext python-dir features_check
+inherit autotools pkgconfig gettext python3-dir features_check
 
 REQUIRED_DISTRO_FEATURES = "pam"
 
@@ -22,8 +22,7 @@ SSSD_UID ?= "root"
 SSSD_GID ?= "root"
 
 CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
-    ac_cv_path_NSUPDATE=${bindir} \
-    ac_cv_path_PYTHON2=${PYTHON_DIR} ac_cv_prog_HAVE_PYTHON3=${PYTHON_DIR} \
+    ac_cv_path_NSUPDATE=${bindir} ac_cv_prog_HAVE_PYTHON3=${PYTHON_DIR} \
     "
 
 PACKAGECONFIG ?="nss nscd"
@@ -34,7 +33,6 @@ PACKAGECONFIG[ssh] = "--with-ssh, --with-ssh=no, "
 PACKAGECONFIG[samba] = "--with-samba, --with-samba=no, samba"
 PACKAGECONFIG[selinux] = "--with-selinux, --with-selinux=no --with-semanage=no, libselinux"
 PACKAGECONFIG[manpages] = "--with-manpages, --with-manpages=no"
-PACKAGECONFIG[python2] = "--with-python2-bindings, --without-python2-bindings"
 PACKAGECONFIG[python3] = "--with-python3-bindings, --without-python3-bindings"
 PACKAGECONFIG[nss] = "--with-crypto=nss, ,nss,"
 PACKAGECONFIG[cyrpto] = "--with-crypto=libcrypto, , libcrypto"

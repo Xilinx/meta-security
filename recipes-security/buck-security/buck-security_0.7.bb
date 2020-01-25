@@ -4,33 +4,6 @@ system. This enables you to quickly overview the security status of your Linux s
 SECTION = "security"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-RDEPENDS_${PN} = "coreutils \
-                  gnupg \
-                  net-tools \
-                  perl \
-                  perl-module-data-dumper \
-                  perl-module-file-basename \
-                  perl-module-file-spec \
-                  perl-module-getopt-long \
-                  perl-module-lib \
-                  perl-module-posix \
-                  perl-module-term-ansicolor \
-                  perl-module-time-localtime \
-                  pinentry \
-                 "
-
-RDEPENDS_${PN}_class-native = "coreutils \
-                               net-tools \
-                               perl \
-                               perl-module-data-dumper \
-                               perl-module-file-basename \
-                               perl-module-file-spec \
-                               perl-module-getopt-long \
-                               perl-module-lib \
-                               perl-module-posix \
-                               perl-module-term-ansicolor \
-                               perl-module-time-localtime \
-                              "
 
 SRC_URI = "http://sourceforge.net/projects/buck-security/files/buck-security/buck-security_${PV}/${BPN}_${PV}.tar.gz"
 
@@ -39,13 +12,8 @@ SRC_URI[sha256sum] = "c533c6631ec3554dd8d39d2d1c3ed44badbbf50810ebb75469c74639fa
 
 S = "${WORKDIR}/${BPN}_${PV}"
 
-do_configure() {
-    :
-}
-
-do_compile() {
-    :
-}
+do_configure[noexec] = "1"
+do_compile[noexec] = "1"
 
 do_install() {
     install -d ${D}${bindir}/buck
@@ -59,5 +27,19 @@ do_install() {
 }
 
 FILES_${PN} = "${bindir}/*"
+
+RDEPENDS_${PN} = "coreutils gnupg net-tools perl perl-module-data-dumper \
+                  perl-module-file-basename perl-module-file-spec perl-module-getopt-long \
+                  perl-module-lib perl-module-posix perl-module-term-ansicolor \
+                  perl-module-time-localtime pinentry perl-module-pod-usage \
+                  perl-module-pod-text \
+                 "
+
+RDEPENDS_${PN}_class-native = "coreutils net-tools perl perl-module-data-dumper \
+                               perl-module-file-basename perl-module-file-spec perl-module-getopt-long \
+                               perl-module-lib perl-module-posix perl-module-term-ansicolor \
+                               perl-module-time-localtime \
+                              "
+
 
 BBCLASSEXTEND = "native"

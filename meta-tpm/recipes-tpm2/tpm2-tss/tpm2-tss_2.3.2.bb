@@ -8,22 +8,22 @@ DEPENDS = "autoconf-archive-native libgcrypt openssl"
 
 SRCREV = "a99e733ba66c359502689a9c42fd5e02ed1dd7d6"
 
-SRC_URI = "git://github.com/tpm2-software/tpm2-tss.git;branch=2.3.x"
+SRC_URI = "https://github.com/tpm2-software/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.gz"
+SRC_URI[md5sum] = "fb7e6d371959a65dc6d129af81739742"
+SRC_URI[sha256sum] = "82929a0611f39246e09202702a61b54c980ab694626c1f5823520ddf75024fa6"
+SRC_URI[sha1sum] = "c24ce8b20a8686ada775239389292f6d78020668"
+SRC_URI[sha384sum] = "a0c023c024efb6c9906df1e143d692f44433de332b616dc0584c9b4cd4fb0ad544308f291892e91c5a52ef1a4b2abf7f"
+SRC_URI[sha512sum] = "7b679b54f3478c3adee5b6c3135cbe491ffd9f4712991f465edbd6c7d2831e5f1537038ec36f288e9545c719d5d167b61116c924cf5d816220615d0b58a1d436"
 
-inherit autotools-brokensep pkgconfig systemd
-
-S = "${WORKDIR}/git"
+inherit autotools pkgconfig systemd extrausers
 
 PACKAGECONFIG ??= ""
 PACKAGECONFIG[oxygen] = ",--disable-doxygen-doc, "
 
-EXTRA_OECONF += "--with-udevrulesdir=${base_prefix}/lib/udev/rules.d/"
+EXTRA_OECONF += "--enable-static --with-udevrulesdir=${base_prefix}/lib/udev/rules.d/"
+EXTRA_OECONF_remove = " --disable-static"
 
-do_configure_prepend () {
-       ./bootstrap
-}
 
-INHERIT += "extrausers"
 EXTRA_USERS_PARAMS = "\
 	useradd -p '' tss; \
 	groupadd tss; \

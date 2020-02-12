@@ -14,6 +14,7 @@ SRC_URI = " git://github.com/fail2ban/fail2ban.git;branch=0.11 \
         file://initd \
         file://fail2ban_setup.py \
         file://run-ptest \
+        file://0001-python3-fail2ban-2-3-conversion.patch \
 "
 
 inherit update-rc.d ptest setuptools3
@@ -45,5 +46,6 @@ INITSCRIPT_PARAMS = "defaults 25"
 
 INSANE_SKIP_${PN}_append = "already-stripped"
 
-RDEPENDS_${PN} = "sysklogd iptables sqlite3 ${PYTHON_PN} ${PYTHON_PN}-pyinotify"
+RDEPENDS_${PN} = "sysklogd iptables sqlite3 python3-core python3-pyinotify python3-logging python3-fcntl"
+RDEPENDS_${PN} += " python3-json "
 RDEPENDS_${PN}-ptest = "python3-core python3-io python3-modules python3-fail2ban"

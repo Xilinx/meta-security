@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.clamav.net/index.html"
 SECTION = "security"
 LICENSE = "LGPL-2.1"
 
-DEPENDS = "libtool db libxml2 openssl zlib curl llvm clamav-native libmspack"
+DEPENDS = "libtool db libxml2 openssl zlib curl llvm clamav-native libmspack bison-native"
 DEPENDS_class-native = "db-native openssl-native zlib-native llvm-native curl-native"
  
 LIC_FILES_CHKSUM = "file://COPYING.LGPL;beginline=2;endline=3;md5=4b89c05acc71195e9a06edfa2fa7d092"

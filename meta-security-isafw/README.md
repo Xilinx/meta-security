@@ -42,7 +42,7 @@ any other layers needed. e.g.:
 ```python
 BBLAYERS ?= " \
   /OE/oe-core/meta \
-  /OE/meta-security-isafw \
+  /OE/meta-security/meta-security-isafw \
   "
 ```
  
@@ -75,8 +75,18 @@ please define ISAFW_REPORTDIR variable in your local.conf file.
 
 Patches
 -------
+end pull requests, patches, comments or questions to yocto@lists.yoctoproject.org
 
-Please submit any patches via Github pull requests.
+When sending single patches, please using something like:
+'git send-email -1 --to yocto@lists.yoctoproject.org --subject-prefix=meta-security-isafw][PATCH'
 
-Maintainer: Elena Reshetova elena.reshetova@intel.com
+These values can be set as defaults for this repository:
 
+$ git config sendemail.to yocto@lists.yoctoproject.org
+$ git config format.subjectPrefix meta-security-isafw][PATCH
+
+Now you can just do 'git send-email origin/master' to send all local patches.
+
+For pull requests, please use create-pull-request and send-pull-request.
+
+Maintainers:    Armin Kuster <akuster808@gmail.com>

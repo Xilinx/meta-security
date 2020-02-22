@@ -105,8 +105,8 @@ python process_reports_handler() {
     os.environ["PATH"] = savedenv["PATH"]
 }
 
-do_build[depends] += "cve-check-tool-native:do_populate_sysroot ca-certificates-native:do_populate_sysroot"
-do_build[depends] += "python-lxml-native:do_populate_sysroot"
+do_build[depends] += "cve-update-db-native:do_populate_cve_db ca-certificates-native:do_populate_sysroot"
+do_build[depends] += "python3-lxml-native:do_populate_sysroot"
 
 # These tasks are intended to be called directly by the user (e.g. bitbake -c)
 
@@ -180,14 +180,14 @@ fakeroot python do_analyse_image() {
 
 do_rootfs[depends] += "checksec-native:do_populate_sysroot ca-certificates-native:do_populate_sysroot"
 do_rootfs[depends] += "prelink-native:do_populate_sysroot"
-do_rootfs[depends] += "python-lxml-native:do_populate_sysroot"
+do_rootfs[depends] += "python3-lxml-native:do_populate_sysroot"
 
 isafw_init[vardepsexclude] = "DATETIME"
 def isafw_init(isafw, d):
     import re, errno
 
     isafw_config = isafw.ISA_config()
-    # Override the builtin default in curl-native (used by cve-check-tool-native)
+    # Override the builtin default in curl-native (used by cve-update-db-nativ)
     # because that default is a path that may not be valid: when curl-native gets
     # installed from sstate, we end up with the sysroot path as it was on the
     # original build host, which is not necessarily the same path used now

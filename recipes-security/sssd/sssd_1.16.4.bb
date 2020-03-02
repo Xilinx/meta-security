@@ -8,13 +8,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 DEPENDS = "openldap cyrus-sasl libtdb ding-libs libpam c-ares krb5 autoconf-archive"
 DEPENDS += "libldb dbus libtalloc libpcre glib-2.0 popt e2fsprogs libtevent"
 
-SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz\
-            file://sssd.conf "
+SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz \
+           file://sssd.conf \
+           file://volatiles.99_sssd \
+           file://fix-ldblibdir.patch \
+           "
 
 SRC_URI[md5sum] = "757bbb6f15409d8d075f4f06cb678d50"
 SRC_URI[sha256sum] = "6bb212cd6b75b918e945c24e7c3f95a486fb54d7f7d489a9334cfa1a1f3bf959"
 
-inherit autotools pkgconfig gettext python3-dir features_check
+inherit autotools pkgconfig gettext python3-dir features_check systemd
 
 REQUIRED_DISTRO_FEATURES = "pam"
 
@@ -38,11 +41,17 @@ PACKAGECONFIG[nss] = "--with-crypto=nss, ,nss,"
 PACKAGECONFIG[cyrpto] = "--with-crypto=libcrypto, , libcrypto"
 PACKAGECONFIG[nscd] = "--with-nscd=${sbindir}, --with-nscd=no "
 PACKAGECONFIG[nl] = "--with-libnl, --with-libnl=no, libnl"
-PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/, --with-systemdunitdir="
+PACKAGECONFIG[systemd] = "--with-initscript=systemd,--with-initscript=sysv"
 PACKAGECONFIG[http] = "--with-secrets, --without-secrets, apache2"
 PACKAGECONFIG[curl] = "--with-secrets --with-kcm, --without-secrets --without-kcm, curl"
 
-EXTRA_OECONF += "--disable-cifs-idmap-plugin --without-nfsv4-idmapd-plugin --without-ipa-getkeytab"
+EXTRA_OECONF += " \
+    --disable-cifs-idmap-plugin \
+    --without-nfsv4-idmapd-plugin \
+    --without-ipa-getkeytab \
+    --without-python2-bindings \
+    --enable-pammoddir=${base_libdir}/security \
+"
 
 do_configure_prepend() {
     mkdir -p ${AUTOTOOLS_AUXDIR}/build
@@ -57,6 +66,12 @@ do_install () {
     rmdir --ignore-fail-on-non-empty "${D}/${bindir}"
     install -d ${D}/${sysconfdir}/${BPN}
     install -m 600 ${WORKDIR}/${BPN}.conf ${D}/${sysconfdir}/${BPN}
+    install -D -m 644 ${WORKDIR}/volatiles.99_sssd ${D}/${sysconfdir}/default/volatiles/99_sssd
+
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+        install -d ${D}${sysconfdir}/tmpfiles.d
+        echo "d /var/log/sssd 0750 - - - -" > ${D}${sysconfdir}/tmpfiles.d/sss.conf
+    fi
 
     # Remove /var/run as it is created on startup
     rm -rf ${D}${localstatedir}/run
@@ -74,10 +89,24 @@ CONFFILES_${PN} = "${sysconfdir}/${BPN}/${BPN}.conf"
 
 INITSCRIPT_NAME = "sssd"
 INITSCRIPT_PARAMS = "start 02 5 3 2 . stop 20 0 1 6 ."
-SYSTEMD_SERVICE_${PN} = "${BPN}.service"
+SYSTEMD_SERVICE_${PN} = " \
+    sssd-autofs.service \
+    sssd-autofs.socket \
+    sssd-ifp.service \
+    sssd-nss.service \
+    sssd-nss.socket \
+    sssd-pam-priv.socket \
+    sssd-pam.service \
+    sssd-pam.socket \
+    sssd-secrets.service \
+    sssd-secrets.socket \
+    sssd.service \
+    sssd-sudo.service \
+    sssd-sudo.socket \
+"
 SYSTEMD_AUTO_ENABLE = "disable"
 
-FILES_${PN} += "${libdir} ${datadir} /run ${libdir}/*.so* "
+FILES_${PN} += "${libdir} ${datadir} ${base_libdir}/security/pam_sss.so"
 FILES_${PN}-dev = " ${includedir}/* ${libdir}/*la ${libdir}/*/*la"
 
 # The package contains symlinks that trip up insane

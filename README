@@ -24,6 +24,11 @@ This layer depends on:
   revision: HEAD
   prio: default
 
+  URI: git://git.openembedded.org/meta-openembedded/meta-python
+  branch: master
+  revision: HEAD
+  prio: default
+
   URI: git://git.openembedded.org/meta-openembedded/meta-networking
   branch: master
   revision: HEAD

@@ -41,7 +41,6 @@ PACKAGECONFIG[ssh] = "--with-ssh, --with-ssh=no, "
 PACKAGECONFIG[samba] = "--with-samba, --with-samba=no, samba"
 PACKAGECONFIG[selinux] = "--with-selinux, --with-selinux=no --with-semanage=no, libselinux"
 PACKAGECONFIG[manpages] = "--with-manpages, --with-manpages=no"
-PACKAGECONFIG[python2] = "--with-python2-bindings, --without-python2-bindings, python, python"
 PACKAGECONFIG[python3] = "--with-python3-bindings, --without-python3-bindings"
 PACKAGECONFIG[nss] = "--with-crypto=nss, ,nss,"
 PACKAGECONFIG[crypto] = "--with-crypto=libcrypto, , libcrypto"
@@ -57,6 +56,7 @@ EXTRA_OECONF += " \
     --without-ipa-getkeytab \
     --without-python2-bindings \
     --enable-pammoddir=${base_libdir}/security \
+    --without-python2-bindings \
 "
 
 do_configure_prepend() {

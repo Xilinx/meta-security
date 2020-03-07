@@ -8,6 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 DEPENDS = "openldap cyrus-sasl libtdb ding-libs libpam c-ares krb5 autoconf-archive"
 DEPENDS += "libldb dbus libtalloc libpcre glib-2.0 popt e2fsprogs libtevent"
 
+# If no crypto has been selected, default to DEPEND on nss, since that's what
+# sssd will pick if no active choice is made during configure
+DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'nss', '', \
+               bb.utils.contains('PACKAGECONFIG', 'crypto', '', 'nss', d), d)}"
+
 SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz \
            file://sssd.conf \
            file://volatiles.99_sssd \

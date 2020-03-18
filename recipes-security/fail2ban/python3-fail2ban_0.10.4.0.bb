@@ -46,6 +46,6 @@ INITSCRIPT_PARAMS = "defaults 25"
 
 INSANE_SKIP_${PN}_append = "already-stripped"
 
-RDEPENDS_${PN} = "sysklogd iptables sqlite3 python3-core python3-pyinotify python3-logging python3-fcntl"
-RDEPENDS_${PN} += " python3-json "
+RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_base-utils-syslog} iptables sqlite3 python3-core python3-pyinotify"
+RDEPENDS_${PN} += " python3-logging python3-fcntl python3-json"
 RDEPENDS_${PN}-ptest = "python3-core python3-io python3-modules python3-fail2ban"

@@ -33,7 +33,7 @@ CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
     ac_cv_path_NSUPDATE=${bindir} ac_cv_prog_HAVE_PYTHON3=${PYTHON_DIR} \
     "
 
-PACKAGECONFIG ?="nss nscd autofs"
+PACKAGECONFIG ?="nss nscd autofs sudo"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 
@@ -49,6 +49,7 @@ PACKAGECONFIG[python3] = "--with-python3-bindings, --without-python3-bindings"
 PACKAGECONFIG[samba] = "--with-samba, --with-samba=no, samba"
 PACKAGECONFIG[selinux] = "--with-selinux, --with-selinux=no --with-semanage=no, libselinux"
 PACKAGECONFIG[ssh] = "--with-ssh, --with-ssh=no, "
+PACKAGECONFIG[sudo] = "--with-sudo, --with-sudo=no, "
 PACKAGECONFIG[systemd] = "--with-initscript=systemd,--with-initscript=sysv"
 
 EXTRA_OECONF += " \
@@ -98,6 +99,7 @@ INITSCRIPT_NAME = "sssd"
 INITSCRIPT_PARAMS = "start 02 5 3 2 . stop 20 0 1 6 ."
 SYSTEMD_SERVICE_${PN} = " \
     ${@bb.utils.contains('PACKAGECONFIG', 'autofs', 'sssd-autofs.service sssd-autofs.socket', '', d)} \
+    ${@bb.utils.contains('PACKAGECONFIG', 'sudo', 'sssd-sudo.service sssd-sudo.socket', '', d)} \
     sssd-ifp.service \
     sssd-nss.service \
     sssd-nss.socket \
@@ -107,8 +109,6 @@ SYSTEMD_SERVICE_${PN} = " \
     sssd-secrets.service \
     sssd-secrets.socket \
     sssd.service \
-    sssd-sudo.service \
-    sssd-sudo.socket \
 "
 SYSTEMD_AUTO_ENABLE = "disable"
 

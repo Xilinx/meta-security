@@ -33,10 +33,11 @@ CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
     ac_cv_path_NSUPDATE=${bindir} ac_cv_prog_HAVE_PYTHON3=${PYTHON_DIR} \
     "
 
-PACKAGECONFIG ?="nss nscd"
+PACKAGECONFIG ?="nss nscd autofs"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 
+PACKAGECONFIG[autofs] = "--with-autofs, --with-autofs=no"
 PACKAGECONFIG[crypto] = "--with-crypto=libcrypto, , libcrypto"
 PACKAGECONFIG[curl] = "--with-secrets --with-kcm, --without-secrets --without-kcm, curl"
 PACKAGECONFIG[http] = "--with-secrets, --without-secrets, apache2"
@@ -96,8 +97,7 @@ CONFFILES_${PN} = "${sysconfdir}/${BPN}/${BPN}.conf"
 INITSCRIPT_NAME = "sssd"
 INITSCRIPT_PARAMS = "start 02 5 3 2 . stop 20 0 1 6 ."
 SYSTEMD_SERVICE_${PN} = " \
-    sssd-autofs.service \
-    sssd-autofs.socket \
+    ${@bb.utils.contains('PACKAGECONFIG', 'autofs', 'sssd-autofs.service sssd-autofs.socket', '', d)} \
     sssd-ifp.service \
     sssd-nss.service \
     sssd-nss.socket \

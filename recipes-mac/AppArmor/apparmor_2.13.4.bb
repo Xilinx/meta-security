@@ -25,7 +25,7 @@ SRC_URI = " \
 	file://run-ptest \
 	"
 
-SRCREV = "d779dbf88a664f06c1265b9e27b93f87de4cfe44"
+SRCREV = "df0ac742f7a1146181d8734d03334494f2015134"
 S = "${WORKDIR}/git"
 
 PARALLEL_MAKE = ""

@@ -3,4 +3,8 @@ header:
   includes:
     - kas-security-base.yml
 
+local_conf_header:
+  meta-security: |
+    DISTRO_FEATURES_append = " ima"
+
 machine: qemuarm64

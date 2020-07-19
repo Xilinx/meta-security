@@ -5,6 +5,10 @@ distro: poky
 
 repos:
   meta-security:
+    layers:
+      meta-tpm:
+      meta-integrity:
+      meta-security-compliance:
 
   poky:
     url: https://git.yoctoproject.org/git/poky

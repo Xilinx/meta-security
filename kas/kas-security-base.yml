@@ -6,6 +6,7 @@ distro: poky
 repos:
   meta-security:
     layers:
+      ../meta-security:
       meta-tpm:
       meta-integrity:
       meta-security-compliance:

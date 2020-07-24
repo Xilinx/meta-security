@@ -37,9 +37,7 @@ SUMMARY_packagegroup-security-scanners = "Security scanners"
 RDEPENDS_packagegroup-security-scanners = "\
     nikto \
     checksecurity \
-    clamav \
-    clamav-freshclam \
-    clamav-cvd \
+    ${@bb.utils.contains_any("TUNE_FEATURES", "riscv32 riscv64", "", " clamav clamav-freshclam clamav-cvd",d)} \
     "
 
 SUMMARY_packagegroup-security-audit = "Security Audit tools "

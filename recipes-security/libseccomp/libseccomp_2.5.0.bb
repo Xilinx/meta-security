@@ -10,6 +10,7 @@ SRCREV = "f13f58efc690493fe7aa69f54cb52a118f3769c1"
 
 SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.5 \
            file://run-ptest \
+           file://fix-mips-build-failure.patch \
 "
 
 COMPATIBLE_HOST_riscv32 = "null"

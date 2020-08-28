@@ -37,6 +37,8 @@ local_conf_header:
     DL_DIR = "/home/srv/downloads/master"
     BB_HASHSERVE = "auto"
     BB_SIGNATURE_HANDLER = "OEEquivHash"
+    INHERIT += "buildstats buildstats-summary buildhistory"
+    INHERIT += "report-error"
 
   diskmon: |
     BB_DISKMON_DIRS = "\

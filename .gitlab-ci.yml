@@ -5,17 +5,21 @@ stages:
   stage: build
   image: crops/poky
   before_script:
+    - echo "$ERR_REPORT_USERNAME" > ~/.oe-send-error
+    - echo "$ERR_REPORT_EMAIL" >> ~/.oe-send-error
     - export PATH=~/.local/bin:$PATH
     - wget https://bootstrap.pypa.io/get-pip.py
     - python3 get-pip.py
     - python3 -m pip install kas
-    - wget -q 'https://downloads.rclone.org/rclone-current-linux-amd64.zip'
-    - unzip -q rclone-current-linux-amd64.zip
-    - mv rclone-*-linux-amd64/rclone ~/.local/bin/
-    - rm -rf rclone-*-linux-amd64*
   after_script:
+    - cd $CI_PROJECT_DIR/poky
+    - . ./oe-init-build-env $CI_PROJECT_DIR/build
+    - for x in `ls $CI_PROJECT_DIR/build/tmp/log/error-report/ | grep error_report_`; do
+    - send-error-report -y tmp/log/error-report/$x
+    - done
+    - cd $CI_PROJECT_DIR
     - rm -rf build
-    - ./scripts/ci-cleanup.sh
+    - $CI_PROJECT_DIR/scripts/ci-cleanup.sh
   cache:
     paths:
       - layers

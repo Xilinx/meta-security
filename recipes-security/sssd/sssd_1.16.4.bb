@@ -18,6 +18,7 @@ SRC_URI = "https://releases.pagure.org/SSSD/${BPN}/${BP}.tar.gz \
            file://volatiles.99_sssd \
            file://fix-ldblibdir.patch \
            file://0001-build-Don-t-use-AC_CHECK_FILE-when-building-manpages.patch \
+           file://0001-nss-Collision-with-external-nss-symbol.patch \
            "
 
 SRC_URI[md5sum] = "757bbb6f15409d8d075f4f06cb678d50"

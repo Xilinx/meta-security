@@ -39,6 +39,10 @@ local_conf_header:
     BB_SIGNATURE_HANDLER = "OEEquivHash"
     INHERIT += "buildstats buildstats-summary buildhistory"
     INHERIT += "report-error"
+    INHERIT += "testimage"
+    TEST_QEMUBOOT_TIMEOUT = "1500"
+    EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+
 
   diskmon: |
     BB_DISKMON_DIRS = "\

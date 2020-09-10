@@ -4,6 +4,7 @@ inherit core-image
 
 PACKAGE_INSTALL = " \
     base-files \
+    base-passwd \
     busybox \
     cryptsetup \
     initramfs-module-dmverity \

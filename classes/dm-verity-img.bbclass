@@ -18,12 +18,18 @@
 # The resulting image can then be used to implement the device mapper block
 # integrity checking on the target device.
 
+# Define the location where the DM_VERITY_IMAGE specific dm-verity root hash
+# is stored where it can be installed into associated initramfs rootfs.
+STAGING_VERITY_DIR ?= "${TMPDIR}/work-shared/${MACHINE}/dm-verity"
+
 # Process the output from veritysetup and generate the corresponding .env
 # file. The output from veritysetup is not very machine-friendly so we need to
 # convert it to some better format. Let's drop the first line (doesn't contain
 # any useful info) and feed the rest to a script.
 process_verity() {
-    local ENV="$OUTPUT.env"
+    local ENV="${STAGING_VERITY_DIR}/${IMAGE_BASENAME}.$TYPE.verity.env"
+    install -d ${STAGING_VERITY_DIR}
+    rm -f $ENV
 
     # Each line contains a key and a value string delimited by ':'. Read the
     # two parts into separate variables and process them separately. For the
@@ -39,8 +45,6 @@ process_verity() {
 
     # Add partition size
     echo "DATA_SIZE=$SIZE" >> $ENV
-
-    ln -sf $ENV ${IMAGE_BASENAME}-${MACHINE}.$TYPE.verity.env
 }
 
 verity_setup() {

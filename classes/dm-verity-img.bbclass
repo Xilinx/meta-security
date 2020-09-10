@@ -32,9 +32,9 @@ process_verity() {
     # just trim all white-spaces.
     IFS=":"
     while read KEY VAL; do
-        echo -ne "$KEY" | tr '[:lower:]' '[:upper:]' | sed 's/ /_/g' >> $ENV
-        echo -ne "=" >> $ENV
-        echo "$VAL" | tr -d " \t" >> $ENV
+        printf '%s=%s\n' \
+            "$(echo "$KEY" | tr '[:lower:]' '[:upper:]' | sed 's/ /_/g')" \
+            "$(echo "$VAL" | tr -d ' \t')" >> $ENV
     done
 
     # Add partition size

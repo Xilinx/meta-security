@@ -16,6 +16,7 @@ PACKAGE_INSTALL = " \
 
 # We want a clean, minimal image.
 IMAGE_FEATURES = ""
+IMAGE_LINGUAS = ""
 
 # Can we somehow inspect reverse dependencies to avoid these variables?
 do_image[depends] += "${DM_VERITY_IMAGE}:do_image_${DM_VERITY_IMAGE_TYPE}"

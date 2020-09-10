@@ -14,10 +14,10 @@ PACKAGE_INSTALL = " \
 "
 
 # Can we somehow inspect reverse dependencies to avoid these variables?
-do_rootfs[depends] += "${DM_VERITY_IMAGE}:do_image_${DM_VERITY_IMAGE_TYPE}"
+do_image[depends] += "${DM_VERITY_IMAGE}:do_image_${DM_VERITY_IMAGE_TYPE}"
 
 # Ensure dm-verity.env is updated also when rebuilding DM_VERITY_IMAGE
-do_rootfs[nostamp] = "1"
+do_image[nostamp] = "1"
 
 IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
 
@@ -26,4 +26,4 @@ inherit core-image
 deploy_verity_hash() {
     install -D -m 0644 ${DEPLOY_DIR_IMAGE}/${DM_VERITY_IMAGE}-${MACHINE}.${DM_VERITY_IMAGE_TYPE}.verity.env ${IMAGE_ROOTFS}/${datadir}/dm-verity.env
 }
-ROOTFS_POSTPROCESS_COMMAND += "deploy_verity_hash;"
+IMAGE_PREPROCESS_COMMAND += "deploy_verity_hash;"

@@ -16,6 +16,9 @@ PACKAGE_INSTALL = " \
 # Can we somehow inspect reverse dependencies to avoid these variables?
 do_rootfs[depends] += "${DM_VERITY_IMAGE}:do_image_${DM_VERITY_IMAGE_TYPE}"
 
+# Ensure dm-verity.env is updated also when rebuilding DM_VERITY_IMAGE
+do_rootfs[nostamp] = "1"
+
 IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
 
 inherit core-image

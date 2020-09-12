@@ -95,3 +95,8 @@ qemux86-64-dm-verify:
   - kas build --target core-image-minimal kas/qemux86-64.yml 
   - kas build --target dm-verity-image-initramfs kas/$CI_JOB_NAME.yml 
 
+qemux86-test:
+  extends: .build
+  script:
+  - kas build --target security-test-image kas/$CI_JOB_NAME.yml 
+  - kas build -c testimage --target security-test-image kas/$CI_JOB_NAME.yml 

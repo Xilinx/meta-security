@@ -29,7 +29,7 @@ repos:
       meta-networking:
 
 local_conf_header:
-  meta-security: |
+  base: |
     CONF_VERSION = "1"
     SOURCE_MIRROR_URL = "http://downloads.yoctoproject.org/mirror/sources/"
     SSTATE_MIRRORS = "file://.* http://sstate.yoctoproject.org/dev/PATH;downloadfilename=PATH \n"
@@ -56,7 +56,7 @@ local_conf_header:
     ABORT,/tmp,10M,1K"
 
 bblayers_conf_header:
-  meta-security: |
+  base: |
     POKY_BBLAYERS_CONF_VERSION = "2"
     BBPATH = "${TOPDIR}"
     BBFILES ?= ""

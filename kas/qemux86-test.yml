@@ -6,6 +6,6 @@ header:
 
 local_conf_header:
   meta-security: |
-      DISTRO_FEATURES_append = " ptest apparmor pam"
+      DISTRO_FEATURES_append = " pam"
 
 machine: qemux86

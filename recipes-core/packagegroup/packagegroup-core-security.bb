@@ -36,6 +36,7 @@ RDEPENDS_packagegroup-security-utils = "\
     python3-privacyidea \
     python3-fail2ban \
     python3-scapy \
+    softhsm \
     ${@bb.utils.contains_any("TUNE_FEATURES", "riscv32 ", "", " libseccomp",d)} \
     ${@bb.utils.contains("DISTRO_FEATURES", "pam", "sssd google-authenticator-libpam", "",d)} \
     ${@bb.utils.contains("DISTRO_FEATURES", "pax", "pax-utils packctl", "",d)} \

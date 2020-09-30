@@ -13,6 +13,7 @@ PACKAGES = "\
     packagegroup-security-hardening \
     packagegroup-security-ids  \
     packagegroup-security-mac  \
+    ${@bb.utils.contains("DISTRO_FEATURES", "ptest", "packagegroup-meta-security-ptest-packages", "", d)} \
     "
 
 RDEPENDS_packagegroup-core-security = "\
@@ -22,6 +23,7 @@ RDEPENDS_packagegroup-core-security = "\
     packagegroup-security-hardening \
     packagegroup-security-ids  \
     packagegroup-security-mac  \
+    ${@bb.utils.contains("DISTRO_FEATURES", "ptest", "packagegroup-meta-security-ptest-packages", "", d)} \
     "
 
 SUMMARY_packagegroup-security-utils = "Security utilities"
@@ -76,3 +78,15 @@ RDEPENDS_packagegroup-security-mac = " \
     ${@bb.utils.contains("DISTRO_FEATURES", "apparmor", "apparmor", "",d)} \
     ${@bb.utils.contains("DISTRO_FEATURES", "smack", "smack", "",d)} \
     "
+
+RDEPENDS_packagegroup-meta-security-ptest-packages = "\
+    ptest-runner \
+    samhain-standalone-ptest \
+    libseccomp-ptest \
+    python3-scapy-ptest \
+    suricata-ptest \
+    tripwire-ptest \
+    python3-fail2ban-ptest \
+    ${@bb.utils.contains("DISTRO_FEATURES", "apparmor", "apparmor-ptest", "",d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "smack", "smack-ptest", "",d)} \
+"

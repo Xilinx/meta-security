@@ -11,10 +11,10 @@ SECTION = "admin"
 LICENSE = "GPLv2 & GPLv2+ & BSD-3-Clause & LGPLv2.1+"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=fd57a4b0bc782d7b80fd431f10bbf9d0"
 
-DEPENDS = "bison-native apr gettext-native coreutils-native"
+DEPENDS = "bison-native apr gettext-native coreutils-native swig-native"
 
 SRC_URI = " \
-    git://gitlab.com/apparmor/apparmor.git;protocol=https;branch=apparmor-2.13 \
+    git://gitlab.com/apparmor/apparmor.git;protocol=https;branch=apparmor-3.0 \
     file://disable_perl_h_check.patch \
     file://crosscompile_perl_bindings.patch \
     file://apparmor.rc \
@@ -23,32 +23,31 @@ SRC_URI = " \
     file://apparmor.service \
     file://0001-Makefile.am-suppress-perllocal.pod.patch \
     file://run-ptest \
-    file://0001-regression-tests-Don-t-build-syscall_sysctl-if-missi.patch \
+    file://0001-apparmor-fix-manpage-order.patch \
+    file://0001-Revert-profiles-Update-make-check-to-select-tools-ba.patch \
     "
 
-SRCREV = "df0ac742f7a1146181d8734d03334494f2015134"
+SRCREV = "5d51483bfecf556183558644dc8958135397a7e2"
 S = "${WORKDIR}/git"
 
 PARALLEL_MAKE = ""
 
 COMPATIBLE_MACHINE_mips64 = "(!.*mips64).*"
 
-inherit pkgconfig autotools-brokensep update-rc.d python3native perlnative ptest cpan manpages systemd features_check
+inherit pkgconfig autotools-brokensep update-rc.d python3native perlnative cpan systemd features_check bash-completion
+
 REQUIRED_DISTRO_FEATURES = "apparmor"
 
-PACKAGECONFIG ??= "python perl aa-decode"
+PACKAGECONFIG ?= "python perl aa-decode"
 PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages"
-PACKAGECONFIG[python] = "--with-python, --without-python, python3 swig-native"
-PACKAGECONFIG[perl] = "--with-perl, --without-perl, perl perl-native swig-native"
+PACKAGECONFIG[python] = "--with-python, --without-python, python3 , python3-core python3-modules"
+PACKAGECONFIG[perl] = "--with-perl, --without-perl, "
 PACKAGECONFIG[apache2] = ",,apache2,"
 PACKAGECONFIG[aa-decode] = ",,,bash"
 
-PAMLIB="${@bb.utils.contains('DISTRO_FEATURES', 'pam', '1', '0', d)}"
-HTTPD="${@bb.utils.contains('PACKAGECONFIG', 'apache2', '1', '0', d)}"
-
 python() {
     if 'apache2' in d.getVar('PACKAGECONFIG').split() and \
-            'webserver' not in d.getVar('BBFILE_COLLECTIONS').split():
+       'webserver' not in d.getVar('BBFILE_COLLECTIONS').split():
         raise bb.parse.SkipRecipe('Requires meta-webserver to be present.')
 }
 
@@ -64,24 +63,18 @@ do_configure() {
 }
 
 do_compile () {
-    # Fixes:
-    # | sed -ie 's///g' Makefile.perl
-    # | sed: -e expression #1, char 0: no previous regular expression
-    #| Makefile:478: recipe for target 'Makefile.perl' failed
     sed -i "s@sed -ie 's///g' Makefile.perl@@" ${S}/libraries/libapparmor/swig/perl/Makefile
-
-
     oe_runmake -C ${B}/libraries/libapparmor
     oe_runmake -C ${B}/binutils
     oe_runmake -C ${B}/utils
     oe_runmake -C ${B}/parser
     oe_runmake -C ${B}/profiles
 
-    if test -z "${HTTPD}" ; then
+    if ${@bb.utils.contains('PACKAGECONFIG','apache2','true','false', d)}; then
         oe_runmake -C ${B}/changehat/mod_apparmor
     fi
 
-    if test -z "${PAMLIB}" ; then
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'true', 'false', d)}; then
         oe_runmake -C ${B}/changehat/pam_apparmor
     fi
 }
@@ -95,31 +88,21 @@ do_install () {
     oe_runmake -C ${B}/parser DESTDIR="${D}" install
     oe_runmake -C ${B}/profiles DESTDIR="${D}" install
 
-    # If perl is disabled this script won't be any good
-    if ! ${@bb.utils.contains('PACKAGECONFIG','perl','true','false', d)}; then
-        rm -f ${D}${sbindir}/aa-notify
-    fi
-
     if ! ${@bb.utils.contains('PACKAGECONFIG','aa-decode','true','false', d)}; then
         rm -f ${D}${sbindir}/aa-decode
     fi
 
-    if test -z "${HTTPD}" ; then
+    if ${@bb.utils.contains('PACKAGECONFIG','apache2','true','false', d)}; then
         oe_runmake -C ${B}/changehat/mod_apparmor DESTDIR="${D}" install
     fi
 
-    if test -z "${PAMLIB}" ; then
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'true', 'false', d)}; then
+        install -d ${D}/lib/security
         oe_runmake -C ${B}/changehat/pam_apparmor DESTDIR="${D}" install
     fi
 
-    # aa-easyprof is installed by python-tools-setup.py, fix it up
-    sed -i -e 's:/usr/bin/env.*:/usr/bin/python3:' ${D}${bindir}/aa-easyprof
-    chmod 0755 ${D}${bindir}/aa-easyprof
-
-    install ${WORKDIR}/apparmor ${D}/${INIT_D_DIR}/apparmor
-    install ${WORKDIR}/functions ${D}/lib/apparmor
-    sed -i -e 's/getconf _NPROCESSORS_ONLN/nproc/' ${D}/lib/apparmor/functions
-    sed -i -e 's/ls -AU/ls -A/' ${D}/lib/apparmor/functions  
+    install -m 755 ${WORKDIR}/apparmor ${D}/${INIT_D_DIR}/apparmor
+    install -m 755 ${WORKDIR}/functions ${D}/lib/apparmor
 
     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
         install -d ${D}${systemd_system_unitdir}
@@ -138,8 +121,8 @@ do_compile_ptest_arm () {
 
 do_compile_ptest () {
     sed -i -e 's/cpp \-dM/${HOST_PREFIX}gcc \-dM/' ${B}/tests/regression/apparmor/Makefile
-    oe_runmake -C ${B}/tests/regression/apparmor
-    oe_runmake -C ${B}/libraries/libapparmor
+    oe_runmake -C ${B}/tests/regression/apparmor USE_SYSTEM=0
+    oe_runmake -C ${B}/libraries/libapparmor 
 }
 
 do_install_ptest () {
@@ -189,12 +172,13 @@ SYSTEMD_AUTO_ENABLE ?= "enable"
 
 PACKAGES += "mod-${PN}"
 
-FILES_${PN} += "/lib/apparmor/ ${sysconfdir}/apparmor ${PYTHON_SITEPACKAGES_DIR}"
+FILES_${PN} += "/lib/apparmor/ /lib/security/ ${sysconfdir}/apparmor ${PYTHON_SITEPACKAGES_DIR}"
 FILES_mod-${PN} = "${libdir}/apache2/modules/*"
 
 # Add coreutils and findutils only if sysvinit scripts are in use
-RDEPENDS_${PN} +=  "${@["coreutils findutils", ""][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'systemd')]} ${@bb.utils.contains('PACKAGECONFIG','python','python3-core python3-modules','', d)}"
+RDEPENDS_${PN} +=  "glibc-utils ${@["coreutils findutils", ""][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'systemd')]} ${@bb.utils.contains('PACKAGECONFIG','python','python3-core python3-modules','', d)}"
 RDEPENDS_${PN}_remove += "${@bb.utils.contains('PACKAGECONFIG','perl','','perl', d)}"
 RDEPENDS_${PN}-ptest += "perl coreutils dbus-lib bash"
 
+INSANE_SKIP_${PN} = "ldflags"
 PRIVATE_LIBS_${PN}-ptest = "libapparmor.so*"

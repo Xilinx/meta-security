@@ -87,6 +87,5 @@ RDEPENDS_packagegroup-meta-security-ptest-packages = "\
     suricata-ptest \
     tripwire-ptest \
     python3-fail2ban-ptest \
-    ${@bb.utils.contains("DISTRO_FEATURES", "apparmor", "apparmor-ptest", "",d)} \
     ${@bb.utils.contains("DISTRO_FEATURES", "smack", "smack-ptest", "",d)} \
 "

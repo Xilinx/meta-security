@@ -25,6 +25,11 @@ SRC_URI = " \
     file://run-ptest \
     file://0001-apparmor-fix-manpage-order.patch \
     file://0001-Revert-profiles-Update-make-check-to-select-tools-ba.patch \
+    file://0001-libapparmor-add-missing-include-for-socklen_t.patch \
+    file://0002-libapparmor-add-aa_features_new_from_file-to-public-.patch \
+    file://0003-libapparmor-add-_aa_asprintf-to-private-symbols.patch \
+    file://0001-aa_status-Fix-build-issue-with-musl.patch \
+    file://0001-parser-Makefile-dont-force-host-cpp-to-detect-reallo.patch \
     "
 
 SRCREV = "5d51483bfecf556183558644dc8958135397a7e2"
@@ -175,8 +180,12 @@ PACKAGES += "mod-${PN}"
 FILES_${PN} += "/lib/apparmor/ /lib/security/ ${sysconfdir}/apparmor ${PYTHON_SITEPACKAGES_DIR}"
 FILES_mod-${PN} = "${libdir}/apache2/modules/*"
 
+DEPENDS_append_libc-musl = " fts "
+RDEPENDS_${PN}_libc-musl +=  "musl-utils"
+RDEPENDS_${PN}_libc-glibc +=  "glibc-utils"
+
 # Add coreutils and findutils only if sysvinit scripts are in use
-RDEPENDS_${PN} +=  "glibc-utils ${@["coreutils findutils", ""][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'systemd')]} ${@bb.utils.contains('PACKAGECONFIG','python','python3-core python3-modules','', d)}"
+RDEPENDS_${PN} +=  "${@["coreutils findutils", ""][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'systemd')]} ${@bb.utils.contains('PACKAGECONFIG','python','python3-core python3-modules','', d)}"
 RDEPENDS_${PN}_remove += "${@bb.utils.contains('PACKAGECONFIG','perl','','perl', d)}"
 RDEPENDS_${PN}-ptest += "perl coreutils dbus-lib bash"
 

@@ -10,11 +10,15 @@ SRC_URI = "git://github.com/cisco/libest"
 
 DEPENDS = "openssl"
 
+#fatal error: execinfo.h: No such file or directory
+DEPENDS_append_libc-musl = " libexecinfo"
+
 inherit autotools-brokensep
 
 EXTRA_OECONF = "--disable-pthreads --with-ssl-dir=${STAGING_LIBDIR}"
 
 CFLAGS += "-fcommon"
+LDFLAGS_append_libc-musl = " -lexecinfo"
 
 S = "${WORKDIR}/git"
 

@@ -6,6 +6,7 @@ ima_enabled() {
     if [ "$bootparam_no_ima" = "true" ]; then
         return 1
     fi
+    return 0
 }
 
 ima_run() {

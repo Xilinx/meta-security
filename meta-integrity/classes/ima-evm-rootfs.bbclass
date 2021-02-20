@@ -28,6 +28,9 @@ IMA_EVM_ROOTFS_HASHED ?= ". -depth 0 -false"
 # the iversion flags (needed by IMA when allowing writing).
 IMA_EVM_ROOTFS_IVERSION ?= ""
 
+# Avoid re-generating fstab when ima is enabled.
+WIC_CREATE_EXTRA_ARGS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'ima', ' --no-fstab-update', '', d)}"
+
 ima_evm_sign_rootfs () {
     cd ${IMAGE_ROOTFS}
 

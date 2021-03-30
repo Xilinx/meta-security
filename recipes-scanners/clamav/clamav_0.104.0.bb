@@ -105,7 +105,10 @@ FILES_${PN}-daemon = "${bindir}/clamconf ${bindir}/clamdtop ${sbindir}/clamd \
                         /usr/etc/clamd.conf* \
                         ${systemd_unitdir}/system/clamav-daemon/* \
                         ${docdir}/clamav-daemon/*  ${sysconfdir}/clamav-daemon \
-                        ${sysconfdir}/logcheck/ignore.d.server/clamav-daemon "
+                        ${sysconfdir}/logcheck/ignore.d.server/clamav-daemon \
+                        ${systemd_unitdir}/system/clamav-daemon.service \
+                        ${systemd_unitdir}/system/clamav-clamonacc.service \
+                        "
 
 FILES_${PN}-freshclam = "${bindir}/freshclam \
                         ${sysconfdir}/freshclam.conf*  \

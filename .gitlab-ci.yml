@@ -12,21 +12,20 @@
     - for x in `ls $CI_PROJECT_DIR/build/tmp/log/error-report/ | grep error_report_`; do
     - send-error-report -y tmp/log/error-report/$x
     - done
-    - rm -fr $CI_PROJECT_DIR/build
-
 
 stages:
-  - build
+  - base 
   - parsec
   - multi
   - alt 
   - musl
   - test
+  - cleanup
 
-.build:
+.base:
   before_script:
     - *before-my-script
-  stage: build
+  stage: base 
   after_script:
     - *after-my-script
 
@@ -66,100 +65,171 @@ stages:
   after_script:
     - *after-my-script
 
+.cleanup:
+   stage: cleanup
 
 qemux86:
-  extends: .build
+  extends: .base
   script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+  - kas shell kas/$CI_JOB_NAME.yml  -c "bitbake -k security-build-image integrity-image-minimal"
   - kas build --target security-build-image kas/$CI_JOB_NAME-comp.yml
   - kas build --target harden-image-minimal kas/$CI_JOB_NAME-harden.yml
-  - kas build --target integrity-image-minimal kas/$CI_JOB_NAME-ima.yml
-
-qemux86-64:
-  extends: .build
-  script:
-  - kas shell kas/$CI_JOB_NAME.yml  -c "bitbake -k security-build-image security-tpm-image security-tpm2-image"
-  - kas build --target dm-verity-image-initramfs kas/$CI_JOB_NAME-dm-verify.yml
-  - kas build --target integrity-image-minimal kas/$CI_JOB_NAME-ima.yml
-
-qemuarm:
-  extends: .build
-  script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
-
-qemuarm64:
-  extends: .build
-  script:
-  - kas shell kas/$CI_JOB_NAME.yml  -c "bitbake -k security-build-image security-tpm2-image"
-  - kas build --target integrity-image-minimal kas/$CI_JOB_NAME-ima.yml
-
-qemuppc:
-  extends: .build
-  script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
-
-qemumips64:
-  extends: .build
-  script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
-
-qemuriscv64:
-  extends: .build
-  script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
-
-qemuarm64-alt:
-  extends: .alt
-  script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
-
-qemuarm64-multi:
-  extends: .multi
-  script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
-
-qemumips64-alt:
-  extends: .alt
-  script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
-
-qemumips64-multi:
-  extends: .multi
-  script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
-
-qemux86-64-alt:
-  extends: .alt
-  script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
-
-qemux86-64-multi:
-  extends: .multi
-  script:
-  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
 
 qemux86-musl:
   extends: .musl
+  needs: ['qemux86-parsec']
   script:
   - kas build --target security-build-image kas/$CI_JOB_NAME.yml
 
-qemuarm64-musl:
-  extends: .musl
+qemux86-parsec:
+  extends: .parsec
+  needs: ['qemux86']
   script:
   - kas build --target security-build-image kas/$CI_JOB_NAME.yml
 
 qemux86-test:
   extends: .test
+  needs: ['qemux86']
   allow_failure: true
   script:
   - kas build --target security-test-image kas/$CI_JOB_NAME.yml
   - kas build -c testimage --target security-test-image kas/$CI_JOB_NAME.yml
 
-parsec:
-  extends: .parsec
+qemux86-rm:
+  extends: .cleanup
+  needs: ['qemux86']
   script:
-  - kas build --target security-build-image kas/qemuarm-$CI_JOB_NAME.yml
-  - kas build --target security-build-image kas/qemuarm64-$CI_JOB_NAME.yml
-  - kas build --target security-build-image kas/qemux86-$CI_JOB_NAME.yml
-  - kas build --target security-build-image kas/qemux86-64-$CI_JOB_NAME.yml
-  - kas build --target security-build-image kas/qemuppc-$CI_JOB_NAME.yml
+    - rm -fr $CI_PROJECT_DIR/build
+
+qemux86-64:
+  extends: .base
+  script:
+  - kas shell kas/$CI_JOB_NAME.yml  -c "bitbake -k security-build-image security-tpm-image security-tpm2-image integrity-image-minimal"
+  - kas build --target dm-verity-image-initramfs kas/$CI_JOB_NAME-dm-verify.yml
+
+qemux86-64-parsec:
+  extends: .parsec
+  needs: ['qemux86-64']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemux86-64-multi:
+  extends: .multi
+  needs: ['qemux86-64']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemux86-64-alt:
+  extends: .alt
+  needs: ['qemux86-64-multi']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemux86-64-rm:
+  extends: .cleanup
+  needs: ['qemux86-64']
+  script:
+    - rm -fr $CI_PROJECT_DIR/build
+
+qemuarm:
+  extends: .base
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemuarm-parsec:
+  extends: .parsec
+  needs: ['qemuarm']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemuarm-rm:
+  extends: .cleanup
+  needs: ['qemuarm']
+  script:
+    - rm -fr $CI_PROJECT_DIR/build
+
+qemuarm64:
+  extends: .base
+  script:
+  - kas shell kas/$CI_JOB_NAME.yml  -c "bitbake -k security-build-image security-tpm2-image integrity-image-minimal"
+
+qemuarm64-multi:
+  extends: .multi
+  needs: ['qemuarm64']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemuarm64-alt:
+  extends: .alt
+  needs: ['qemuarm64-multi']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemuarm64-musl:
+  extends: .musl
+  needs: ['qemuarm64-alt']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemuarm64-parsec:
+  extends: .parsec
+  needs: ['qemuarm64']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemuarm64-rm:
+  extends: .cleanup
+  needs: ['qemuarm64']
+  script:
+    - rm -fr $CI_PROJECT_DIR/build
+
+qemuppc:
+  extends: .base
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemuppc-parsec:
+  extends: .parsec
+  needs: ['qemuppc']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemuppc-rm:
+  extends: .cleanup
+  needs: ['qemuppc']
+  script:
+    - rm -fr $CI_PROJECT_DIR/build
+
+qemumips64:
+  extends: .base
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemumips64-multi:
+  extends: .multi
+  needs: ['qemumips64']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemumips64-alt:
+  extends: .alt
+  needs: ['qemumips64-multi']
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemumips64-rm:
+  extends: .cleanup
+  needs: ['qemumips64']
+  script:
+    - rm -fr $CI_PROJECT_DIR/build
+
+qemuriscv64:
+  extends: .base
+  script:
+  - kas build --target security-build-image kas/$CI_JOB_NAME.yml
+
+qemuriscv64-rm:
+  extends: .cleanup
+  needs: ['qemuriscv64']
+  script:
+    - rm -fr $CI_PROJECT_DIR/build

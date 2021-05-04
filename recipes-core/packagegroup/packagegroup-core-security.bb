@@ -68,7 +68,6 @@ RDEPENDS_packagegroup-security-hardening = " \
 
 SUMMARY_packagegroup-security-ids = "Security Intrusion Detection systems"
 RDEPENDS_packagegroup-security-ids = " \
-    tripwire \
     samhain-standalone \
     ${@bb.utils.contains_any("TUNE_FEATURES", "ppc7400 riscv32 riscv64", "", " suricata",d)} \
     "
@@ -89,7 +88,6 @@ RDEPENDS_packagegroup-meta-security-ptest-packages = "\
     libseccomp-ptest \
     python3-scapy-ptest \
     suricata-ptest \
-    tripwire-ptest \
     python3-fail2ban-ptest \
     ${@bb.utils.contains("DISTRO_FEATURES", "smack", "smack-ptest", "",d)} \
 "

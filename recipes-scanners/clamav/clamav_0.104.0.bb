@@ -8,7 +8,8 @@ DEPENDS = "glibc llvm libtool db openssl zlib curl libxml2 bison pcre2 json-c li
  
 LIC_FILES_CHKSUM = "file://COPYING.txt;beginline=2;endline=3;md5=f7029fbbc5898b273d5902896f7bbe17"
 
-SRCREV = "5553a5e206ceae5d920368baee7d403f823bcb6f"
+# May 2nd
+SRCREV = "de0086aa918b79cd22570d0c05977a288b197e23"
 
 SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=dev/0.104 \
     file://clamd.conf \
@@ -27,6 +28,8 @@ SO_VER = "9.6.0"
 BINCONFIG = "${bindir}/clamav-config"
 
 inherit cmake chrpath pkgconfig useradd systemd multilib_header multilib_script
+
+UPSTREAM_CHECK_COMMITS = "1"
 
 CLAMAV_UID ?= "clamav"
 CLAMAV_GID ?= "clamav"

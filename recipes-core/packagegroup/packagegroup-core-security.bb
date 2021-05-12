@@ -70,6 +70,8 @@ SUMMARY_packagegroup-security-ids = "Security Intrusion Detection systems"
 RDEPENDS_packagegroup-security-ids = " \
     samhain-standalone \
     ${@bb.utils.contains_any("TUNE_FEATURES", "ppc7400 riscv32 riscv64", "", " suricata",d)} \
+    ossec-hids \
+    aide \
     "
 
 SUMMARY_packagegroup-security-mac = "Security Mandatory Access Control systems"

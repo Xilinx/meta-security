@@ -51,9 +51,9 @@ RDEPENDS_packagegroup-security-scanners = "\
     isic \
     nikto \
     checksecurity \
-    ${@bb.utils.contains_any("TUNE_FEATURES", "riscv32 riscv64", "", " clamav clamav-freshclam",d)} \
+    ${@bb.utils.contains_any("TUNE_FEATURES", "riscv32 riscv64", "", " clamav clamav-daemon clamav-freshclam",d)} \
     "
-RDEPENDS_packagegroup-security-scanners_remove_libc-musl = "clamav clamav-freshclam"
+RDEPENDS_packagegroup-security-scanners_remove_libc-musl = "clamav clamav-daemon clamav-freshclam"
 
 SUMMARY_packagegroup-security-audit = "Security Audit tools "
 RDEPENDS_packagegroup-security-audit = " \

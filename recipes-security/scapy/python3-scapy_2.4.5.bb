@@ -5,9 +5,7 @@ LICENSE = "GPLv2"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
-S = "${WORKDIR}/git"
-
-SRCREV = "95ba5b8504152a1f820bbe679ccf03668cb5118f"
+SRCREV = "32cd7eb0f620d9adf171c48d55514e8326a538d7"
 SRC_URI = "git://github.com/secdev/scapy.git \
            file://run-ptest"
 

@@ -74,6 +74,8 @@ RDEPENDS_packagegroup-security-ids = " \
     aide \
     "
 
+RDEPENDS_packagegroup-security-ids_remove_libc-musl = "ossec-hids"
+
 SUMMARY_packagegroup-security-mac = "Security Mandatory Access Control systems"
 RDEPENDS_packagegroup-security-mac = " \
     ${@bb.utils.contains("DISTRO_FEATURES", "tomoyo", "ccs-tools", "",d)} \

@@ -37,7 +37,6 @@ RDEPENDS_packagegroup-security-utils = "\
     pinentry \
     python3-privacyidea \
     python3-fail2ban \
-    python3-scapy \
     softhsm \
     libest \
     opendnssec \
@@ -89,7 +88,6 @@ RDEPENDS_packagegroup-meta-security-ptest-packages = "\
     ptest-runner \
     samhain-standalone-ptest \
     libseccomp-ptest \
-    python3-scapy-ptest \
     suricata-ptest \
     python3-fail2ban-ptest \
     ${@bb.utils.contains("DISTRO_FEATURES", "smack", "smack-ptest", "",d)} \

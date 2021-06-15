@@ -63,6 +63,7 @@ EXTRA_OECONF += " \
     --without-python2-bindings \
     --without-secrets \
     --with-xml-catalog-path=${STAGING_ETCDIR_NATIVE}/xml/catalog \
+    --with-pid-path=/run \
 "
 
 do_configure_prepend() {
@@ -88,8 +89,8 @@ do_install () {
         echo "d /var/log/sssd 0750 - - - -" > ${D}${sysconfdir}/tmpfiles.d/sss.conf
     fi
 
-    # Remove /var/run as it is created on startup
-    rm -rf ${D}${localstatedir}/run
+    # Remove /run as it is created on startup
+    rm -rf ${D}/run
 
     rm -f ${D}${systemd_system_unitdir}/sssd-secrets.*
 }

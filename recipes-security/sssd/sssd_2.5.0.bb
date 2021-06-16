@@ -21,6 +21,7 @@ SRC_URI = "https://github.com/SSSD/sssd/releases/download/2.5.0/sssd-2.5.0.tar.g
            file://no_gen.patch \
            file://fix_gid.patch \
            file://drop_ntpdate_chk.patch \
+           file://fix-ldblibdir.patch \
            "
 SRC_URI[sha256sum] = "afa62d7d8d23fca3aba093abe4ec0d14e7d9346c5b28ceb7c2c624bed98caa06"
 

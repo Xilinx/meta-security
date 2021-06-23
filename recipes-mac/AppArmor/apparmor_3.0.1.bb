@@ -23,16 +23,10 @@ SRC_URI = " \
     file://apparmor.service \
     file://0001-Makefile.am-suppress-perllocal.pod.patch \
     file://run-ptest \
-    file://0001-apparmor-fix-manpage-order.patch \
     file://0001-Revert-profiles-Update-make-check-to-select-tools-ba.patch \
-    file://0001-libapparmor-add-missing-include-for-socklen_t.patch \
-    file://0002-libapparmor-add-aa_features_new_from_file-to-public-.patch \
-    file://0003-libapparmor-add-_aa_asprintf-to-private-symbols.patch \
-    file://0001-aa_status-Fix-build-issue-with-musl.patch \
-    file://0001-parser-Makefile-dont-force-host-cpp-to-detect-reallo.patch \
     "
 
-SRCREV = "5d51483bfecf556183558644dc8958135397a7e2"
+SRCREV = "b0f08aa9d678197b8e3477c2fbff790f50a1de5e"
 S = "${WORKDIR}/git"
 
 PARALLEL_MAKE = ""

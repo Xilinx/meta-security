@@ -35,8 +35,8 @@ do_install_ () {
 }
 
 
-INSANE_SKIP_${PN} = "already-stripped"
-INSANE_SKIP_${PN}-dev = "ldflags"
+INSANE_SKIP:${PN} = "already-stripped"
+INSANE_SKIP:${PN}-dev = "ldflags"
 
-RDEPENDS_${PN} = "go"
-RDEPENDS_${PN}-dev = "bash"
+RDEPENDS:${PN} = "go"
+RDEPENDS:${PN}-dev = "bash"

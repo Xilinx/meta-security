@@ -19,7 +19,7 @@ CARGO_SRC_DIR = ""
 inherit pkgconfig useradd systemd cargo
 
 
-do_install_append () {
+do_install:append () {
     install -d ${D}${sysconfdir}
     install -d ${D}${datadir}/krill
 
@@ -31,9 +31,9 @@ KRILL_UID ?= "krill"
 KRILL_GID ?= "krill"
 
 USERADD_PACKAGES = "${PN}"
-GROUPADD_PARAM_${PN} = "--system ${KRILL_UID}"
-USERADD_PARAM_${PN} = "--system -g ${KRILL_GID} --home-dir  \
+GROUPADD_PARAM:${PN} = "--system ${KRILL_UID}"
+USERADD_PARAM:${PN} = "--system -g ${KRILL_GID} --home-dir  \
                        /var/lib/krill/ --no-create-home  \
                        --shell /sbin/nologin ${BPN}"
 
-FILES_${PN} += "{sysconfdir}/defaults ${datadir}"
+FILES:${PN} += "{sysconfdir}/defaults ${datadir}"

@@ -69,11 +69,16 @@ RDEPENDS:packagegroup-security-hardening = " \
 SUMMARY:packagegroup-security-ids = "Security Intrusion Detection systems"
 RDEPENDS:packagegroup-security-ids = " \
     samhain-standalone \
-    ${@bb.utils.contains_any("TUNE_FEATURES", "ppc7400 riscv32 riscv64", "", " suricata",d)} \
+    ${@bb.utils.contains("BBLAYERS", "meta-rust", "suricata","", d)} \
     ossec-hids \
     aide \
     "
 
+RDEPENDS:packagegroup-security-ids:remove:powerpc = "suricata"
+RDEPENDS:packagegroup-security-ids:remove:powerpc64le = "suricata"
+RDEPENDS:packagegroup-security-ids:remove:powerpc64 = "suricata"
+RDEPENDS:packagegroup-security-ids:remove:riscv32 = "suricata"
+RDEPENDS:packagegroup-security-ids:remove:riscv64 = "suricata"
 RDEPENDS:packagegroup-security-ids:remove:libc-musl = "ossec-hids"
 
 SUMMARY:packagegroup-security-mac = "Security Mandatory Access Control systems"
@@ -88,7 +93,13 @@ RDEPENDS:packagegroup-security-mac:remove:mipsarch = "apparmor"
 RDEPENDS:packagegroup-meta-security-ptest-packages = "\
     ptest-runner \
     samhain-standalone-ptest \
-    ${@bb.utils.contains_any("TUNE_FEATURES", "ppc7400 riscv32 riscv64", "", " suricata-ptest",d)} \
+    ${@bb.utils.contains("BBLAYERS", "meta-rust", "suricata-ptest","", d)} \
     python3-fail2ban-ptest \
     ${@bb.utils.contains("DISTRO_FEATURES", "smack", "smack-ptest", "",d)} \
 "
+
+RDEPENDS:packagegroup-security-ptest-packages:remove:powerpc = "suricata-ptest"
+RDEPENDS:packagegroup-security-ptest-packages:remove:powerpc64le = "suricata-ptest"
+RDEPENDS:packagegroup-security-ptest-packages:remove:powerpc64 = "suricata-ptest"
+RDEPENDS:packagegroup-security-ptest-packages:remove:riscv32 = "suricata-ptest"
+RDEPENDS:packagegroup-security-ptest-packages:remove:riscv64 = "suricata-ptest"

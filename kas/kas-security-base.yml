@@ -38,7 +38,7 @@ repos:
 
 local_conf_header:
   base: |
-    CONF_VERSION = "1"
+    CONF_VERSION = "2"
     SOURCE_MIRROR_URL = "http://downloads.yoctoproject.org/mirror/sources/"
     SSTATE_MIRRORS = "file://.* http://sstate.yoctoproject.org/dev/PATH;downloadfilename=PATH \n"
     BB_HASHSERVE = "auto"
@@ -73,7 +73,7 @@ local_conf_header:
 
 bblayers_conf_header:
   base: |
-    POKY_BBLAYERS_CONF_VERSION = "2"
+    POKY_BBLAYERS_CONF_VERSION = "7"
     BBPATH = "${TOPDIR}"
     BBFILES ?= ""
 

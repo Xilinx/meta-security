@@ -1,5 +1,5 @@
 header:
-  version: 8
+  version: 9
 
 distro: poky
 
@@ -57,7 +57,7 @@ local_conf_header:
     EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
     PACKAGE_CLASSES = "package_ipk"
 
-    DISTRO_FEATURES:append = " pam apparmor smack ima"
+    DISTRO_FEATURES:append = " security pam apparmor smack ima tpm tpm2"
     MACHINE_FEATURES:append = " tpm tpm2"
 
   diskmon: |
@@ -73,7 +73,6 @@ local_conf_header:
 
 bblayers_conf_header:
   base: |
-    POKY_BBLAYERS_CONF_VERSION = "7"
     BBPATH = "${TOPDIR}"
     BBFILES ?= ""
 

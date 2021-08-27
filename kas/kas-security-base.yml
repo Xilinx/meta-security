@@ -30,12 +30,6 @@ repos:
       meta-networking:
       meta-filesystems:
 
-  meta-rust:
-    url: https://github.com/meta-rust/meta-rust.git
-    refspec: master
-
-
-
 local_conf_header:
   base: |
     CONF_VERSION = "2"

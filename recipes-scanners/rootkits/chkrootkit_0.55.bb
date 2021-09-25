@@ -6,8 +6,7 @@ LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=fdbe53788f7081c63387d8087273f5ff"
 
 SRC_URI = "ftp://ftp.pangeia.com.br/pub/seg/pac/${BPN}.tar.gz"
-SRC_URI[sha256sum] = "7262dae33b338976828b5d156b70d159e0043c0db43ada8dee66c97387cf45b5"
-
+SRC_URI[sha256sum] = "a81c0286ec449313f953701202a00e81b204fc2cf43e278585a11c12a5e0258b"
 
 inherit autotools-brokensep
 

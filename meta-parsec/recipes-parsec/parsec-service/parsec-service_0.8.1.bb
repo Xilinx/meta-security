@@ -10,9 +10,18 @@ SRC_URI += "crate://crates.io/parsec-service/${PV} \
             file://parsec-tmpfiles.conf \
 "
 
-DEPENDS = "tpm2-tss clang-native"
+DEPENDS = "clang-native"
 
-CARGO_BUILD_FLAGS += " --features all-providers,cryptoki/generate-bindings,tss-esapi/generate-bindings"
+PACKAGECONFIG ??= "TPM PKCS11 MBED-CRYPTO CRYPTOAUTHLIB"
+PACKAGECONFIG[ALL] = "all-providers,,tpm2-tss libts,libts"
+PACKAGECONFIG[TPM] = "tpm-provider,,tpm2-tss"
+PACKAGECONFIG[PKCS11] = "pkcs11-provider,"
+PACKAGECONFIG[MBED-CRYPTO] = "mbed-crypto-provider,"
+PACKAGECONFIG[CRYPTOAUTHLIB] = "cryptoauthlib-provider,"
+PACKAGECONFIG[TS] = "trusted-service-provider,,libts,libts"
+
+PARSEC_PROVIDERS = "${@d.getVar('PACKAGECONFIG_CONFARGS',True).replace(' ', ',')}"
+CARGO_BUILD_FLAGS += " --features ${PARSEC_PROVIDERS},cryptoki/generate-bindings,tss-esapi/generate-bindings"
 
 inherit systemd
 SYSTEMD_SERVICE:${PN} = "parsec.service"

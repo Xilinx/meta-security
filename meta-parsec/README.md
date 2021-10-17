@@ -11,23 +11,12 @@ This layer depends on:
 
     URI: git://git.openembedded.org/meta-openembedded
     branch: master
-    revision: HEAD
-    prio: default
 
     URI git://git.yoctoproject.org/meta-security
     branch: master
-    revision: HEAD
-    prio: default
-
-    URI https://github.com/meta-rust/meta-rust.git
-    branch: master
-    revision: HEAD
-    prio: default
 
     URI https://github.com/kraj/meta-clang.git
     branch: master
-    revision: HEAD
-    prio: default
 
 Adding the meta-parsec layer to your build
 ==========================================
@@ -44,7 +33,6 @@ other layers needed. e.g.:
       /path/to/yocto/meta-yocto-bsp \
       /path/to/meta-openembedded/meta-oe \
       /path/to/meta-openembedded/meta-python \
-      /path/to/meta-rust \
       /path/to/meta-clang \
       /path/to/meta-security/meta-tpm \
       /path/to/meta-security/meta-parsec \
@@ -165,11 +153,11 @@ Maintenance
 Send pull requests, patches, comments or questions to yocto@yoctoproject.org
 
 When sending single patches, please using something like:
-'git send-email -1 --to yocto@yoctoproject.org --subject-prefix=meta-parsec][PATCH'
+'git send-email -1 --to yocto@lists.yoctoproject.org --subject-prefix=meta-parsec][PATCH'
 
 These values can be set as defaults for this repository:
 
-$ git config sendemail.to yocto@yoctoproject.org
+$ git config sendemail.to yocto@lists.yoctoproject.org
 $ git config format.subjectPrefix meta-parsec][PATCH
 
 Now you can just do 'git send-email origin/master' to send all local patches.

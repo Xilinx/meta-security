@@ -1,8 +1,7 @@
 meta-parsec layer
 ==============
 
-This layer contains recipes for the Parsec service with Mbed-Crypto,
-Pkcs11 and TPM providers and parsec tools.
+This layer contains recipes for the Parsec service and parsec tools.
 
 Dependencies
 ============
@@ -43,9 +42,16 @@ local.conf:
 
     IMAGE_INSTALL:append = " parsec-service"
 
-  The Parsec service will be deployed into the image built with all the supported
-providers and with the default config file from the Parsec repository:
+  By default the Parsec service will be deployed into the image with
+TPM, PKCS11, MBED-CRYPTO and CRYPTOAUTHLIB providers build in
+and with the default config file from the Parsec repository:
 https://github.com/parallaxsecond/parsec/blob/main/config.toml
+
+  You can use PACKAGECONFIG for Parsec servic recipe to define
+what providers should be built in. For example,
+
+    PACKAGECONFIG:pn-parsec-service = "TPM"
+
   The default Parsec service config file contains the MbedCrypto provider
 enabled. The config file needs to be updated to use the Parsec service
 with other providers like TPM or PKCS11. The required procedures are
@@ -80,12 +86,19 @@ manual testing of the Parsec service:
 to test the Parsec service base functionality:
 https://www.youtube.com/watch?v=ido0CyUdMHM&list=PLKjl7IFAwc4S7WQqqphCsyy6DPDxJ2Skg&index=4
 
+  The parsec-tool recipe also includes `parsec-cli-tests.sh` script
+which runs e2e tests against all providers enabled and configured
+in Parsec service.
+
   You can use runqemu to start a VM with a built image file and run
 manual tests with parsec-tool.
 
+Enabling Parsec providers for manual testing
+============================================
+
 1. MbedCrypto provider
   The default Parsec service config file contains the MbedCrypto provider
-enabled. No changes required for manual testing.
+enabled. No changes required.
 
 2. PKCS11 provider
   The Software HSM can be used for manual testing of the provider by

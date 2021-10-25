@@ -16,15 +16,15 @@ DEPENDS = "bison-native apr gettext-native coreutils-native swig-native"
 SRC_URI = " \
     git://gitlab.com/apparmor/apparmor.git;protocol=https;branch=apparmor-3.0 \
     file://run-ptest \
-    file://disable_perl_h_check.patch \
     file://crosscompile_perl_bindings.patch \
     file://0001-Makefile.am-suppress-perllocal.pod.patch \
     file://0001-Revert-profiles-Update-make-check-to-select-tools-ba.patch \
     file://0001-Makefile-fix-hardcoded-installation-directories.patch \
     file://0001-rc.apparmor.debian-add-missing-functions.patch \
+    file://py3_10_fixup.patch \
     "
 
-SRCREV = "b0f08aa9d678197b8e3477c2fbff790f50a1de5e"
+SRCREV = "b23de501807b8b5793e9654da8688b5fd3281154"
 S = "${WORKDIR}/git"
 
 PARALLEL_MAKE = ""

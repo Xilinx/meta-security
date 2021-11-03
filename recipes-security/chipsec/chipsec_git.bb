@@ -7,7 +7,7 @@ DESCRIPTION = "CHIPSEC is a framework for analyzing the security \
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=bc2d1f9b427be5fb63f6af9da56f7c5d"
 
-SRC_URI = "git://github.com/chipsec/chipsec.git;branch=master \
+SRC_URI = "git://github.com/chipsec/chipsec.git;branch=master;protocol=https \
           "
 
 SRCREV = "b2a61684826dc8b9f622a844a40efea579cd7e7d"

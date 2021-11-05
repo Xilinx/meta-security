@@ -30,6 +30,7 @@ do_install:append () {
     install -d ${D}/${sysconfdir}/init.d
     install -m 0755 ${WORKDIR}/initd ${D}${sysconfdir}/init.d/fail2ban-server
     chown -R root:root ${D}/${bindir}
+    rm -rf ${D}/run
 }
 
 do_install_ptest:append () {
@@ -40,7 +41,6 @@ do_install_ptest:append () {
     rm -f ${D}${PTEST_PATH}/bin/fail2ban-python
 }
 
-FILES:${PN} += "/run"
 
 INITSCRIPT_PACKAGES = "${PN}"
 INITSCRIPT_NAME = "fail2ban-server"

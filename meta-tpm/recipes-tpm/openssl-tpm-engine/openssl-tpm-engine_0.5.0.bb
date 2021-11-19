@@ -35,10 +35,10 @@ inherit autotools-brokensep pkgconfig
 srk_dec_pw ?= "\\"\\\x1\\"\\"nc\\"\\"\\\x3\\"\\"nd\\"\\"\\\x1\\"\\"a\\""
 srk_dec_salt ?= "\\"r\\"\\"\\\x00\\\x00\\"\\"t\\""
 
-CFLAGS:append += "-DSRK_DEC_PW=${srk_dec_pw} -DSRK_DEC_SALT=${srk_dec_salt}"
+CFLAGS:append = " -DSRK_DEC_PW=${srk_dec_pw} -DSRK_DEC_SALT=${srk_dec_salt}"
 
 # Uncomment below line if using the plain srk password for development
-#CFLAGS_append += "-DTPM_SRK_PLAIN_PW"
+#CFLAGS:append = " -DTPM_SRK_PLAIN_PW"
 
 do_configure:prepend() {
     cd ${B}

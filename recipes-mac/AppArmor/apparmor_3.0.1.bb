@@ -168,7 +168,7 @@ RDEPENDS:${PN}:libc-glibc +=  "glibc-utils"
 
 # Add coreutils and findutils only if sysvinit scripts are in use
 RDEPENDS:${PN} +=  "${@["coreutils findutils", ""][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'systemd')]} ${@bb.utils.contains('PACKAGECONFIG','python','python3-core python3-modules','', d)}"
-RDEPENDS:${PN}:remove += "${@bb.utils.contains('PACKAGECONFIG','perl','','perl', d)}"
+RDEPENDS:${PN}:remove = "${@bb.utils.contains('PACKAGECONFIG','perl','','perl', d)}"
 RDEPENDS:${PN}-ptest += "perl coreutils dbus-lib bash"
 
 INSANE_SKIP:${PN} = "ldflags"

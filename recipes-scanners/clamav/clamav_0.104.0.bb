@@ -135,11 +135,11 @@ FILES:${PN}-doc = "${mandir}/man/* \
                    ${datadir}/man/* \
                    ${docdir}/* "
 
-USERADD_PACKAGES = "${PN}"
-GROUPADD_PARAM:${PN} = "--system ${CLAMAV_UID}"
-USERADD_PARAM:${PN} = "--system -g ${CLAMAV_GID} --home-dir  \
+USERADD_PACKAGES = "${PN}-freshclam "
+GROUPADD_PARAM:${PN}-freshclam = "--system ${CLAMAV_UID}"
+USERADD_PARAM:${PN}-freshclam = "--system -g ${CLAMAV_GID} --home-dir  \
     ${localstatedir}/lib/${BPN} \
-    --no-create-home  --shell /sbin/nologin ${BPN}"
+    --no-create-home  --shell /sbin/nologin ${PN}"
 
 RPROVIDES:${PN} += "${PN}-systemd"
 RREPLACES:${PN} += "${PN}-systemd"

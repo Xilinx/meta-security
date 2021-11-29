@@ -9,7 +9,7 @@ HOMEPAGE = "http://www.fail2ban.org"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://COPYING;md5=ecabc31e90311da843753ba772885d9f"
 
-SRCREV ="d6b884f3b72b8a42b21da863836569ef6836c2ea"
+SRCREV ="4fe4ac8dde6ba14841da598ec37f8c6911fe0f64"
 SRC_URI = " git://github.com/fail2ban/fail2ban.git;branch=0.11;protocol=https \
         file://initd \
         file://run-ptest \

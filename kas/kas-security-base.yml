@@ -1,5 +1,5 @@
 header:
-  version: 8
+  version: 9
 
 distro: poky
 
@@ -14,7 +14,7 @@ repos:
 
   poky:
     url: https://git.yoctoproject.org/git/poky
-    refspec: gatesgarth
+    refspec: master
     layers:
       meta:
       meta-poky:
@@ -22,16 +22,17 @@ repos:
 
   meta-openembedded:
     url: http://git.openembedded.org/meta-openembedded
-    refspec: gatesgarth
+    refspec: master
     layers:
       meta-oe:
       meta-perl:
       meta-python:
       meta-networking:
+      meta-filesystems:
 
 local_conf_header:
   base: |
-    CONF_VERSION = "1"
+    CONF_VERSION = "2"
     SOURCE_MIRROR_URL = "http://downloads.yoctoproject.org/mirror/sources/"
     SSTATE_MIRRORS = "file://.* http://sstate.yoctoproject.org/dev/PATH;downloadfilename=PATH \n"
     BB_HASHSERVE = "auto"
@@ -42,7 +43,6 @@ local_conf_header:
     INHERIT += "rm_work"
     BB_NUMBER_THREADS="24"
     BB_NUMBER_PARSE_THREADS="12"
-    PARALLEL_MAKE="-j 8"
     BB_TASK_NICE_LEVEL = '5'
     BB_TASK_NICE_LEVEL_task-testimage = '0'
     BB_TASK_IONICE_LEVEL = '2.7'
@@ -51,6 +51,8 @@ local_conf_header:
     EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
     PACKAGE_CLASSES = "package_ipk"
 
+    DISTRO_FEATURES:append = " security pam apparmor smack ima tpm tpm2"
+    MACHINE_FEATURES:append = " tpm tpm2"
 
   diskmon: |
     BB_DISKMON_DIRS = "\
@@ -65,7 +67,6 @@ local_conf_header:
 
 bblayers_conf_header:
   base: |
-    POKY_BBLAYERS_CONF_VERSION = "2"
     BBPATH = "${TOPDIR}"
     BBFILES ?= ""
 

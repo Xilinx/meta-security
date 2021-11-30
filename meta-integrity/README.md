@@ -1,8 +1,24 @@
 This README file contains information on the contents of the
 integrity layer.
 
-Please see the corresponding sections below for details.
 
+The bbappend files for some recipes (e.g. linux-yocto) in this layer need
+to have 'integrity' in DISTRO_FEATURES to have effect.
+To enable them, add in configuration file the following line.
+
+  DISTRO_FEATURES:append = " integrity"
+
+If meta-integrity is included, but integrity is not enabled as a
+distro feature a warning is printed at parse time:
+
+    You have included the meta-integritry layer, but
+    'integrity' has not been enabled in your DISTRO_FEATURES. Some bbappend files
+    and preferred version setting may not take effect.
+
+If you know what you are doing, this warning can be disabled by setting the following
+variable in your configuration:
+
+  SKIP_META_INTEGRITY_SANITY_CHECK = 1
 
 Dependencies
 ============
@@ -203,7 +219,7 @@ executing the file is no longer allowed:
 Enabling the audit kernel subsystem may help to debug appraisal
 issues. Enable it by adding the meta-security-framework layer and
 changing your local.conf:
-    SRC_URI_append_pn-linux-yocto = " file://audit.cfg"
+    SRC_URI:append:pn-linux-yocto = " file://audit.cfg"
     CORE_IMAGE_EXTRA_INSTALL += "auditd"
 
 Then boot with "ima_appraise=log ima_appraise_tcb".

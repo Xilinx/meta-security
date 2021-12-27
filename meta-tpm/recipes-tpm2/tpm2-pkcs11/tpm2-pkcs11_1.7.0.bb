@@ -9,9 +9,11 @@ DEPENDS = "autoconf-archive pkgconfig dstat sqlite3 openssl libtss2-dev tpm2-too
 SRC_URI = "git://github.com/tpm2-software/tpm2-pkcs11.git;branch=master;protocol=https \
            file://bootstrap_fixup.patch \
            file://0001-remove-local-binary-checkes.patch \
+           file://0001-ssl-compile-against-OSSL-3.0.patch \
+           file://0002-ossl-require-version-1.1.0-or-greater.patch \
            "
 
-SRCREV = "862bdb845910342cd7b6e6da7495f6ee7d090a37"
+SRCREV = "11fd2532ce10e97834a57dfb25bff6c613a5a851"
 
 S = "${WORKDIR}/git"
 

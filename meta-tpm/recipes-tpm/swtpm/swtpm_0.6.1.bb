@@ -7,7 +7,7 @@ SECTION = "apps"
 DEPENDS = "libtasn1 coreutils-native expect-native socat-native glib-2.0 net-tools-native libtpm json-glib"
 
 SRCREV = "98187d24fe14851653a7c46eb16e9c5f0b9beaa1"
-SRC_URI = "git://github.com/stefanberger/swtpm.git;branch=stable-0.6 \
+SRC_URI = "git://github.com/stefanberger/swtpm.git;branch=stable-0.6;protocol=https \
            file://ioctl_h.patch \
            file://oe_configure.patch \
            "

@@ -9,10 +9,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5105ead24b08a32954f34cbaa7112432"
 
 DEPENDS = "virtual/kernel elfutils"
 
-SRC_URI = "https://www.openwall.com/lkrg/lkrg-${PV}.tar.gz \
+SRC_URI = "https://download.openwall.net/pub/projects/lkrg/lkrg-${PV}.tar.gz \
            file://makefile_cleanup.patch "
 
-SRC_URI[sha256sum] = "cabbee1addbf3ae23a584203831e4bd1b730d22bfd1b3e44883214f220b3babd"
+SRC_URI[sha256sum] = "c2b501c47089cce3ec3114cef6520b73aa3a098836183186b9bb5e097c99ac27"
 
 S = "${WORKDIR}/lkrg-${PV}"
 

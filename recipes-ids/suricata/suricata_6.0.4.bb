@@ -5,7 +5,7 @@ require suricata.inc
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=2;md5=c70d8d3310941dcdfcd1e02800a1f548"
 
 SRC_URI = "http://www.openinfosecfoundation.org/download/suricata-${PV}.tar.gz"
-SRC_URI[sha256sum] = "daf134bb2d7c980035e9ae60f7aaf313323a809340009f26e48110ccde81f602"
+SRC_URI[sha256sum] = "a8f197e33d1678689ebbf7bc1abe84934c465d22c504c47c2c7e9b74aa042d0d"
 
 DEPENDS = "lz4 libhtp"
 
@@ -58,7 +58,7 @@ SRC_URI += " \
     crate://crates.io/crc/1.8.1 \
     crate://crates.io/rustc_version/0.2.3 \
     crate://crates.io/phf/0.8.0 \
-    crate://crates.io/lexical-core/0.6.7 \
+    crate://crates.io/lexical-core/0.6.8 \
     crate://crates.io/time/0.1.44 \
     crate://crates.io/quote/0.6.13 \
     crate://crates.io/rand_core/0.5.1 \

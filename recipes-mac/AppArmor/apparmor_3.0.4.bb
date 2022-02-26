@@ -18,20 +18,18 @@ SRC_URI = " \
     file://run-ptest \
     file://crosscompile_perl_bindings.patch \
     file://0001-Makefile.am-suppress-perllocal.pod.patch \
-    file://0001-Revert-profiles-Update-make-check-to-select-tools-ba.patch \
     file://0001-Makefile-fix-hardcoded-installation-directories.patch \
     file://0001-rc.apparmor.debian-add-missing-functions.patch \
-    file://py3_10_fixup.patch \
     "
 
-SRCREV = "b23de501807b8b5793e9654da8688b5fd3281154"
+SRCREV = "9799fbde997820bb12a49e292356f7a6ce12e972"
 S = "${WORKDIR}/git"
 
 PARALLEL_MAKE = ""
 
 COMPATIBLE_MACHINE:mips64 = "(!.*mips64).*"
 
-inherit pkgconfig autotools-brokensep update-rc.d python3native python3targetconfig perlnative cpan systemd features_check bash-completion
+inherit pkgconfig autotools-brokensep update-rc.d python3native python3targetconfig perlnative cpan systemd features_check bash-completion setuptools3
 
 REQUIRED_DISTRO_FEATURES = "apparmor"
 

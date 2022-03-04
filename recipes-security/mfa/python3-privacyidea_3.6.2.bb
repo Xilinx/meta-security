@@ -2,11 +2,11 @@ SUMMARY = "identity, multifactor authentication (OTP), authorization, audit"
 DESCRIPTION = "privacyIDEA is an open solution for strong two-factor authentication like OTP tokens, SMS, smartphones or SSH keys. Using privacyIDEA you can enhance your existing applications like local login (PAM, Windows Credential Provider), VPN, remote access, SSH connections, access to web sites or web portals with a second factor during authentication. Thus boosting the security of your existing applications."
 
 HOMEPAGE = "http://www.privacyidea.org/"
-LICENSE = "AGPL-3.0"
+LICENSE = "AGPL-3.0-only"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=c0acfa7a8a03b718abee9135bc1a1c55"
 
 PYPI_PACKAGE = "privacyIDEA"
-SRC_URI[sha256sum] = "26aeb0d353af1f212c4df476202516953c20f7f31566cfe0b67cbb553de04763"
+SRC_URI[sha256sum] = "4441282d086331dac0aee336286de8262d9ac8eb11e14b7f9aa69f865caebe17"
 
 inherit pypi setuptools3
 

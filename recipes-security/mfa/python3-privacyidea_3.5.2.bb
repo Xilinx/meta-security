@@ -11,8 +11,6 @@ SRC_URI[sha256sum] = "26aeb0d353af1f212c4df476202516953c20f7f31566cfe0b67cbb553d
 inherit pypi setuptools3
 
 do_install:append () {
-    #install ${D}/var/log/privacyidea
-
     rm -fr ${D}${libdir}/${PYTHON_DIR}/site-packages/tests
 }
 
@@ -21,7 +19,7 @@ GROUPADD_PARAM:${PN} = "--system privacyidea"
 USERADD_PARAM:${PN} = "--system -g privacyidea -o -r -d /opt/${BPN}  \
     --shell /bin/false privacyidea"
 
-FILES:${PN} += " ${datadir}/etc/privacyidea/* ${datadir}/lib/privacyidea/*"
+FILES:${PN} += " ${prefix}/etc/privacyidea/* ${datadir}/lib/privacyidea/*"
 
 RDEPENDS:${PN} += " bash perl freeradius-mysql freeradius-utils"
 

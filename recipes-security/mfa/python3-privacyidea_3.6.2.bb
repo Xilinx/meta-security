@@ -23,7 +23,7 @@ FILES:${PN} += " ${prefix}/etc/privacyidea/* ${datadir}/lib/privacyidea/*"
 
 RDEPENDS:${PN} += " bash perl freeradius-mysql freeradius-utils"
 
-RDEPENDS:${PN} += "python3 python3-alembic python3-babel python3-backports-functools-lru-cache python3-bcrypt"
+RDEPENDS:${PN} += "python3 python3-alembic python3-babel python3-bcrypt"
 RDEPENDS:${PN} += "python3-beautifulsoup4 python3-cbor2 python3-certifi python3-cffi python3-chardet"
 RDEPENDS:${PN} += "python3-click python3-configobj python3-croniter python3-cryptography python3-defusedxml"
 RDEPENDS:${PN} += "python3-ecdsa  python3-flask python3-flask-babel python3-flask-migrate"

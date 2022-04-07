@@ -2,7 +2,8 @@ SUMMARY = "Platform AbstRaction for SECurity Daemon"
 HOMEPAGE = "https://github.com/parallaxsecond/parsec"
 LICENSE = "Apache-2.0"
 
-inherit cargo
+inherit cargo pkgconfig
+DEPENDS = "clang-native"
 
 SRC_URI += "crate://crates.io/parsec-service/${PV} \
             file://parsec_init \
@@ -10,13 +11,9 @@ SRC_URI += "crate://crates.io/parsec-service/${PV} \
             file://parsec-tmpfiles.conf \
 "
 
-DEPENDS = "clang-native"
-
-PACKAGECONFIG ??= "PKCS11 MBED-CRYPTO CRYPTOAUTHLIB"
-
+PACKAGECONFIG ??= "PKCS11 MBED-CRYPTO"
 have_TPM = "${@bb.utils.contains('DISTRO_FEATURES', 'tpm2', 'TPM', '', d)}"
 PACKAGECONFIG:append = " ${@bb.utils.contains('BBFILE_COLLECTIONS', 'tpm-layer', '${have_TPM}', '', d)}"
-
 
 PACKAGECONFIG[ALL] = "all-providers cryptoki/generate-bindings tss-esapi/generate-bindings,,tpm2-tss libts,libts"
 PACKAGECONFIG[TPM] = "tpm-provider tss-esapi/generate-bindings,,tpm2-tss"
@@ -28,7 +25,7 @@ PACKAGECONFIG[TS] = "trusted-service-provider,,libts,libts"
 PARSEC_FEATURES = "${@d.getVar('PACKAGECONFIG_CONFARGS',True).strip().replace(' ', ',')}"
 CARGO_BUILD_FLAGS += " --features ${PARSEC_FEATURES}"
 
-inherit pkgconfig systemd
+inherit systemd
 SYSTEMD_SERVICE:${PN} = "parsec.service"
 
 inherit update-rc.d
@@ -73,6 +70,7 @@ FILES:${PN} += " \
     ${sysconfdir}/parsec/config.toml \
     ${libexecdir}/parsec/parsec \
     ${systemd_unitdir}/system/parsec.service \
+    ${localstatedir}/lib/parsec \
     ${libdir}/tmpfiles.d/parsec-tmpfiles.conf \
     ${sysconfdir}/init.d/parsec \
 "

@@ -6,21 +6,17 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0fc19f620a102768d6dbd1e7166e78ab"
 
 DEPENDS = "autoconf-archive pkgconfig sqlite3 openssl libtss2-dev tpm2-tools libyaml p11-kit python3-setuptools-native"
 
-SRC_URI = "git://github.com/tpm2-software/tpm2-pkcs11.git;branch=master;protocol=https \
-           file://bootstrap_fixup.patch \
-           file://0001-remove-local-binary-checkes.patch \
-           file://0001-ssl-compile-against-OSSL-3.0.patch \
-           file://0002-ossl-require-version-1.1.0-or-greater.patch \
-           "
+SRC_URI = "https://github.com/tpm2-software/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.gz"
 
-SRCREV = "11fd2532ce10e97834a57dfb25bff6c613a5a851"
-
-S = "${WORKDIR}/git"
+SRC_URI[sha256sum] = "79f28899047defd6b4b72b7268dd56abf27774954022315f818c239af33e05bd"
 
 inherit autotools-brokensep pkgconfig python3native
 
-do_configure:prepend () {
-    ${S}/bootstrap
+EXTRA_OECONF += "--disable-ptool-checks"
+
+do_configure:prepend() {
+    # do not extract the version number from git
+    sed -i -e 's/m4_esyscmd_s(\[git describe --tags --always --dirty\])/${PV}/' ${S}/configure.ac
 }
 
 do_compile:append() {

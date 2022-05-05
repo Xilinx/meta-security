@@ -121,7 +121,8 @@ CARGO_SRC_DIR = "rust"
 
 B = "${S}"
 
-PACKAGECONFIG ??= "jansson file pcre yaml python pcap cap-ng net nfnetlink nss nspr "
+# nfnetlink has a dependancy to meta-networking
+PACKAGECONFIG ??= "jansson file pcre yaml python pcap cap-ng net nss nspr "
 PACKAGECONFIG:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'unittests', '', d)}"
 
 PACKAGECONFIG[pcre] = "--with-libpcre-includes=${STAGING_INCDIR} --with-libpcre-libraries=${STAGING_LIBDIR}, ,libpcre ," 

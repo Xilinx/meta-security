@@ -56,7 +56,7 @@ RDEPENDS:packagegroup-security-audit = " \
 SUMMARY:packagegroup-security-ids = "Security Intrusion Detection systems"
 RDEPENDS:packagegroup-security-ids = " \
     samhain-standalone \
-    ${@bb.utils.contains("BBLAYERS", "meta-rust", "suricata","", d)} \
+    suricata \
     ossec-hids \
     aide \
     "

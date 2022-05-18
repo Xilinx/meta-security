@@ -6,22 +6,8 @@ DEPENDS += "openssl attr keyutils"
 
 DEPENDS:class-native += "openssl-native keyutils-native"
 
-PV = "1.2.1+git${SRCPV}"
-SRCREV = "3eab1f93b634249c1720f65fcb495b1996f0256e"
-SRC_URI = "git://git.code.sf.net/p/linux-ima/ima-evm-utils;branch=ima-evm-utils-1.2.y"
-
-# Documentation depends on asciidoc, which we do not have, so
-# do not build documentation.
-SRC_URI += "file://disable-doc-creation.patch"
-
-# Workaround for upstream incompatibility with older Linux distros.
-# Relevant for us when compiling ima-evm-utils-native.
-SRC_URI += "file://evmctl.c-do-not-depend-on-xattr.h-with-IMA-defines.patch"
-
-# Required for xargs with more than one path as argument (better for performance).
-SRC_URI += "file://command-line-apply-operation-to-all-paths.patch"
-
-S = "${WORKDIR}/git"
+SRC_URI = "https://sourceforge.net/projects/linux-ima/files/${BPN}/${BP}.tar.gz"
+SRC_URI[sha256sum] = "fcf85b31d6292051b3679e5f17ffa7f89b6898957aad0f59aa4e9878884b27d1"
 
 inherit pkgconfig autotools features_check
 

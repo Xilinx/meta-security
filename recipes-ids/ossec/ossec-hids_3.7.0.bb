@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/ossec/ossec-hids;branch=master;protocol=https \
            file://0002-Makefile-don-t-set-uid-gid.patch \
            "
 
-SRCREV = "1303c78e2c67d7acee0508cb00c3bc63baaa27c2"
+SRCREV = "1ecffb1b884607cb12e619f9ab3c04f530801083"
 
 UPSTREAM_CHECK_COMMITS = "1"
 

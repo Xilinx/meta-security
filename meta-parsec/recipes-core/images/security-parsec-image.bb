@@ -1,4 +1,4 @@
-DESCRIPTION = "A small image for building meta-parsec packages"
+DESCRIPTION = "A small image for testing Parsec service with MbedCrypto, TPM and PKCS11 providers"
 
 inherit core-image
 
@@ -10,7 +10,8 @@ IMAGE_INSTALL = "\
     packagegroup-security-tpm2 \
     packagegroup-security-parsec \
     swtpm \
-    os-release" 
+    softhsm \
+    os-release"
 
 export IMAGE_BASENAME = "security-parsec-image"
 

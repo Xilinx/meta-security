@@ -11,7 +11,6 @@ PACKAGES = "\
 
 SUMMARY:packagegroup-security-parsec = "Security Parsec"
 RDEPENDS:packagegroup-security-parsec = "\
-    softhsm \
     parsec-tool \
     parsec-service \
     "

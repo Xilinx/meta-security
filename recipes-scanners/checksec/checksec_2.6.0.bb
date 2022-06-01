@@ -4,10 +4,10 @@ SECTION = "security"
 LICENSE = "BSD-3-Clause"
 HOMEPAGE="https://github.com/slimm609/checksec.sh"
 
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8d90285f711cf1f378e2c024457066d8"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=879b2147c754bc040c29e9c3b84da836"
 
-SRCREV = "c3754e45e04f9104db93b2048afd094427102d48"
-SRC_URI = "git://github.com/slimm609/checksec.sh;branch=master;protocol=https"
+SRCREV = "2753ebb89fcdc96433ae8a4c4e5a49214a845be2"
+SRC_URI = "git://github.com/slimm609/checksec.sh;branch=main;protocol=https"
 
 S = "${WORKDIR}/git"
 
@@ -17,3 +17,5 @@ do_install() {
 }
 
 RDEPENDS:${PN} = "bash openssl-bin binutils"
+
+BBCLASSEXTEND = "native"

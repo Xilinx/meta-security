@@ -42,6 +42,8 @@ RDEPENDS:packagegroup-security-utils = "\
 
 SUMMARY:packagegroup-security-scanners = "Security scanners"
 RDEPENDS:packagegroup-security-scanners = "\
+    arpwatch \
+    chkrootkit \
     isic \
     ${@bb.utils.contains_any("TUNE_FEATURES", "riscv32 riscv64", "", " clamav clamav-daemon clamav-freshclam",d)} \
     "

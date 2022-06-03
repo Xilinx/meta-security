@@ -80,4 +80,7 @@ CONFFILE_FILES = "${sysconfdir}/${PN}.conf"
 FILES:${PN} = "${bindir} ${sbindir} ${prefix}/etc/rc.d \
                ${sysconfdir} /var/lib/arpwatch"
 
+COMPATIBLE_HOST:riscv32 = "null"
+COMPATIBLE_HOST:riscv64 = "null"
+
 RDEPENDS:${PN} = "libpcap"

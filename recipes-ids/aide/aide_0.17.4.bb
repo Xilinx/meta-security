@@ -38,4 +38,5 @@ FILES:${PN} += "${libdir}/${PN} ${sysconfdir}/aide.conf"
 pkg_postinst_ontarget:${PN} () {
     /usr/bin/aide -i
 }
-RDPENDS_${PN} = "bison, libpcre"
+
+RDEPENDS:${PN} = "bison libpcre"

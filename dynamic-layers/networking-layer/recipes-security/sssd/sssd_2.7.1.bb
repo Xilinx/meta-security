@@ -5,8 +5,9 @@ SECTION = "base"
 LICENSE = "GPL-3.0-or-later"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
-DEPENDS = "acl attr openldap cyrus-sasl libtdb ding-libs libpam c-ares krb5 autoconf-archive"
-DEPENDS:append = " libldb dbus libtalloc libpcre glib-2.0 popt e2fsprogs libtevent bind p11-kit"
+DEPENDS = "acl attr cyrus-sasl libtdb ding-libs libpam c-ares krb5 autoconf-archive"
+DEPENDS:append = " libldb dbus libtalloc libpcre2 glib-2.0 popt e2fsprogs libtevent"
+DEPENDS:append = " openldap bind p11-kit jansson softhsm openssl libunistring"
 
 DEPENDS:append:libc-musl = " musl-nscd"
 
@@ -23,10 +24,9 @@ SRC_URI = "https://github.com/SSSD/sssd/releases/download/${PV}/sssd-${PV}.tar.g
            file://drop_ntpdate_chk.patch \
            file://fix-ldblibdir.patch \
            file://musl_fixup.patch \
-           file://CVE-2021-3621.patch \
            "
 
-SRC_URI[sha256sum] = "5e21b3c7b4a2f1063d0fbdd3216d29886b6eaba153b44fb5961698367f399a0f"
+SRC_URI[sha256sum] = "8eebd541a640aec95ed4b2da89713f0cbe8e4edf96895fbb972c0b9d570635c3"
 
 inherit autotools pkgconfig gettext python3-dir features_check systemd
 
@@ -39,7 +39,7 @@ CACHED_CONFIGUREVARS = "ac_cv_member_struct_ldap_conncb_lc_arg=no \
     ac_cv_prog_HAVE_PYTHON3=${PYTHON_DIR} \
     "
 
-PACKAGECONFIG ?="nss nscd autofs sudo infopipe"
+PACKAGECONFIG ?="nss autofs sudo infopipe"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
 PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 
@@ -49,8 +49,8 @@ PACKAGECONFIG[curl] = "--with-kcm, --without-kcm, curl jansson"
 PACKAGECONFIG[infopipe] = "--with-infopipe, --with-infopipe=no, "
 PACKAGECONFIG[manpages] = "--with-manpages, --with-manpages=no, libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
 PACKAGECONFIG[nl] = "--with-libnl, --with-libnl=no, libnl"
-PACKAGECONFIG[nscd] = "--with-nscd=${sbindir}, --with-nscd=no "
 PACKAGECONFIG[nss] = ", ,nss,"
+PACKAGECONFIG[oidc_child] = "--with-oidc-child, --without-oidc-child"
 PACKAGECONFIG[python3] = "--with-python3-bindings, --without-python3-bindings"
 PACKAGECONFIG[samba] = "--with-samba, --with-samba=no, samba"
 PACKAGECONFIG[selinux] = "--with-selinux, --with-selinux=no --with-semanage=no, libselinux"
@@ -65,7 +65,6 @@ EXTRA_OECONF += " \
     --without-python2-bindings \
     --enable-pammoddir=${base_libdir}/security \
     --without-python2-bindings \
-    --without-secrets \
     --with-xml-catalog-path=${STAGING_ETCDIR_NATIVE}/xml/catalog \
     --with-pid-path=/run \
 "
@@ -74,8 +73,8 @@ do_configure:prepend() {
     mkdir -p ${AUTOTOOLS_AUXDIR}/build
     cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/build/
 
-    # libresove has host path, remove it
-    sed -i -e "s#\$sss_extra_libdir##" ${S}/src/external/libresolv.m4
+    # additional_libdir  defaults to /usr/lib so replace with staging_libdir globally
+    sed -i -e "s#\$additional_libdir#\${STAGING_LIBDIR}#" ${S}/src/build_macros.m4
 }
 
 do_compile:prepend () {
@@ -84,7 +83,11 @@ do_compile:prepend () {
 do_install () {
     oe_runmake install  DESTDIR="${D}"
     rmdir --ignore-fail-on-non-empty "${D}/${bindir}"
+
     install -d ${D}/${sysconfdir}/${BPN}
+    install -d ${D}/${PYTHON_SITEPACKAGES_DIR}
+    mv ${D}/${BPN}  ${D}/${PYTHON_SITEPACKAGES_DIR}
+
     install -m 600 ${WORKDIR}/${BPN}.conf ${D}/${sysconfdir}/${BPN}
 
     # /var/log/sssd needs to be created in runtime. Use rmdir to catch if
@@ -106,6 +109,7 @@ do_install () {
     # Remove /run as it is created on startup
     rm -rf ${D}/run
 
+#    rm -fr ${D}/sssd
     rm -f ${D}${systemd_system_unitdir}/sssd-secrets.*
 }
 
@@ -115,8 +119,6 @@ if [ -e /etc/init.d/populate-volatile.sh ] ; then
 fi
     chown ${SSSD_UID}:${SSSD_GID} ${sysconfdir}/${BPN}/${BPN}.conf
 }
-
-FILES:${PN} += "${nonarch_libdir}/tmpfiles.d"
 
 CONFFILES:${PN} = "${sysconfdir}/${BPN}/${BPN}.conf"
 
@@ -141,10 +143,13 @@ PACKAGES =+ "libsss-sudo"
 ALLOW_EMPTY:libsss-sudo = "1"
 
 FILES:${PN} += "${base_libdir}/security/pam_sss*.so  \
+                ${nonarch_libdir}/tmpfiles.d \
                 ${datadir}/dbus-1/system-services/*.service \
                 ${libdir}/krb5/* \
                 ${libdir}/ldb/* \
+                ${PYTHON_SITEPACKAGES_DIR}/sssd \
                 "
+
 FILES:libsss-sudo = "${libdir}/libsss_sudo.so"
 
 RDEPENDS:${PN} = "bind bind-utils dbus libldb libpam libsss-sudo"

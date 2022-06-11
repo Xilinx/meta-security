@@ -4,11 +4,11 @@ Upstream-Status: Inappropriate [OE Specific]
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 
-Index: sssd-2.5.0/Makefile.am
+Index: sssd-2.7.1/Makefile.am
 ===================================================================
---- sssd-2.5.0.orig/Makefile.am
-+++ sssd-2.5.0/Makefile.am
-@@ -1033,8 +1033,6 @@ generate-sbus-code:
+--- sssd-2.7.1.orig/Makefile.am
++++ sssd-2.7.1/Makefile.am
+@@ -1023,8 +1023,6 @@ generate-sbus-code:
  
  .PHONY: generate-sbus-code
  

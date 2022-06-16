@@ -12,7 +12,7 @@ SRC_URI[sha256sum] = "c81505246f3ffc2e76036d43a77212ae82895b5881d9b9e25c1361b1a9
 
 inherit autotools pkgconfig
 
-PACKAGECONFIG ??=" mhash zlib e2fsattrs \
+PACKAGECONFIG ??=" mhash zlib e2fsattrs posix capabilities curl \
                  ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux audit', '', d)} \
                  ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'xattr', '', d)} \
                  "
@@ -24,6 +24,8 @@ PACKAGECONFIG[audit] = "--with-audit, --without-audit,audit"
 PACKAGECONFIG[gcrypt] = "--with-gcrypt, --without-gcrypt, libgcrypt, libgcrypt"
 PACKAGECONFIG[mhash] = "--with-mhash, --without-mhash, libmhash, libmhash"
 PACKAGECONFIG[e2fsattrs] = "--with-e2fsattrs, --without-e2fsattrs, e2fsprogs, e2fsprogs"
+PACKAGECONFIG[capabilities] = "--with-capabilities, --without-capabilities, libcap, libcap"
+PACKAGECONFIG[posix] = "--with-posix-acl, --without-posix-acl, acl, acl"
 
 do_install:append () {
     install -d ${D}${libdir}/${PN}/logs   

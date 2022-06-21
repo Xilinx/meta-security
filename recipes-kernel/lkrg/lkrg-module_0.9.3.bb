@@ -9,10 +9,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5105ead24b08a32954f34cbaa7112432"
 
 DEPENDS = "virtual/kernel elfutils"
 
-SRCREV = "43db5f19fca259feb1962f6db33382348cbc8320"
-
 SRC_URI = "git://github.com/lkrg-org/lkrg.git;protocol=https;branch=main \
-           file://makefile_cleanup.patch "
+           file://makefile_cleanup.patch \
+"
+
+SRCREV = "c578e9f786299b67ffd62057b4534b0bf4fb7ece"
 
 S = "${WORKDIR}/git"
 

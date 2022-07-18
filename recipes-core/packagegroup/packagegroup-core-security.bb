@@ -26,6 +26,7 @@ RDEPENDS:packagegroup-core-security = "\
 
 SUMMARY:packagegroup-security-utils = "Security utilities"
 RDEPENDS:packagegroup-security-utils = "\
+    bubblewrap \
     checksec \
     ding-libs \
     ecryptfs-utils \

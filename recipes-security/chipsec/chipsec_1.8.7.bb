@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=bc2d1f9b427be5fb63f6af9da56f7c5d"
 DEPENDS = "virtual/kernel nasm-native"
 
 SRC_URI = "git://github.com/chipsec/chipsec.git;branch=main;protocol=https"
-SRCREV = "07a532aac9f6c3d94b8895cf89336b6a2e60c0d9"
+SRCREV = "7b9cc5cd449f2e1e4b5dad46c0eb14348e54e3f0"
 
 S = "${WORKDIR}/git"
 

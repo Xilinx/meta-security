@@ -26,7 +26,9 @@ SRC_URI = "https://github.com/SSSD/sssd/releases/download/${PV}/sssd-${PV}.tar.g
            file://musl_fixup.patch \
            "
 
-SRC_URI[sha256sum] = "8eebd541a640aec95ed4b2da89713f0cbe8e4edf96895fbb972c0b9d570635c3"
+SRC_URI[sha256sum] = "ab3c3fe2a69cc7b2557715a11000aaf358c0afd65f2828ca47a2d3b2651d871b"
+
+UPSTREAM_CHECK_URI = "https://github.com/SSSD/${BPN}/releases"
 
 inherit autotools pkgconfig gettext python3-dir features_check systemd
 

@@ -18,7 +18,7 @@ DEPENDS = "openssl ibmswtpm2"
 inherit autotools pkgconfig
 
 SRCREV = "c4e131e34ec0ed09411aa3bc76f76129ef881573"
-SRC_URI = " git://git.code.sf.net/p/ibmtpm20tss/tss;nobranch=1 \
+SRC_URI = "git://git.code.sf.net/p/ibmtpm20tss/tss;protocol=https;branch=master \
            file://0001-utils-12-Makefile.am-expand-wildcards-in-prereqs.patch \
            "
 

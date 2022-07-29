@@ -5,13 +5,15 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=9741c346eef56131163e13b9db1241b3"
 
 DEPENDS = "openssl"
 
+# SRC_URI += "crate://crates.io/krill/0.9.1"
+SRC_URI = "git://github.com/NLnetLabs/krill.git;protocol=https;branch=main"
+SRCREV = "95e6681d5b4024cac7a1892d47fb76abc68f34fb"
+SRC_URI += "file://panic_workaround.patch"
+
 include krill.inc
 
-# SRC_URI += "crate://crates.io/krill/0.9.1"
-SRC_URI += "git://github.com/NLnetLabs/krill.git;protocol=https;nobranch=1;branch=main"
-SRCREV = "d6c03b6f0199b1d10d252750a19a92b84576eb30"
-
-SRC_URI += "file://panic_workaround.patch"
+UPSTREAM_CHECK_URI = "https://github.com/NLnetLabs/${BPN}/releases"
+UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
 
 S = "${WORKDIR}/git"
 CARGO_SRC_DIR = ""

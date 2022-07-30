@@ -23,6 +23,8 @@ SRC_URI = "git://git.code.sf.net/p/ibmtpm20tss/tss;protocol=https;branch=master 
            "
 
 UPSTREAM_CHECK_COMMITS = "1"
+UPSTREAM_CHECK_URI = "https://git.code.sf.net/p/ibmswtpm2/tpm2"
+UPSTREAM_CHECK_GITTAGREGEX = "rev.*)"
 
 EXTRA_OECONF = "--disable-tpm-1.2"
 

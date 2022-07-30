@@ -42,6 +42,8 @@ RDEPENDS:packagegroup-security-utils = "\
     ${@bb.utils.contains("DISTRO_FEATURES", "pax", "pax-utils packctl", "",d)} \
     "
 
+RDEPENDS:packagegroup-security-utils:append:x86 = "chipsec"
+RDEPENDS:packagegroup-security-utils:append:x86-64 = "chipsec"
 RDEPENDS:packagegroup-security-utils:remove:mipsarch = "firejail"
 
 SUMMARY:packagegroup-security-scanners = "Security scanners"

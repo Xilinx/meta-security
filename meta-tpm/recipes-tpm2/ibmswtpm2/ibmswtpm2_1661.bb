@@ -21,7 +21,7 @@ SRC_URI = "https://sourceforge.net/projects/ibmswtpm2/files/ibmtpm${PV}.tar.gz \
 
 SRC_URI[sha256sum] = "55145928ad2b24f34be6a0eacf9fb492e10e0ea919b8428c721fa970e85d6147"
 
-UPSTREAM_CHECK_REGEX = "libtpm(?P<pver>).tar.gz"
+UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/ibmswtpm2/files/"
 
 S = "${WORKDIR}/src"
 

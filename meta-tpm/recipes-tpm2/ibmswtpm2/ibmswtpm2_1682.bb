@@ -18,8 +18,7 @@ DEPENDS = "openssl"
 SRC_URI = "https://sourceforge.net/projects/ibmswtpm2/files/ibmtpm${PV}.tar.gz \
            file://tune-makefile.patch \
            "
-
-SRC_URI[sha256sum] = "55145928ad2b24f34be6a0eacf9fb492e10e0ea919b8428c721fa970e85d6147"
+SRC_URI[sha256sum] = "3cb642f871a17b23d50b046e5f95f449c2287415fc1e7aeb4bdbb8920dbcb38f"
 
 UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/ibmswtpm2/files/"
 

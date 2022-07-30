@@ -10,8 +10,8 @@ COMPATIBLE_HOST:libc-musl:class-target = "null"
 
 LIC_FILES_CHKSUM = "file://COPYING.txt;beginline=2;endline=3;md5=f7029fbbc5898b273d5902896f7bbe17"
 
-# July 27th
-SRCREV = "c389dfa4c3af92b006ada4f7595bbc3e6df3f356"
+# July 30th, 2022
+SRCREV = "563ba93052f3b7b46fb8725a65ee6299a9c332cf"
 
 SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=rel/0.104;protocol=https \
     file://clamd.conf \
@@ -20,7 +20,6 @@ SRC_URI = "git://github.com/vrtadmin/clamav-devel;branch=rel/0.104;protocol=http
     file://tmpfiles.clamav \
     file://headers_fixup.patch \
     file://oe_cmake_fixup.patch \
-    file://fix_systemd_socket.patch \
 "
 S = "${WORKDIR}/git"
 
@@ -69,7 +68,6 @@ do_install:append () {
     fi
 
     rm ${D}/${libdir}/libfreshclam.so
-    rm ${D}/${libdir}/libmspack.so
 
     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};then
         install -d ${D}${sysconfdir}/tmpfiles.d
@@ -125,7 +123,8 @@ FILES:${PN}-freshclam = "${bindir}/freshclam \
 FILES:${PN}-dev = " ${bindir}/clamav-config ${libdir}/*.la \
                     ${libdir}/pkgconfig/*.pc \
                     ${mandir}/man1/clamav-config.* \
-                    ${includedir}/*.h ${docdir}/libclamav* "
+                    ${includedir}/*.h ${docdir}/libclamav* \
+                    ${libdir}/libmspack.so"
 
 FILES:${PN}-staticdev = "${libdir}/*.a"
 
@@ -149,6 +148,8 @@ RCONFLICTS:${PN} += "${PN}-systemd"
 SYSTEMD_PACKAGES  = "${PN}-daemon ${PN}-freshclam"
 SYSTEMD_SERVICE:${PN}-daemon = "clamav-daemon.service"
 SYSTEMD_SERVICE:${PN}-freshclam = "clamav-freshclam.service"
+
+INSANE_SKIP:${PN}-libclamav  += "dev-so"
 
 RDEPENDS:${PN} = "openssl ncurses-libncurses libxml2 libbz2 ncurses-libtinfo curl libpcre2 clamav-libclamav"
 RRECOMMENDS:${PN} = "clamav-freshclam"

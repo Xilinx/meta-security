@@ -22,7 +22,7 @@ SRC_URI = " \
     file://0001-rc.apparmor.debian-add-missing-functions.patch \
     "
 
-SRCREV = "9799fbde997820bb12a49e292356f7a6ce12e972"
+SRCREV = "822db765c6fa7f9de7233c4011254a82d4dafe76"
 S = "${WORKDIR}/git"
 
 PARALLEL_MAKE = ""

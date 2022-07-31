@@ -5,15 +5,13 @@ SECTION = "security"
 HOMEPAGE = "https://www.openwall.com/lkrg/"
 LICENSE = "GPL-2.0-only"
 
-LIC_FILES_CHKSUM = "file://LICENSE;md5=5105ead24b08a32954f34cbaa7112432"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3f3e5dd56319d33a1944d635c1c86c6f"
 
 DEPENDS = "virtual/kernel elfutils"
 
-SRC_URI = "git://github.com/lkrg-org/lkrg.git;protocol=https;branch=main \
-           file://makefile_cleanup.patch \
-"
+SRC_URI = "git://github.com/lkrg-org/lkrg.git;protocol=https;branch=main"
 
-SRCREV = "c578e9f786299b67ffd62057b4534b0bf4fb7ece"
+SRCREV = "c58cb52145b8e8ccc6bd19079f5c835933281cdc"
 
 S = "${WORKDIR}/git"
 
@@ -21,7 +19,13 @@ inherit module kernel-module-split
 
 MAKE_TARGETS = "modules"
 
-MODULE_NAME = "p_lkrg"
+MODULE_NAME = "lkrg"
+
+do_configure:append () {
+    sed -i -e 's/^all/modules/' ${S}/Makefile
+    sed -i -e 's/^install/modules_install/' ${S}/Makefile
+    sed -i -e 's/KERNEL/KERNEL_SRC/g' ${S}/Makefile
+}
 
 module_do_install() {
     install -d ${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel/${MODULE_NAME}

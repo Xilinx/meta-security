@@ -44,7 +44,10 @@ RDEPENDS:packagegroup-security-utils = "\
 
 RDEPENDS:packagegroup-security-utils:append:x86 = "chipsec"
 RDEPENDS:packagegroup-security-utils:append:x86-64 = "chipsec"
-RDEPENDS:packagegroup-security-utils:remove:mipsarch = "firejail"
+RDEPENDS:packagegroup-security-utils:remove:mipsarch = "firejail krill"
+RDEPENDS:packagegroup-security-utils:remove:libc-musl = "krill"
+RDEPENDS:packagegroup-security-utils:remove:riscv64 = "krill"
+RDEPENDS:packagegroup-security-utils:remove:armv7ve = " krill"
 
 SUMMARY:packagegroup-security-scanners = "Security scanners"
 RDEPENDS:packagegroup-security-scanners = "\

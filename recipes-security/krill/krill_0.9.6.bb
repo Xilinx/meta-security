@@ -20,7 +20,6 @@ CARGO_SRC_DIR = ""
 
 inherit pkgconfig useradd systemd cargo
 
-
 do_install:append () {
     install -d ${D}${sysconfdir}
     install -d ${D}${datadir}/krill
@@ -39,3 +38,5 @@ USERADD_PARAM:${PN} = "--system -g ${KRILL_GID} --home-dir  \
                        --shell /sbin/nologin ${BPN}"
 
 FILES:${PN} += "{sysconfdir}/defaults ${datadir}"
+
+COMPATIBLE_HOST = "(i.86|x86_64|aarch64).*-linux"

@@ -28,6 +28,7 @@ SUMMARY:packagegroup-security-utils = "Security utilities"
 RDEPENDS:packagegroup-security-utils = "\
     bubblewrap \
     checksec \
+    cryptmount \
     ding-libs \
     ecryptfs-utils \
     fscryptctl \

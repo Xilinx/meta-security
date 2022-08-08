@@ -32,6 +32,7 @@ RDEPENDS:packagegroup-security-utils = "\
     ding-libs \
     ecryptfs-utils \
     fscryptctl \
+    glome \
     keyutils \
     nmap \
     pinentry \

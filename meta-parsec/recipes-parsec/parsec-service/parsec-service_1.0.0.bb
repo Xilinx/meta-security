@@ -45,7 +45,7 @@ PARSEC_CONFIG ?= "${S}/config.toml"
 do_install () {
     # Binaries
     install -d -m 700 -o parsec -g parsec "${D}${libexecdir}/parsec"
-    install -m 700 -o parsec -g parsec "${WORKDIR}/build/target/${CARGO_TARGET_SUBDIR}/parsec" ${D}${libexecdir}/parsec/parsec
+    install -m 700 -o parsec -g parsec "${B}/target/${CARGO_TARGET_SUBDIR}/parsec" ${D}${libexecdir}/parsec/parsec
 
     # Config file
     install -d -m 700 -o parsec -g parsec "${D}${sysconfdir}/parsec"

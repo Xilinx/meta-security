@@ -1,13 +1,12 @@
 SUMMARY = "Linux encrypted filesystem management tool"
 HOMEPAGE = "http://cryptmount.sourceforge.net/"
-LIC_FILES_CHKSUM = "file://README;beginline=3;endline=4;md5=673a990de93a2c5531a0f13f1c40725a"
+LIC_FILES_CHKSUM = "file://README;beginline=3;endline=4;md5=dae0772f0ff46fd927e7fdb08af51b71"
 LICENSE = "GPL-2.0-only"
 
-SRC_URI = "https://sourceforge.net/projects/cryptmount/files/${BPN}/${BPN}-5.3/${BPN}-${PV}.tar.gz \
-           file://remove_linux_fs.patch \
+SRC_URI = "https://sourceforge.net/projects/cryptmount/files/${BPN}/${BPN}-${PV}/${BPN}-${PV}.tar.gz \
            "
 
-SRC_URI[sha256sum] = "682953ff5ba497d48d6b13e22ca726c98659abd781bb8596bb299640dd255d9b"
+SRC_URI[sha256sum] = "86528a9175e1eb53f60613e3c3ea6ae6d69dbfe5ac2b53b2f58ba0f768371e7e"
 
 inherit autotools-brokensep gettext pkgconfig systemd
 

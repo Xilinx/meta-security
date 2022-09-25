@@ -5,7 +5,7 @@ DESCRIPTION = "user-space parser utility for AppArmor \
  which is required to convert AppArmor text profiles into machine-readable \
  policies that are loaded into the kernel for use with the AppArmor Linux \
  Security Module."
-HOMEAPAGE = "http://apparmor.net/"
+HOMEPAGE = "http://apparmor.net/"
 SECTION = "admin"
 
 LICENSE = "GPL-2.0-only & GPL-2.0-or-later & BSD-3-Clause & LGPL-2.1-or-later"
@@ -22,7 +22,7 @@ SRC_URI = " \
     file://0001-rc.apparmor.debian-add-missing-functions.patch \
     "
 
-SRCREV = "822db765c6fa7f9de7233c4011254a82d4dafe76"
+SRCREV = "0ead606d9e608801f45e13a34358036135470729"
 S = "${WORKDIR}/git"
 
 PARALLEL_MAKE = ""
